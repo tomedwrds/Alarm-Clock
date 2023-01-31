@@ -56,9 +56,103 @@ struct TIM
 #define DMA_CPAR_OFFSET	0x10
 #define DMA_CMAR_OFFSET	0x14
 
+
+#define NUMBER_LED				4
+#define LED_DATA_PACKET_SIZE	288
+#define RESET_DATA_PACKET_SIZE	2400
+#define LED_BUFFER_SIZE			((LED_DATA_PACKET_SIZE * NUMBER_LED) + RESET_DATA_PACKET_SIZE)/8
+
+uint8_t sk6812_buffer[LED_BUFFER_SIZE];
+
+void sk6812_fill_buffer(uint8_t led_no)
+{
+	//
+
+}
+
+
+
+//Color should be in GRB format
+void sk6812_set_led(uint32_t color,uint8_t led_no)
+{
+	//Set base pointer to buffer
+	//Each led takes up 36 bytes
+	uint8_t * ptr = &sk6812_buffer[36 * (led_no-1)];
+
+
+	//Color is 24 bits
+	for(signed char bit = 23; bit >= 0; bit--)
+	{
+		//Check if bit is a 1 or 0
+		if(color & (1 << bit))
+		{
+			//bit is a 1
+			//Check if led can start row or should be on own row
+			if(bit %2 == 1)
+			{
+				//own row
+				//first 8 bits of a 1 is 11111100 in hex this is 0xFC
+				*ptr = 0xFC;
+				//increment the pointer
+				ptr ++;
+				//set the last 4 bits of the next value as 0000 which is 0 in hex we therefore dont need to do anything
+
+			}
+			else
+			{
+				//start on half row set first four bits which is 1111 or xF
+				*ptr |= 0xF;
+				ptr ++;
+				//last 8 bits are 11000000 hex is 0xC0
+				*ptr = 0xC0;
+				ptr ++;
+
+			}
+		}
+		else
+		{
+			//bit is a 1
+			//Check if led can start row or should be on own row
+			if(bit %2 == 1)
+			{
+				//own row
+				//first 8 bits of a 1 is 11100000 in hex this is 0xFC
+				*ptr = 0xE0;
+				//increment the pointer
+				ptr ++;
+				//set the last 4 bits of the next value as 0000 which is 0 in hex we therefore dont need to do anything
+
+			}
+			else
+			{
+				//start on half row set first four bits which is 1110
+				*ptr |= 0xE;
+				ptr ++;
+				//last 8 bits are 0000000 hex is 0 so we just increment pointer
+				ptr ++;
+
+			}
+		}
+	}
+}
+
+
 int main(void)
 {
-//    /* Loop forever */
+	//Clear the buffer and set all data inside of it to 0
+	memset(sk6812_buffer, 0, LED_BUFFER_SIZE);
+
+	sk6812_set_led(0x100000,1);
+	sk6812_set_led(0x100000,2);
+	sk6812_set_led(0x00FF00,3);
+	sk6812_set_led(0x00FF00,4);
+
+
+
+
+
+
+    /* Loop forever */
 	uint32_t *RCC_APB2ENR = (uint32_t *)(0x40021018);
 	uint32_t *RCC_APHBENR = (uint32_t *)(0x40021014);
 	uint32_t *DMA_CH3_CCR = (uint32_t *)(DMA_BASE + DMA_CH3_OFFSET + DMA_CCR_OFFSET);
@@ -103,9 +197,9 @@ int main(void)
 	*RCC_CR1 &= ~(1<< 24);
 //
 //	//Configure and set the clock to PLL
-	*RCC_CFGR |= (3 <<  18);
+	*RCC_CFGR |= (1 <<  18);
 //	//turn on PLL
-	*RCC_CR1 |= (1<< 24);
+	*RCC_CR1 |= (3<< 24);
 //
 //	//set PLL as system clock
 *RCC_CFGR |= (2 <<  0);
@@ -157,9 +251,10 @@ int main(void)
 	*DMA_CH3_CCR |= (1<<7);
 	//Set data transfer mode to read from memory to perhipheal
 	*DMA_CH3_CCR |= (1<<4);
-	*DMA_CH3_CNDTR = strlen(data);
+	*DMA_CH3_CCR |= (1<<5);
+	*DMA_CH3_CNDTR = LED_BUFFER_SIZE;
 	*DMA_CH3_CPAR = 0x4001300C;
-	*DMA_CH3_CMAR = (uint32_t)data;
+	*DMA_CH3_CMAR = (uint32_t)sk6812_buffer;
 
 	//Enable the DMA
 	*DMA_CH3_CCR |= (1 << 0);
@@ -170,6 +265,11 @@ int main(void)
 	//Set the MSTRT and SPE bits
 	SPI1->CR1 |= (1 << 2);
 	SPI1->CR1 |= (1 << 6);
+
+
+
+
+
 
 
 	while(1);
