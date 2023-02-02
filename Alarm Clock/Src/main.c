@@ -41,6 +41,7 @@ struct I2C
 #define GPIOC ((struct GPIO *) 0x40011000)
 #define I2C1 ((struct I2C *)   0x40005400)
 
+
 #define LED_NUM_4_CLEAR() 		(GPIOA->ODR &= ~(127 << 0))
 #define LED_NUM_4_0_ENABLE() 	(GPIOA->ODR |= 1)
 #define LED_NUM_4_1_ENABLE() 	(GPIOA->ODR |= 1 << 1)
@@ -79,23 +80,80 @@ struct I2C
 #define DS1307_ADDR_MONTH		0x05
 #define DS1307_ADDR_YEAR		0x06
 
+
+
+#define TIME_FORMAT_12HRS_AM 	0
+#define TIME_FORMAT_12HRS_PM 	1
+#define TIME_FORMAT_24HRS 		2
+
+#define SUNDAY  	1;
+#define MONDAY  	2;
+#define TUESDAY  	3;
+#define WEDNESDAY   4;
+#define THURSDAY  	5;
+#define FRIDAY  	6;
+#define SATURDAY  	7;
+
+
+
+
+typedef struct
+{
+	uint8_t seconds;
+	uint8_t minutes;
+	uint8_t hours;
+	uint8_t time_format;
+}RTC_time_t;
+
+
 uint8_t *pBuffer;
 uint32_t len;
 uint8_t repeatedStart;
 uint8_t I2C_state = I2C_READY;
 uint8_t tx[2];
 uint8_t data;
+uint8_t loadedData;
+
+
+RTC_time_t current_time;
+
+
+uint8_t binary_to_bcd(uint8_t value)
+{
+	//Ones is bit 0:3, tens is bit 4:6
+	uint8_t tens, ones,bcd;
+	//If only 1s bcd value is the same as binary
+	bcd = value;
+	if(value >= 10)
+	{
+		tens = value/10;
+		ones = value %10;
+		bcd = (uint8_t)((tens<<4)|ones );
+	}
+	return bcd;
+}
+
+uint8_t bcd_to_binary(uint8_t value)
+{
+	//Ones is bit 0:3, tens is bit 4:6
+	//This function gets the amount of tens and ones
+	uint8_t tens, ones,binary;
+	tens = (value >>4);
+	ones = (value & 0x0F);
+	binary = tens*10 + ones;
+
+	return (uint8_t)binary;
+}
 
 
 
-
-
-
-uint8_t  I2C_RXTX_Start(uint8_t * pTXBuffer, uint32_t Len, uint8_t sr,uint8_t RXTX)
+uint8_t  I2C_RXTX_Start(uint8_t * pTXBuffer, uint32_t Len, uint8_t sr,uint8_t RXTX,uint8_t value,uint8_t reg_addr)
 {
 	//Check if the state isnt busy recieving or transmitting
 	if( (I2C_state != I2C_BUSY_IN_TX) && (I2C_state != I2C_BUSY_IN_RX))
 	{
+		tx[0]=reg_addr;
+			tx[1] = value;
 		//Set the I2C state and other global vars
 		I2C_state = RXTX;
 		pBuffer = pTXBuffer;
@@ -132,17 +190,16 @@ static void ds1307_write(uint8_t value,uint8_t reg_addr)
 {
 	//Sends two bytes of data to enable the clock
 
-	tx[0]=reg_addr;
-	tx[1] = value;
-	while(I2C_RXTX_Start(tx, 2, 0,I2C_BUSY_IN_TX) != I2C_READY);
+
+	while(I2C_RXTX_Start(tx, 2, 0,I2C_BUSY_IN_TX,value,reg_addr) != I2C_READY);
 }
 
 void ds1307_read(uint8_t reg_addr)
 {
 
 	//Data will be read from current position of pointer so data write is used to set pointer position
-	while(I2C_RXTX_Start(&reg_addr, 1, 1,I2C_BUSY_IN_TX)  != I2C_READY);
-	while(I2C_RXTX_Start(&data, 1, 0,I2C_BUSY_IN_RX) != I2C_READY);
+	while(I2C_RXTX_Start(&reg_addr, 1, 1,I2C_BUSY_IN_TX,0,0)  != I2C_READY);
+	while(I2C_RXTX_Start(&data, 1, 0,I2C_BUSY_IN_RX,0,0) != I2C_READY);
 
 }
 
@@ -151,6 +208,77 @@ void ds1307_read(uint8_t reg_addr)
 
 
 
+
+
+void ds1307_set_current_time(RTC_time_t *rtc_time)
+{
+	uint8_t seconds, hrs;
+	seconds = binary_to_bcd(rtc_time->seconds);
+	//Ensure bit 7 is cleared to not turn of clock
+	seconds &= ~(1<<7);
+	ds1307_write(seconds,DS1307_ADDR_SEC);
+
+	//send minutes
+	ds1307_write(binary_to_bcd(rtc_time->minutes),DS1307_ADDR_MIN);
+
+	//set hours
+	hrs = binary_to_bcd(rtc_time->hours);
+	//Ensure bit 7 is cleared to not turn of clock
+	if(rtc_time->time_format == TIME_FORMAT_24HRS)
+	{
+		hrs &= ~(1 << 6);
+	}
+	else
+	{
+		hrs |= (1 << 6);
+		hrs =(rtc_time->time_format ==TIME_FORMAT_12HRS_PM ) ? hrs | (1<<5) : hrs & ~(1<<5);
+	}
+	ds1307_write(hrs,DS1307_ADDR_HRS);
+}
+void ds1307_get_current_time(RTC_time_t *rtc_time)
+{
+	uint8_t seconds,hrs;
+	ds1307_read(DS1307_ADDR_SEC);
+	for(int k = 0; k < 1000; k++)
+	{
+		;
+	}
+	seconds = loadedData;
+	seconds &= ~(1 << 7);
+
+	rtc_time->seconds = bcd_to_binary(seconds);
+	ds1307_read(DS1307_ADDR_MIN);
+	for(int k = 0; k < 1000; k++)
+		{
+			;
+		}
+	rtc_time->minutes = bcd_to_binary(loadedData);
+
+	ds1307_read(DS1307_ADDR_HRS);
+	for(int k = 0; k < 1000; k++)
+		{
+			;
+		}
+	hrs = loadedData;
+	if(hrs & (1<<6))
+	{
+		//12hr format
+		//ever gives 12hr am (0) or 12hr pm (1)
+		rtc_time->time_format = !((hrs & (1<< 5)) == 0) ;
+		//clear 6th and 5th position
+		hrs &= ~(0x3 << 5);
+	}
+	else
+	{
+		//24hrs format
+		rtc_time->time_format = TIME_FORMAT_24HRS;
+	}
+
+	rtc_time->hours = bcd_to_binary(hrs);
+}
+
+RTC_time_t current_time;
+
 int main(void)
 {
 
@@ -158,15 +286,20 @@ int main(void)
     /* Loop forever */
 	uint32_t *RCC_APB2ENR = (uint32_t *)(0x40021018);
 	uint32_t *RCC_APB1ENR = (uint32_t *)(0x4002101C);
+	uint32_t *AFIO_EXTICR1 =  (uint32_t *)(0x40010008);
+	uint32_t *EXTI_IMR =  (uint32_t *)(0x40010400);
+	uint32_t *EXTI_RTSR =  (uint32_t *)(0x40010408);
 
-
-	//Enable clock on GPIOA, GPIOB and I2C1
+	//Enable clock on GPIOA, GPIOB, AFIO and I2C1
 	*RCC_APB2ENR |= (1 << 2);
 	*RCC_APB2ENR |= (1 << 3);
+	*RCC_APB2ENR |= (1 << 0);
 	*RCC_APB1ENR |= (1<< 21);
 
 
-	//Enable interupts for I2C for both event and error I2C 38 & 39
+	//Enable interupts for I2C for both event and error I2C and EXTI lines 0 and 1
+	*((uint32_t*)NVIC_ISER0) |= 1<<6;
+	*((uint32_t*)NVIC_ISER0) |= 1<<7;
 	*((uint32_t*)NVIC_ISER0) |= 1<<31;
 	*((uint32_t*)NVIC_ISER1) |= 1<<0;
 
@@ -179,7 +312,26 @@ int main(void)
 	temp |= (1<< 16);
 	temp |= (1<< 20);
 	temp |= (1<< 24);
+	temp |= (1<< 28);
 	GPIOA->CRL = temp;
+
+
+	//Setup the pins for the buttons and the alarm LED
+
+	//B0 for mode button and B1 for set button
+	//Set the Configuration to Input Pullup
+	GPIOB->CRL &= ~(0xF << 0);
+	GPIOB->CRL |= (0x8 << 0);
+	//SEt PBODR to 1 to enable pull up
+	//GPIOB->ODR |= (1<< 0);
+	//Configure AFIO line so EXTI0 is on Port B
+	*AFIO_EXTICR1 |= (1<< 0);
+
+	//Configure the EXTI by demasking the line and setting the trigger on rising edge
+	*EXTI_IMR |= (1<< 0);
+	*EXTI_RTSR |= (1<< 0);
+
+
 
 
 
@@ -188,6 +340,7 @@ int main(void)
 	GPIOB->CRL |= (0xD << 24);
 	GPIOB->CRL &= ~(0xF << 28);
 	GPIOB->CRL |= (0xD << 28);
+
 
 
 	//Set the frequency of clock provided to cr2
@@ -210,19 +363,22 @@ int main(void)
 	I2C1->CR1 |= 1;
 
 
+	I2C_state= I2C_READY;
+
+	//Make clock halt = 0 in DS peripheal
+	ds1307_write(0x0, DS1307_ADDR_SEC);
 
 
+	current_time.seconds = 34;
+	current_time.hours = 8;
+	current_time.minutes = 42;
+	current_time.time_format = TIME_FORMAT_12HRS_PM;
 
-
-	ds1307_write(0x00,DS1307_ADDR_SEC);
-
-		//Read back the clock halt bit
-	ds1307_write(0x08,DS1307_ADDR_MIN);
-
-	ds1307_read(DS1307_ADDR_MIN);
+	ds1307_set_current_time(&current_time);
 
 
 	while(1);
+
 
 }
 
@@ -320,7 +476,7 @@ void I2C1_EV_IRQHandler(void)
 		//End of event
 
 		//Read the data from the data register to clear the RXNE flag
-		*pBuffer = I2C1->DR;
+		loadedData = I2C1->DR;
 		//Implement the code to enable ITBUFEN Control Bit
 						I2C1->CR2 &= ~( 1 << 10);
 
@@ -338,7 +494,12 @@ void I2C1_EV_IRQHandler(void)
 
 }
 
-void I2C1_ER_IRQHandler(void)
+void EXTI0_IRQHandler(void)
+{
+
+}
+
+void EXTI1_IRQHandler(void)
 {
 
 }
