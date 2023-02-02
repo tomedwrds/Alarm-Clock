@@ -83,23 +83,31 @@ uint8_t *pBuffer;
 uint32_t len;
 uint8_t repeatedStart;
 uint8_t I2C_state = I2C_READY;
+uint8_t tx[2];
+uint8_t data;
 
 
 
 
 
 
-
-uint8_t  I2C_MasterSendDataIT(uint8_t * pTXBuffer, uint32_t Len, uint8_t sr)
+uint8_t  I2C_RXTX_Start(uint8_t * pTXBuffer, uint32_t Len, uint8_t sr,uint8_t RXTX)
 {
 	//Check if the state isnt busy recieving or transmitting
 	if( (I2C_state != I2C_BUSY_IN_TX) && (I2C_state != I2C_BUSY_IN_RX))
 	{
 		//Set the I2C state and other global vars
-		I2C_state = I2C_BUSY_IN_TX;
+		I2C_state = RXTX;
 		pBuffer = pTXBuffer;
 		len = Len;
 		repeatedStart = sr;
+
+		if(I2C_state == I2C_BUSY_IN_RX)
+		{
+			//Addtionally acking should be enabled if recieving
+			I2C1->CR1 |= (1<< 10);
+		}
+
 
 		//Generate START Condition
 		I2C1->CR1 |= (1<< 8);
@@ -112,10 +120,31 @@ uint8_t  I2C_MasterSendDataIT(uint8_t * pTXBuffer, uint32_t Len, uint8_t sr)
 
 		//Implement the code to enable ITERREN Control Bit
 		I2C1->CR2 |= ( 1 << 8);
+
+		return I2C_READY;
+
+
 	}
 	return I2C_state;
 }
 
+static void ds1307_write(uint8_t value,uint8_t reg_addr)
+{
+	//Sends two bytes of data to enable the clock
+
+	tx[0]=reg_addr;
+	tx[1] = value;
+	while(I2C_RXTX_Start(tx, 2, 0,I2C_BUSY_IN_TX) != I2C_READY);
+}
+
+void ds1307_read(uint8_t reg_addr)
+{
+
+	//Data will be read from current position of pointer so data write is used to set pointer position
+	while(I2C_RXTX_Start(&reg_addr, 1, 1,I2C_BUSY_IN_TX)  != I2C_READY);
+	while(I2C_RXTX_Start(&data, 1, 0,I2C_BUSY_IN_RX) != I2C_READY);
+
+}
 
 #define NVIC_ISER0		0xE000E100
 #define NVIC_ISER1		0xE000E104
@@ -129,7 +158,6 @@ int main(void)
     /* Loop forever */
 	uint32_t *RCC_APB2ENR = (uint32_t *)(0x40021018);
 	uint32_t *RCC_APB1ENR = (uint32_t *)(0x4002101C);
-	uint32_t *RCC_APHBENR = (uint32_t *)(0x40021014);
 
 
 	//Enable clock on GPIOA, GPIOB and I2C1
@@ -182,10 +210,17 @@ int main(void)
 	I2C1->CR1 |= 1;
 
 
-	char data[] = "Hello world\n";
 
 
-	while(!(I2C_MasterSendDataIT((uint8_t*) data,strlen(data),1) == I2C_state));
+
+
+	ds1307_write(0x00,DS1307_ADDR_SEC);
+
+		//Read back the clock halt bit
+	ds1307_write(0x08,DS1307_ADDR_MIN);
+
+	ds1307_read(DS1307_ADDR_MIN);
+
 
 	while(1);
 
@@ -198,8 +233,17 @@ void I2C1_EV_IRQHandler(void)
 	{
 		//SB bit cleared by wirting slave address to DR
 
-		//As writing bit 0 must be cleared
-		I2C1->DR = ((DS1307_DEVICE_ADDR << 1) & ~1);
+		//In case of TX
+		 if(I2C_state == I2C_BUSY_IN_TX)
+		 {
+			//As writing bit 0 must be cleared
+			I2C1->DR = ((DS1307_DEVICE_ADDR << 1) & ~1);
+		 }
+		 else
+		 {
+			 I2C1->DR = ((DS1307_DEVICE_ADDR << 1)  | 1);
+		 }
+
 	}
 
 
@@ -212,6 +256,16 @@ void I2C1_EV_IRQHandler(void)
 		 dummyread = I2C1->SR1;
 		 dummyread = I2C1->SR2;
 		 (void)dummyread;
+
+
+		 //In case of RX
+		 if(I2C_state == I2C_BUSY_IN_RX)
+		 {
+			 //ACKING MUST BE DISABLED HERE IN CASE
+			 I2C1->CR1 &= ~(1<< 10);
+			 //Generate stop condition
+			 I2C1->CR1 |= (1<< 9);
+		 }
 
 	 }
 
@@ -236,6 +290,8 @@ void I2C1_EV_IRQHandler(void)
 
 				//Implement the code to enable ITERREN Control Bit
 				I2C1->CR2 &= ~( 1 << 8);
+
+				I2C_state= I2C_READY;
 			 }
 		 }
 	 }
@@ -256,6 +312,27 @@ void I2C1_EV_IRQHandler(void)
 			pBuffer++;
 
 		}
+	}
+
+	//RXNE set
+	if(I2C1->SR1& (1<< 6))
+	{
+		//End of event
+
+		//Read the data from the data register to clear the RXNE flag
+		*pBuffer = I2C1->DR;
+		//Implement the code to enable ITBUFEN Control Bit
+						I2C1->CR2 &= ~( 1 << 10);
+
+						//Implement the code to enable ITEVFEN Control Bit
+						I2C1->CR2 &= ~( 1 << 9);
+
+						//Implement the code to enable ITERREN Control Bit
+						I2C1->CR2 &= ~( 1 << 8);
+
+						I2C_state= I2C_READY;
+
+
 	}
 
 
