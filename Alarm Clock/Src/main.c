@@ -21,10 +21,7 @@
 #include <string.h>
 
 
-void delay(void)
-{
-	for(uint32_t i = 0; i < 50000/2; i++);
-}
+
 #if !defined(__SOFT_FP__) && defined(__ARM_FP)
   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
 #endif
@@ -34,245 +31,238 @@ struct GPIO
 	uint32_t CRL,CRH,IDR,ODR,BSSR,BRR,LCKR;
 };
 
-struct SPI
+struct I2C
 {
-	uint32_t CR1, CR2, SR, DR, CRCPR, RX_CRC, TX_CRC;
-};
-
-struct TIM
-{
-	uint32_t CR1, CR2, RESERVED1, DIER, SR, EGR, RESERVED2,RESERVED3,RESERVED4,CNT,PSC,ARR;
+	uint32_t CR1, CR2, OAR1, OAR2, DR, SR1, SR2,CCR,TRISE;
 };
 
 #define GPIOA ((struct GPIO *) 0x40010800)
 #define GPIOB ((struct GPIO *) 0x40010C00)
 #define GPIOC ((struct GPIO *) 0x40011000)
-#define SPI1 ((struct SPI *) 0x40013000)
+#define I2C1 ((struct I2C *)   0x40005400)
 
-#define DMA_BASE  0x40020000
-#define DMA_CH3_OFFSET	0x28
-#define DMA_CCR_OFFSET	0x08
-#define DMA_CNDTR_OFFSET	0x0C
-#define DMA_CPAR_OFFSET	0x10
-#define DMA_CMAR_OFFSET	0x14
+#define LED_NUM_4_CLEAR() 		(GPIOA->ODR &= ~(127 << 0))
+#define LED_NUM_4_0_ENABLE() 	(GPIOA->ODR |= 1)
+#define LED_NUM_4_1_ENABLE() 	(GPIOA->ODR |= 1 << 1)
+#define LED_NUM_4_2_ENABLE() 	(GPIOA->ODR |= 1 << 2)
+#define LED_NUM_4_3_ENABLE() 	(GPIOA->ODR |= 1 << 3)
+#define LED_NUM_4_4_ENABLE() 	(GPIOA->ODR |= 1 << 4)
+#define LED_NUM_4_5_ENABLE() 	(GPIOA->ODR |= 1 << 5)
+#define LED_NUM_4_6_ENABLE() 	(GPIOA->ODR |= 1 << 6)
+
+#define LED_NUM_4_SET_0()		do{LED_NUM_4_CLEAR();LED_NUM_4_0_ENABLE();LED_NUM_4_1_ENABLE();LED_NUM_4_2_ENABLE();LED_NUM_4_4_ENABLE();LED_NUM_4_5_ENABLE();LED_NUM_4_6_ENABLE();} while(0);
+#define LED_NUM_4_SET_1()		do{LED_NUM_4_CLEAR();LED_NUM_4_2_ENABLE();LED_NUM_4_5_ENABLE();} while(0);
+#define LED_NUM_4_SET_2()		do{LED_NUM_4_CLEAR();LED_NUM_4_0_ENABLE();LED_NUM_4_2_ENABLE();LED_NUM_4_3_ENABLE();LED_NUM_4_4_ENABLE();LED_NUM_4_6_ENABLE();} while(0);
+#define LED_NUM_4_SET_3()		do{LED_NUM_4_CLEAR();LED_NUM_4_0_ENABLE();LED_NUM_4_2_ENABLE();LED_NUM_4_3_ENABLE();LED_NUM_4_5_ENABLE();LED_NUM_4_6_ENABLE();} while(0);
+#define LED_NUM_4_SET_4()		do{LED_NUM_4_CLEAR();LED_NUM_4_1_ENABLE();LED_NUM_4_2_ENABLE();LED_NUM_4_3_ENABLE();LED_NUM_4_5_ENABLE();} while(0);
+#define LED_NUM_4_SET_5()		do{LED_NUM_4_CLEAR();LED_NUM_4_0_ENABLE();LED_NUM_4_1_ENABLE();LED_NUM_4_3_ENABLE();LED_NUM_4_5_ENABLE();LED_NUM_4_6_ENABLE();} while(0);
+#define LED_NUM_4_SET_6()		do{LED_NUM_4_CLEAR();LED_NUM_4_6_ENABLE();LED_NUM_4_1_ENABLE();LED_NUM_4_3_ENABLE();LED_NUM_4_4_ENABLE();LED_NUM_4_5_ENABLE();LED_NUM_4_6_ENABLE();} while(0);
+#define LED_NUM_4_SET_7()		do{LED_NUM_4_CLEAR();LED_NUM_4_0_ENABLE();LED_NUM_4_2_ENABLE();LED_NUM_4_5_ENABLE();} while(0);
+#define LED_NUM_4_SET_8()		do{LED_NUM_4_CLEAR();LED_NUM_4_0_ENABLE();LED_NUM_4_1_ENABLE();LED_NUM_4_2_ENABLE();LED_NUM_4_3_ENABLE();LED_NUM_4_4_ENABLE();LED_NUM_4_5_ENABLE();LED_NUM_4_6_ENABLE();} while(0);
+#define LED_NUM_4_SET_9()		do{LED_NUM_4_CLEAR();LED_NUM_4_0_ENABLE();LED_NUM_4_1_ENABLE();LED_NUM_4_2_ENABLE();LED_NUM_4_3_ENABLE();LED_NUM_4_5_ENABLE();} while(0);
 
 
-#define NUMBER_LED				4
-#define LED_DATA_PACKET_SIZE	288
-#define RESET_DATA_PACKET_SIZE	2400
-#define LED_BUFFER_SIZE			((LED_DATA_PACKET_SIZE * NUMBER_LED) + RESET_DATA_PACKET_SIZE)/8
+#define I2C_SCL_SPEED_SM 	100000
+#define HSI_SPEED			8000000
 
-uint8_t sk6812_buffer[LED_BUFFER_SIZE];
+#define I2C_READY 					0
+#define I2C_BUSY_IN_RX 				1
+#define I2C_BUSY_IN_TX 			2
 
-void sk6812_fill_buffer(uint8_t led_no)
+#define DS1307_DEVICE_ADDR		0x68
+
+#define DS1307_ADDR_SEC 		0x00
+#define DS1307_ADDR_MIN 		0x01
+#define DS1307_ADDR_HRS			0x02
+#define DS1307_ADDR_DAY			0x03
+#define DS1307_ADDR_DATE		0x04
+#define DS1307_ADDR_MONTH		0x05
+#define DS1307_ADDR_YEAR		0x06
+
+uint8_t *pBuffer;
+uint32_t len;
+uint8_t repeatedStart;
+uint8_t I2C_state = I2C_READY;
+
+
+
+
+
+
+
+uint8_t  I2C_MasterSendDataIT(uint8_t * pTXBuffer, uint32_t Len, uint8_t sr)
 {
-	//
-
-}
-
-
-
-//Color should be in GRB format
-void sk6812_set_led(uint32_t color,uint8_t led_no)
-{
-	//Set base pointer to buffer
-	//Each led takes up 36 bytes
-	uint8_t * ptr = &sk6812_buffer[36 * (led_no-1)];
-
-
-	//Color is 24 bits
-	for(signed char bit = 23; bit >= 0; bit--)
+	//Check if the state isnt busy recieving or transmitting
+	if( (I2C_state != I2C_BUSY_IN_TX) && (I2C_state != I2C_BUSY_IN_RX))
 	{
-		//Check if bit is a 1 or 0
-		if(color & (1 << bit))
-		{
-			//bit is a 1
-			//Check if led can start row or should be on own row
-			if(bit %2 == 1)
-			{
-				//own row
-				//first 8 bits of a 1 is 11111100 in hex this is 0xFC
-				*ptr = 0xFC;
-				//increment the pointer
-				ptr ++;
-				//set the last 4 bits of the next value as 0000 which is 0 in hex we therefore dont need to do anything
+		//Set the I2C state and other global vars
+		I2C_state = I2C_BUSY_IN_TX;
+		pBuffer = pTXBuffer;
+		len = Len;
+		repeatedStart = sr;
 
-			}
-			else
-			{
-				//start on half row set first four bits which is 1111 or xF
-				*ptr |= 0xF;
-				ptr ++;
-				//last 8 bits are 11000000 hex is 0xC0
-				*ptr = 0xC0;
-				ptr ++;
+		//Generate START Condition
+		I2C1->CR1 |= (1<< 8);
 
-			}
-		}
-		else
-		{
-			//bit is a 1
-			//Check if led can start row or should be on own row
-			if(bit %2 == 1)
-			{
-				//own row
-				//first 8 bits of a 1 is 11100000 in hex this is 0xFC
-				*ptr = 0xE0;
-				//increment the pointer
-				ptr ++;
-				//set the last 4 bits of the next value as 0000 which is 0 in hex we therefore dont need to do anything
+		//Implement the code to enable ITBUFEN Control Bit
+		I2C1->CR2 |= ( 1 << 10);
 
-			}
-			else
-			{
-				//start on half row set first four bits which is 1110
-				*ptr |= 0xE;
-				ptr ++;
-				//last 8 bits are 0000000 hex is 0 so we just increment pointer
-				ptr ++;
+		//Implement the code to enable ITEVFEN Control Bit
+		I2C1->CR2 |= ( 1 << 9);
 
-			}
-		}
+		//Implement the code to enable ITERREN Control Bit
+		I2C1->CR2 |= ( 1 << 8);
 	}
+	return I2C_state;
 }
+
+
+#define NVIC_ISER0		0xE000E100
+#define NVIC_ISER1		0xE000E104
+
 
 
 int main(void)
 {
-	//Clear the buffer and set all data inside of it to 0
-	memset(sk6812_buffer, 0, LED_BUFFER_SIZE);
-
-	sk6812_set_led(0x100000,1);
-	sk6812_set_led(0x100000,2);
-	sk6812_set_led(0x00FF00,3);
-	sk6812_set_led(0x00FF00,4);
-
-
-
-
 
 
     /* Loop forever */
 	uint32_t *RCC_APB2ENR = (uint32_t *)(0x40021018);
+	uint32_t *RCC_APB1ENR = (uint32_t *)(0x4002101C);
 	uint32_t *RCC_APHBENR = (uint32_t *)(0x40021014);
-	uint32_t *DMA_CH3_CCR = (uint32_t *)(DMA_BASE + DMA_CH3_OFFSET + DMA_CCR_OFFSET);
-	uint32_t *DMA_CH3_CNDTR = (uint32_t *)(DMA_BASE + DMA_CH3_OFFSET + DMA_CNDTR_OFFSET);
-	uint32_t *DMA_CH3_CPAR = (uint32_t *)(DMA_BASE + DMA_CH3_OFFSET + DMA_CPAR_OFFSET);
-	uint32_t *DMA_CH3_CMAR = (uint32_t *)(DMA_BASE + DMA_CH3_OFFSET + DMA_CMAR_OFFSET);
-	uint32_t *RCC_CR1 = (uint32_t *)(0x40021000);
-	uint32_t *RCC_CFGR = (uint32_t *)(0x40021004);
-	uint32_t *ISER = (uint32_t *)(0xE000E104);
-//
-
-	*ISER |= (1<< 3);
-//	*RCC_APB2ENR |= (1 << 2);
-//
-//	//Set mode to alternate function push pull
-//	GPIOA->CRL &= ~(0xF<<20);
-//	GPIOA->CRL |= (0x3 <<20);
-//	GPIOA->CRL &= ~(0xF<<28);
-//	GPIOA->CRL |= (0x3 <<28);
-//
-//	GPIOA->ODR |= (1 << 7);
-//	delay();
-//	GPIOA->ODR &= ~(1 << 7);
-//	delay();
-//	GPIOA->ODR |= (1 << 7);
-//		delay();
-//		GPIOA->ODR &= ~(1 << 7);
-//		delay();
-//		GPIOA->ODR |= (1 << 7);
-//			delay();
-//			GPIOA->ODR &= ~(1 << 7);
-//			delay();
-//			while(1);
 
 
-
-
-
-
-
-//	//Disable the PLL
-	*RCC_CR1 &= ~(1<< 24);
-//
-//	//Configure and set the clock to PLL
-	*RCC_CFGR |= (1 <<  18);
-//	//turn on PLL
-	*RCC_CR1 |= (3<< 24);
-//
-//	//set PLL as system clock
-*RCC_CFGR |= (2 <<  0);
-
-
-
-	char data[] = "HELLO WORLD\n";
-
-
-	//Enable clock on GPIOA and SPI and DMA
+	//Enable clock on GPIOA, GPIOB and I2C1
 	*RCC_APB2ENR |= (1 << 2);
-	*RCC_APB2ENR |= (1 << 12);
-	*RCC_APHBENR |= (1 << 0);
+	*RCC_APB2ENR |= (1 << 3);
+	*RCC_APB1ENR |= (1<< 21);
 
 
-	//Configure SPI SCLK GPIO A Pin 5
+	//Enable interupts for I2C for both event and error I2C 38 & 39
+	*((uint32_t*)NVIC_ISER0) |= 1<<31;
+	*((uint32_t*)NVIC_ISER1) |= 1<<0;
 
-	//Set mode to alternate function push pull
-	GPIOA->CRL &= ~(0xF<<20);
-	GPIOA->CRL |= (0xB <<20);
-	GPIOA->CRL &= ~(0xF<<28);
-	GPIOA->CRL |= (0xB <<28);
-
-	//Set the BR bits
-	//SPI1->CR1 |= (0x1 << 0);
-	//Set CPOL and CPHA
-	//SPI1->CR1 |= (1 << 1);
-	//Left as default
-	//Set the DFF
-	//Left as default
-	//Set the LSBFIRSt bit
-	//Left as default
-
-	//Set SSM = 1 and SSI and SSM
-	SPI1->CR1 |= (1 << 9);
-	SPI1->CR1 |= (1 << 8);
-
-	//Enable SPITx DMA
-	SPI1->CR2 |= (1 << 1);
-
-
-	//Configure the DMA
-	//SPITx is on DMA1 channel 3
-
-	//Set the MSIZE and PSIZE to 16bit
-	//*DMA_CH3_CCR |= (1<<10);
-	//*DMA_CH3_CCR |= (1<<8);
-	//Enable memory increment
-	*DMA_CH3_CCR |= (1<<7);
-	//Set data transfer mode to read from memory to perhipheal
-	*DMA_CH3_CCR |= (1<<4);
-	*DMA_CH3_CCR |= (1<<5);
-	*DMA_CH3_CNDTR = LED_BUFFER_SIZE;
-	*DMA_CH3_CPAR = 0x4001300C;
-	*DMA_CH3_CMAR = (uint32_t)sk6812_buffer;
-
-	//Enable the DMA
-	*DMA_CH3_CCR |= (1 << 0);
+	//Set the GPIOA ports to work for LEDS
+	uint32_t temp = 0;
+	temp |= (1<< 0);
+	temp |= (1<< 4);
+	temp |= (1<< 8);
+	temp |= (1<< 12);
+	temp |= (1<< 16);
+	temp |= (1<< 20);
+	temp |= (1<< 24);
+	GPIOA->CRL = temp;
 
 
 
-
-	//Set the MSTRT and SPE bits
-	SPI1->CR1 |= (1 << 2);
-	SPI1->CR1 |= (1 << 6);
-
-
-
+	//Configure the pins B8 and B9 for I2C -> both need to be AF and open drain value of 1101
+	GPIOB->CRL &= ~(0xF << 24);
+	GPIOB->CRL |= (0xD << 24);
+	GPIOB->CRL &= ~(0xF << 28);
+	GPIOB->CRL |= (0xD << 28);
 
 
+	//Set the frequency of clock provided to cr2
+	I2C1->CR2 |= ((HSI_SPEED/1000000));
 
+
+	//Configure the device address will maybe do
+	I2C1->OAR1 |= (0x61 << 1);
+
+	//The 14th bit of the OAR1 register must always be mainted by software as 1
+	I2C1->OAR1 |= (1<<14);
+
+	//Set the CCR
+	I2C1->CCR |= ((HSI_SPEED / (2*I2C_SCL_SPEED_SM)));
+
+	//Set the trise value
+	I2C1->TRISE =(((HSI_SPEED / 1000000) + 1) & 0x3F);
+
+	//Enable the I2C
+	I2C1->CR1 |= 1;
+
+
+	char data[] = "Hello world\n";
+
+
+	while(!(I2C_MasterSendDataIT((uint8_t*) data,strlen(data),1) == I2C_state));
 
 	while(1);
+
+}
+
+void I2C1_EV_IRQHandler(void)
+{
+	//SB bit set
+	if(I2C1->SR1 & 1)
+	{
+		//SB bit cleared by wirting slave address to DR
+
+		//As writing bit 0 must be cleared
+		I2C1->DR = ((DS1307_DEVICE_ADDR << 1) & ~1);
+	}
+
+
+	//ADDR flag set
+	 if(I2C1->SR1& (1<< 1))
+	 {
+		 //ADDR flag cleared by reading SR1 then SR2
+		//Write first byte of data
+		 uint32_t dummyread;
+		 dummyread = I2C1->SR1;
+		 dummyread = I2C1->SR2;
+		 (void)dummyread;
+
+	 }
+
+	 //BTF set close communication
+	 if(I2C1->SR1& (1<< 2))
+	 {
+		 //TXE should also be set
+		 if(I2C1->SR1& (1<< 7))
+		 {
+			 //Len should also equal 0
+			 if(len == 0)
+			 {
+				 //Generate the stop conidtion
+				 I2C1->CR1 |= (1<< 9);
+
+				 //Disable the interupts
+				 //Implement the code to enable ITBUFEN Control Bit
+				I2C1->CR2 &= ~( 1 << 10);
+
+				//Implement the code to enable ITEVFEN Control Bit
+				I2C1->CR2 &= ~( 1 << 9);
+
+				//Implement the code to enable ITERREN Control Bit
+				I2C1->CR2 &= ~( 1 << 8);
+			 }
+		 }
+	 }
+
+	//TXE set
+	if(I2C1->SR1& (1<< 7))
+	{
+		//write data into DR
+		if(len > 0)
+		{
+			//1. load the data in to DR
+			I2C1->DR = *(pBuffer);
+
+			//2. decrement the TxLen
+			len--;
+
+			//3. Increment the buffer address
+			pBuffer++;
+
+		}
+	}
+
+
+}
+
+void I2C1_ER_IRQHandler(void)
+{
 
 }
 
