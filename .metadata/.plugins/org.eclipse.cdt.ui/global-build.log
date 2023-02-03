@@ -1,4 +1,4 @@
-11:51:44 **** Incremental Build of configuration Debug for project Alarm Clock ****
+12:57:57 **** Incremental Build of configuration Debug for project Alarm Clock ****
 make -j8 all 
 arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F1 -DSTM32F103C8Tx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/main.o"
 arm-none-eabi-gcc -o "Alarm Clock.elf" @"objects.list"   -mcpu=cortex-m3 -T"C:\Users\tomed\Documents\GitHub\Alarm-Clock\Alarm Clock\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Alarm Clock.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
@@ -7,19 +7,19 @@ Finished building target: Alarm Clock.elf
 arm-none-eabi-size   Alarm\ Clock.elf 
 arm-none-eabi-objdump -h -S  Alarm\ Clock.elf  > "Alarm Clock.list"
    text	   data	    bss	    dec	    hex	filename
-   2216	      8	   1584	   3808	    ee0	Alarm Clock.elf
+   1940	      8	   1592	   3540	    dd4	Alarm Clock.elf
 Finished building: default.size.stdout
  
 Finished building: Alarm Clock.list
  
-11:51:51 **** Incremental Build of configuration Debug for project Alarm Clock ****
+12:58:00 **** Incremental Build of configuration Debug for project Alarm Clock ****
 make -j8 all 
 arm-none-eabi-size   Alarm\ Clock.elf 
    text	   data	    bss	    dec	    hex	filename
-   2216	      8	   1584	   3808	    ee0	Alarm Clock.elf
+   1940	      8	   1592	   3540	    dd4	Alarm Clock.elf
 Finished building: default.size.stdout
  
-11:52:22 **** Incremental Build of configuration Debug for project Alarm Clock ****
+12:58:56 **** Incremental Build of configuration Debug for project Alarm Clock ****
 make -j8 all 
 arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F1 -DSTM32F103C8Tx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/main.o"
 arm-none-eabi-gcc -o "Alarm Clock.elf" @"objects.list"   -mcpu=cortex-m3 -T"C:\Users\tomed\Documents\GitHub\Alarm-Clock\Alarm Clock\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Alarm Clock.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
@@ -28,82 +28,61 @@ Finished building target: Alarm Clock.elf
 arm-none-eabi-size   Alarm\ Clock.elf 
 arm-none-eabi-objdump -h -S  Alarm\ Clock.elf  > "Alarm Clock.list"
    text	   data	    bss	    dec	    hex	filename
-   1856	      8	   1584	   3448	    d78	Alarm Clock.elf
+   1940	      8	   1592	   3540	    dd4	Alarm Clock.elf
 Finished building: default.size.stdout
  
 Finished building: Alarm Clock.list
  
-11:53:30 **** Incremental Build of configuration Debug for project Alarm Clock ****
-make -j8 all 
-arm-none-eabi-size   Alarm\ Clock.elf 
-   text	   data	    bss	    dec	    hex	filename
-   1856	      8	   1584	   3448	    d78	Alarm Clock.elf
-Finished building: default.size.stdout
- 
-11:54:30 **** Incremental Build of configuration Debug for project Alarm Clock ****
+13:00:51 **** Incremental Build of configuration Debug for project Alarm Clock ****
 make -j8 all 
 arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F1 -DSTM32F103C8Tx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/main.o"
-../Src/main.c: In function 'main':
-../Src/main.c:291:12: warning: unused variable 'EXTI_RTSR' [-Wunused-variable]
-  291 |  uint32_t *EXTI_RTSR =  (uint32_t *)(0x40010408);
-      |            ^~~~~~~~~
-../Src/main.c:290:12: warning: unused variable 'EXTI_IMR' [-Wunused-variable]
-  290 |  uint32_t *EXTI_IMR =  (uint32_t *)(0x40010400);
-      |            ^~~~~~~~
-../Src/main.c:289:12: warning: unused variable 'AFIO_EXTICR1' [-Wunused-variable]
-  289 |  uint32_t *AFIO_EXTICR1 =  (uint32_t *)(0x40010008);
-      |            ^~~~~~~~~~~~
 arm-none-eabi-gcc -o "Alarm Clock.elf" @"objects.list"   -mcpu=cortex-m3 -T"C:\Users\tomed\Documents\GitHub\Alarm-Clock\Alarm Clock\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Alarm Clock.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: Alarm Clock.elf
  
 arm-none-eabi-size   Alarm\ Clock.elf 
 arm-none-eabi-objdump -h -S  Alarm\ Clock.elf  > "Alarm Clock.list"
    text	   data	    bss	    dec	    hex	filename
-   1784	      8	   1584	   3376	    d30	Alarm Clock.elf
+   1964	      8	   1592	   3564	    dec	Alarm Clock.elf
 Finished building: default.size.stdout
  
 Finished building: Alarm Clock.list
  
-11:55:09 **** Incremental Build of configuration Debug for project Alarm Clock ****
+13:01:57 **** Incremental Build of configuration Debug for project Alarm Clock ****
 make -j8 all 
 arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F1 -DSTM32F103C8Tx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/main.o"
-../Src/main.c: In function 'main':
-../Src/main.c:291:12: warning: unused variable 'EXTI_RTSR' [-Wunused-variable]
-  291 |  uint32_t *EXTI_RTSR =  (uint32_t *)(0x40010408);
-      |            ^~~~~~~~~
-../Src/main.c:290:12: warning: unused variable 'EXTI_IMR' [-Wunused-variable]
-  290 |  uint32_t *EXTI_IMR =  (uint32_t *)(0x40010400);
-      |            ^~~~~~~~
 arm-none-eabi-gcc -o "Alarm Clock.elf" @"objects.list"   -mcpu=cortex-m3 -T"C:\Users\tomed\Documents\GitHub\Alarm-Clock\Alarm Clock\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Alarm Clock.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: Alarm Clock.elf
  
 arm-none-eabi-size   Alarm\ Clock.elf 
 arm-none-eabi-objdump -h -S  Alarm\ Clock.elf  > "Alarm Clock.list"
    text	   data	    bss	    dec	    hex	filename
-   1832	      8	   1584	   3424	    d60	Alarm Clock.elf
+   1992	      8	   1592	   3592	    e08	Alarm Clock.elf
 Finished building: default.size.stdout
  
 Finished building: Alarm Clock.list
  
-11:56:05 **** Incremental Build of configuration Debug for project Alarm Clock ****
+13:02:43 **** Incremental Build of configuration Debug for project Alarm Clock ****
 make -j8 all 
 arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F1 -DSTM32F103C8Tx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/main.o"
-../Src/main.c: In function 'main':
-../Src/main.c:289:12: warning: unused variable 'AFIO_EXTICR1' [-Wunused-variable]
-  289 |  uint32_t *AFIO_EXTICR1 =  (uint32_t *)(0x40010008);
-      |            ^~~~~~~~~~~~
 arm-none-eabi-gcc -o "Alarm Clock.elf" @"objects.list"   -mcpu=cortex-m3 -T"C:\Users\tomed\Documents\GitHub\Alarm-Clock\Alarm Clock\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Alarm Clock.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: Alarm Clock.elf
  
 arm-none-eabi-size   Alarm\ Clock.elf 
 arm-none-eabi-objdump -h -S  Alarm\ Clock.elf  > "Alarm Clock.list"
    text	   data	    bss	    dec	    hex	filename
-   1808	      8	   1584	   3400	    d48	Alarm Clock.elf
+   1992	      8	   1592	   3592	    e08	Alarm Clock.elf
 Finished building: default.size.stdout
  
 Finished building: Alarm Clock.list
  
-11:56:32 **** Incremental Build of configuration Debug for project Alarm Clock ****
+13:03:04 **** Incremental Build of configuration Debug for project Alarm Clock ****
+make -j8 all 
+arm-none-eabi-size   Alarm\ Clock.elf 
+   text	   data	    bss	    dec	    hex	filename
+   1992	      8	   1592	   3592	    e08	Alarm Clock.elf
+Finished building: default.size.stdout
+ 
+13:03:10 **** Incremental Build of configuration Debug for project Alarm Clock ****
 make -j8 all 
 arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F1 -DSTM32F103C8Tx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/main.o"
 arm-none-eabi-gcc -o "Alarm Clock.elf" @"objects.list"   -mcpu=cortex-m3 -T"C:\Users\tomed\Documents\GitHub\Alarm-Clock\Alarm Clock\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Alarm Clock.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
@@ -112,42 +91,7 @@ Finished building target: Alarm Clock.elf
 arm-none-eabi-size   Alarm\ Clock.elf 
 arm-none-eabi-objdump -h -S  Alarm\ Clock.elf  > "Alarm Clock.list"
    text	   data	    bss	    dec	    hex	filename
-   1820	      8	   1584	   3412	    d54	Alarm Clock.elf
-Finished building: default.size.stdout
- 
-Finished building: Alarm Clock.list
- 
-11:57:13 **** Incremental Build of configuration Debug for project Alarm Clock ****
-make -j8 all 
-arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F1 -DSTM32F103C8Tx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/main.o"
-arm-none-eabi-gcc -o "Alarm Clock.elf" @"objects.list"   -mcpu=cortex-m3 -T"C:\Users\tomed\Documents\GitHub\Alarm-Clock\Alarm Clock\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Alarm Clock.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Alarm Clock.elf
- 
-arm-none-eabi-size   Alarm\ Clock.elf 
-arm-none-eabi-objdump -h -S  Alarm\ Clock.elf  > "Alarm Clock.list"
-   text	   data	    bss	    dec	    hex	filename
-   1856	      8	   1584	   3448	    d78	Alarm Clock.elf
-Finished building: default.size.stdout
- 
-Finished building: Alarm Clock.list
- 
-11:59:40 **** Incremental Build of configuration Debug for project Alarm Clock ****
-make -j8 all 
-arm-none-eabi-size   Alarm\ Clock.elf 
-   text	   data	    bss	    dec	    hex	filename
-   1856	      8	   1584	   3448	    d78	Alarm Clock.elf
-Finished building: default.size.stdout
- 
-12:03:46 **** Incremental Build of configuration Debug for project Alarm Clock ****
-make -j8 all 
-arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F1 -DSTM32F103C8Tx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/main.o"
-arm-none-eabi-gcc -o "Alarm Clock.elf" @"objects.list"   -mcpu=cortex-m3 -T"C:\Users\tomed\Documents\GitHub\Alarm-Clock\Alarm Clock\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Alarm Clock.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Alarm Clock.elf
- 
-arm-none-eabi-size   Alarm\ Clock.elf 
-arm-none-eabi-objdump -h -S  Alarm\ Clock.elf  > "Alarm Clock.list"
-   text	   data	    bss	    dec	    hex	filename
-   1844	      8	   1584	   3436	    d6c	Alarm Clock.elf
+   1992	      8	   1592	   3592	    e08	Alarm Clock.elf
 Finished building: default.size.stdout
  
 Finished building: Alarm Clock.list

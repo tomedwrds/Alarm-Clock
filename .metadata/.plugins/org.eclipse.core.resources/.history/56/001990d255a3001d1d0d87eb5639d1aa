@@ -404,10 +404,7 @@ int main(void)
 
 	while(1)
 	{
-		if((GPIOB->IDR & 1) && !button_processed && ((TIM1->CNT - lastDebounceTime) > 500))
-		{
-			button_processed = 1;
-		}
+		;
 	}
 
 

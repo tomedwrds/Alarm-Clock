@@ -302,7 +302,7 @@ int main(void)
 	uint32_t *AFIO_EXTICR1 =  (uint32_t *)(0x40010008);
 	uint32_t *EXTI_IMR =  (uint32_t *)(0x40010400);
 	uint32_t *EXTI_RTSR =  (uint32_t *)(0x40010408);
-
+	uint32_t *EXTI_PR =  (uint32_t *)(0x40010414);
 
 	//Enable clock on GPIOA, GPIOB, AFIO,TIM1 and I2C1
 	*RCC_APB2ENR |= (1 << 2);
@@ -402,13 +402,7 @@ int main(void)
 	ds1307_set_current_time(&current_time);
 
 
-	while(1)
-	{
-		if((GPIOB->IDR & 1) && !button_processed && ((TIM1->CNT - lastDebounceTime) > 500))
-		{
-			button_processed = 1;
-		}
-	}
+	while(1);
 
 
 }
@@ -527,7 +521,6 @@ void I2C1_EV_IRQHandler(void)
 
 void EXTI0_IRQHandler(void)
 {
-	uint32_t *EXTI_PR =  (uint32_t *)(0x40010414);
 	//Set debounce time
 	lastDebounceTime = TIM1->CNT;
 	button_processed = 0;
