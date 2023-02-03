@@ -292,7 +292,7 @@ void ds1307_get_current_time(RTC_time_t *rtc_time)
 
 RTC_time_t current_time;
 uint32_t buttonModeProcessed = 0, buttonModeLastDebounceTime = 0;
-uint32_t buttonSetProcessed = 0, buttonSetLastDebounceTime = 0;
+uint32_t buttonSetProcessed = 0, buttonSetLastDebounceTime;
 
 int main(void)
 {
@@ -414,11 +414,10 @@ int main(void)
 //		TEMPORARLIY DISABLE THE FETCHING OF DATA FROM I2C
 
 		//Handle mode swithching of alarm clock
-		if(!(GPIOB->IDR & 1) && !buttonModeProcessed && ((TIM1->CNT - buttonModeLastDebounceTime) > 50) && buttonModeLastDebounceTime != 0)
+		if(!(GPIOB->IDR & 1) && !buttonModeProcessed && ((TIM1->CNT - buttonModeLastDebounceTime) > 50))
 		{
 			//Process the button press
 			buttonModeProcessed = 1;
-			buttonModeLastDebounceTime = 0;
 
 			//Change the alarm clock state
 			alarmClockState ++;
@@ -427,21 +426,19 @@ int main(void)
 
 
 		//Handle setting of alarm clock
-		if(!(GPIOB->IDR & (1<<1)) && !buttonSetProcessed && buttonSetLastDebounceTime != 0)
+		if((GPIOB->IDR & (1<<1)) && !buttonSetProcessed)
 		{
 			//Check for long pulse
-			if((TIM2->CNT - buttonSetLastDebounceTime) > 750)
+			if((TIM2->CNT - buttonSetLastDebounceTime) > 1000)
 			{
 				//Process the button press
 				buttonSetProcessed = 1;
-				buttonSetLastDebounceTime = 0;
 			}
 			//Check for short pulse
-			else if((TIM2->CNT - buttonSetLastDebounceTime) > 50)
+			if((TIM2->CNT - buttonSetLastDebounceTime) > 500)
 			{
 				//Process the button press
 				buttonSetProcessed = 1;
-				buttonSetLastDebounceTime = 0;
 			}
 
 		}

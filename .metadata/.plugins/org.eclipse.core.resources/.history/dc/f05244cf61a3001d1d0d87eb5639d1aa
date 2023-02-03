@@ -46,7 +46,6 @@ struct TIM
 #define GPIOC ((struct GPIO *) 0x40011000)
 #define I2C1 ((struct I2C *)   0x40005400)
 #define TIM1 ((struct TIM *)	0x40012C00)
-#define TIM2 ((struct TIM *)	0x40000000)
 
 
 
@@ -291,8 +290,8 @@ void ds1307_get_current_time(RTC_time_t *rtc_time)
 }
 
 RTC_time_t current_time;
-uint32_t buttonModeProcessed = 0, buttonModeLastDebounceTime = 0;
-uint32_t buttonSetProcessed = 0, buttonSetLastDebounceTime = 0;
+uint32_t buttonModeProcessed = 0, buttonModeLastDebounceTime;
+uint32_t buttonSetProcessed = 0, buttonSetLastDebounceTime;
 
 int main(void)
 {
@@ -306,12 +305,11 @@ int main(void)
 	uint32_t *EXTI_RTSR =  (uint32_t *)(0x40010408);
 
 
-	//Enable clock on GPIOA, GPIOB, AFIO,TIM1,TIM2 and I2C1
+	//Enable clock on GPIOA, GPIOB, AFIO,TIM1 and I2C1
 	*RCC_APB2ENR |= (1 << 2);
 	*RCC_APB2ENR |= (1 << 3);
 	*RCC_APB2ENR |= (1 << 0);
 	*RCC_APB2ENR |= (1<< 11);
-	*RCC_APB1ENR |= (1<< 0);
 	*RCC_APB1ENR |= (1<< 21);
 
 
@@ -357,11 +355,11 @@ int main(void)
 
 	//Set the PSC value
 	TIM1->PSC |= (8000-1);
-	TIM2->PSC |= (8000-1);
+
+	//Set the autoreload value
 
 	//Enable the timer
 	TIM1->CR1 |= 1;
-	TIM2->CR1 |= 1;
 
 
 
@@ -414,36 +412,14 @@ int main(void)
 //		TEMPORARLIY DISABLE THE FETCHING OF DATA FROM I2C
 
 		//Handle mode swithching of alarm clock
-		if(!(GPIOB->IDR & 1) && !buttonModeProcessed && ((TIM1->CNT - buttonModeLastDebounceTime) > 50) && buttonModeLastDebounceTime != 0)
+		if((GPIOB->IDR & 1) && !button_processed && ((TIM1->CNT - lastDebounceTime) > 1000))
 		{
 			//Process the button press
-			buttonModeProcessed = 1;
-			buttonModeLastDebounceTime = 0;
+			button_processed = 1;
 
 			//Change the alarm clock state
 			alarmClockState ++;
 			alarmClockState %= 4;
-		}
-
-
-		//Handle setting of alarm clock
-		if(!(GPIOB->IDR & (1<<1)) && !buttonSetProcessed && buttonSetLastDebounceTime != 0)
-		{
-			//Check for long pulse
-			if((TIM2->CNT - buttonSetLastDebounceTime) > 750)
-			{
-				//Process the button press
-				buttonSetProcessed = 1;
-				buttonSetLastDebounceTime = 0;
-			}
-			//Check for short pulse
-			else if((TIM2->CNT - buttonSetLastDebounceTime) > 50)
-			{
-				//Process the button press
-				buttonSetProcessed = 1;
-				buttonSetLastDebounceTime = 0;
-			}
-
 		}
 	}
 
@@ -577,7 +553,7 @@ void EXTI1_IRQHandler(void)
 {
 	uint32_t *EXTI_PR =  (uint32_t *)(0x40010414);
 	//Set debounce time
-	buttonSetLastDebounceTime = TIM2->CNT;
+	buttonSetLastDebounceTime = TIM1->CNT;
 	buttonSetProcessed = 0;
 	//Clear interupt
 	*EXTI_PR |= (1 << 1);

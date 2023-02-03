@@ -430,7 +430,7 @@ int main(void)
 		if(!(GPIOB->IDR & (1<<1)) && !buttonSetProcessed && buttonSetLastDebounceTime != 0)
 		{
 			//Check for long pulse
-			if((TIM2->CNT - buttonSetLastDebounceTime) > 750)
+			if((TIM2->CNT - buttonSetLastDebounceTime) > 1000)
 			{
 				//Process the button press
 				buttonSetProcessed = 1;
