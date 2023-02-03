@@ -446,10 +446,10 @@ int main(void)
 
 	TIM3->CR1 |= 1;
 
-	for(int i = 0; i < 10000; i++)
-			{
-				;
-			}
+//	for(int i = 0; i < 10000; i++)
+//			{
+//				;
+//			}
 
 
 	TIM3->SR = 0;
@@ -710,7 +710,7 @@ void TIM3_IRQHandler(void)
 	//If not get the time data and store it
 	else
 	{
-		ds1307_get_current_time(&current_time);
+		//ds1307_get_current_time(&current_time);
 	}
 
 	//Handle alarm checking

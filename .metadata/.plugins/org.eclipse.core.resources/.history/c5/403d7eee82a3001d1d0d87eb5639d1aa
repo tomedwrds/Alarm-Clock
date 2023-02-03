@@ -437,7 +437,6 @@ int main(void)
 	TIM3->PSC |= (8000-1);
 	TIM3->ARR = (4000-1);
 	TIM3->DIER |= 1;
-	TIM3->CR1 |= 1 << 1;
 	TIM3->CR1 |= 1 << 2;
 
 	//Enable the timer
@@ -446,14 +445,13 @@ int main(void)
 
 	TIM3->CR1 |= 1;
 
-	for(int i = 0; i < 10000; i++)
-			{
-				;
-			}
+//	for(int i = 0; i < 10000; i++)
+//			{
+//				;
+//			}
 
 
 	TIM3->SR = 0;
-	TIM3->CR1 &= ~(1 << 1);
 
 	//Configure the pins B8 and B9 for I2C -> both need to be AF and open drain value of 1101
 	GPIOB->CRL &= ~(0xF << 24);
@@ -710,7 +708,7 @@ void TIM3_IRQHandler(void)
 	//If not get the time data and store it
 	else
 	{
-		ds1307_get_current_time(&current_time);
+		//ds1307_get_current_time(&current_time);
 	}
 
 	//Handle alarm checking

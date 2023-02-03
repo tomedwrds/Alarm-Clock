@@ -437,23 +437,17 @@ int main(void)
 	TIM3->PSC |= (8000-1);
 	TIM3->ARR = (4000-1);
 	TIM3->DIER |= 1;
-	TIM3->CR1 |= 1 << 1;
 	TIM3->CR1 |= 1 << 2;
 
 	//Enable the timer
 	TIM1->CR1 |= 1;
 	TIM2->CR1 |= 1;
-
 	TIM3->CR1 |= 1;
 
-	for(int i = 0; i < 10000; i++)
-			{
-				;
-			}
+
 
 
 	TIM3->SR = 0;
-	TIM3->CR1 &= ~(1 << 1);
 
 	//Configure the pins B8 and B9 for I2C -> both need to be AF and open drain value of 1101
 	GPIOB->CRL &= ~(0xF << 24);
@@ -487,8 +481,6 @@ int main(void)
 
 	//Make clock halt = 0 in DS peripheal
 	ds1307_write(0x0, DS1307_ADDR_SEC);
-
-
 
 
 	current_time.seconds = 34;

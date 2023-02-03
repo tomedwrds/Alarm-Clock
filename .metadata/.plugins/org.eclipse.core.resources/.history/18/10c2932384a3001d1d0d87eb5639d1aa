@@ -436,8 +436,7 @@ int main(void)
 	TIM2->PSC |= (8000-1);
 	TIM3->PSC |= (8000-1);
 	TIM3->ARR = (4000-1);
-	TIM3->DIER |= 1;
-	TIM3->CR1 |= 1 << 1;
+
 	TIM3->CR1 |= 1 << 2;
 
 	//Enable the timer
@@ -446,14 +445,11 @@ int main(void)
 
 	TIM3->CR1 |= 1;
 
-	for(int i = 0; i < 10000; i++)
-			{
-				;
-			}
+
 
 
 	TIM3->SR = 0;
-	TIM3->CR1 &= ~(1 << 1);
+
 
 	//Configure the pins B8 and B9 for I2C -> both need to be AF and open drain value of 1101
 	GPIOB->CRL &= ~(0xF << 24);
@@ -504,7 +500,7 @@ int main(void)
 
 	ds1307_set_current_time(&current_time);
 
-
+	TIM3->DIER |= 1;
 	while(1)
 	{
 //		TEMPORARLIY DISABLE THE FETCHING OF DATA FROM I2C

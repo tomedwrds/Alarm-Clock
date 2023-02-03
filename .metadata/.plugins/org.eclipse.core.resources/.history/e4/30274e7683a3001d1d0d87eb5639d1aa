@@ -710,7 +710,7 @@ void TIM3_IRQHandler(void)
 	//If not get the time data and store it
 	else
 	{
-		ds1307_get_current_time(&current_time);
+		//ds1307_get_current_time(&current_time);
 	}
 
 	//Handle alarm checking

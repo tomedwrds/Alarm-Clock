@@ -453,7 +453,7 @@ int main(void)
 
 
 	TIM3->SR = 0;
-	TIM3->CR1 &= ~(1 << 1);
+	//TIM3->CR1 &= ~(1 << 1);
 
 	//Configure the pins B8 and B9 for I2C -> both need to be AF and open drain value of 1101
 	GPIOB->CRL &= ~(0xF << 24);
@@ -710,7 +710,7 @@ void TIM3_IRQHandler(void)
 	//If not get the time data and store it
 	else
 	{
-		ds1307_get_current_time(&current_time);
+		//ds1307_get_current_time(&current_time);
 	}
 
 	//Handle alarm checking
