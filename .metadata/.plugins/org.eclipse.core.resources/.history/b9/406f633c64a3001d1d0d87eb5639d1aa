@@ -126,7 +126,6 @@ uint8_t tx[2];
 uint8_t data;
 uint8_t loadedData;
 uint8_t alarmClockState;
-uint8_t alarmClockSetNum;
 
 
 RTC_time_t current_time;
@@ -292,12 +291,8 @@ void ds1307_get_current_time(RTC_time_t *rtc_time)
 }
 
 RTC_time_t current_time;
-RTC_time_t alarm_time;
 uint32_t buttonModeProcessed = 0, buttonModeLastDebounceTime = 0;
 uint32_t buttonSetProcessed = 0, buttonSetLastDebounceTime = 0;
-
-
-
 
 int main(void)
 {
@@ -411,12 +406,6 @@ int main(void)
 	current_time.minutes = 42;
 	current_time.time_format = TIME_FORMAT_12HRS_PM;
 
-
-	alarm_time.seconds = 0;
-	alarm_time.minutes = 0;
-	alarm_time.hours = 12;
-	alarm_time.time_format = TIME_FORMAT_12HRS_PM;
-
 	ds1307_set_current_time(&current_time);
 
 
@@ -446,70 +435,10 @@ int main(void)
 				//Process the button press
 				buttonSetProcessed = 1;
 				buttonSetLastDebounceTime = 0;
-
-				//Change the selected number
-				alarmClockSetNum ++;
-				alarmClockSetNum %= 4;
-
-
-
 			}
 			//Check for short pulse
 			else if((TIM2->CNT - buttonSetLastDebounceTime) > 50)
 			{
-				uint8_t tens, ones;
-				//Tens hours
-				if(alarmClockSetNum == 0)
-				{
-					alarm_time.hours += 10;
-					if(alarm_time.hours > 12)
-					{
-						alarm_time.hours %= 10;
-					}
-					else
-					{
-						alarm_time.hours %= 20;
-					}
-
-				}
-				//One hours
-				else if(alarmClockSetNum == 1)
-				{
-					tens = alarm_time.hours / 10;
-					ones = (alarm_time.hours) %10;
-					if(tens == 1)
-					{
-						ones = ((ones+1)% 3);
-					}
-					else if (tens == 0)
-					{
-						ones = ((ones+1)% 10);
-						if(ones == 0) ones = 1;
-					}
-
-					alarm_time.hours = (tens*10 + ones);
-
-				}
-				//Tens minutes
-				else if(alarmClockSetNum == 2)
-				{
-					tens = alarm_time.minutes / 10;
-					ones = alarm_time.minutes % 10;
-					tens += 1;
-					tens %= 6;
-					alarm_time.minutes = (tens*10 + ones);
-				}
-				//ones minutes
-				else if(alarmClockSetNum == 3)
-				{
-					tens = alarm_time.minutes / 10;
-					ones = (alarm_time.minutes +1) % 10;
-
-					alarm_time.minutes = (tens*10 + ones);
-				}
-
-
-
 				//Process the button press
 				buttonSetProcessed = 1;
 				buttonSetLastDebounceTime = 0;

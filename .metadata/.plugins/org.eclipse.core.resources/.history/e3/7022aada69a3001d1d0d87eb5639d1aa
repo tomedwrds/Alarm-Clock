@@ -447,10 +447,10 @@ int main(void)
 				buttonSetProcessed = 1;
 				buttonSetLastDebounceTime = 0;
 
+
 				//Change the selected number
 				alarmClockSetNum ++;
 				alarmClockSetNum %= 4;
-
 
 
 			}
@@ -458,25 +458,17 @@ int main(void)
 			else if((TIM2->CNT - buttonSetLastDebounceTime) > 50)
 			{
 				uint8_t tens, ones;
-				//Tens hours
+				//Tens minute
 				if(alarmClockSetNum == 0)
 				{
-					alarm_time.hours += 10;
-					if(alarm_time.hours > 12)
-					{
-						alarm_time.hours %= 10;
-					}
-					else
-					{
-						alarm_time.hours %= 20;
-					}
-
+					alarm_time.minutes += 10;
+					alarm_time.minutes % 20;
 				}
-				//One hours
+				//One minutes
 				else if(alarmClockSetNum == 1)
 				{
-					tens = alarm_time.hours / 10;
-					ones = (alarm_time.hours) %10;
+					tens = alarm_time.minutes / 10;
+					ones = (alarm_time.minutes) %10;
 					if(tens == 1)
 					{
 						ones = ((ones+1)% 3);
@@ -484,28 +476,27 @@ int main(void)
 					else if (tens == 0)
 					{
 						ones = ((ones+1)% 10);
-						if(ones == 0) ones = 1;
 					}
 
-					alarm_time.hours = (tens*10 + ones);
+					alarm_time.minutes = (tens*10 + ones);
 
 				}
-				//Tens minutes
+				//Tens seconds
 				else if(alarmClockSetNum == 2)
 				{
-					tens = alarm_time.minutes / 10;
-					ones = alarm_time.minutes % 10;
+					tens = alarm_time.seconds / 10;
+					ones = alarm_time.seconds % 10;
 					tens += 1;
 					tens %= 6;
-					alarm_time.minutes = (tens*10 + ones);
+					alarm_time.seconds = (tens*10 + ones);
 				}
-				//ones minutes
-				else if(alarmClockSetNum == 3)
+				//ones seconds
+				else if(alarmClockSetNum == 2)
 				{
-					tens = alarm_time.minutes / 10;
-					ones = (alarm_time.minutes +1) % 10;
+					tens = alarm_time.seconds / 10;
+					ones = (alarm_time.seconds +1) % 10;
 
-					alarm_time.minutes = (tens*10 + ones);
+					alarm_time.seconds = (tens*10 + ones);
 				}
 
 
