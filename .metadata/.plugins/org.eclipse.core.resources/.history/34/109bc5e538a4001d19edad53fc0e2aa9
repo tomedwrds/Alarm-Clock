@@ -57,7 +57,7 @@ void LED_Initalize(void)
 	GPIOB->CRH = temp;
 
 	//GPIO C high only 13 14 15 are used
-	GPIOC->CRH &= ~(0xFFF << 20);
+	GPIOC->CRH &= ~(0x00000FFF);
 	temp = 0;
 	temp |= (1<< 20);
 	temp |= (1<< 24);
@@ -129,7 +129,7 @@ void LED_NUM_3_SET_5(void)
 void LED_NUM_3_SET_6(void)
 {
 	LED_NUM_3_CLEAR();
-	LED_NUM_3_0_ENABLE();
+	LED_NUM_3_6_ENABLE();
 	LED_NUM_3_1_ENABLE();
 	LED_NUM_3_3_ENABLE();
 	LED_NUM_3_4_ENABLE();
@@ -219,7 +219,7 @@ void LED_NUM_4_SET_5(void)
 void LED_NUM_4_SET_6(void)
 {
 	LED_NUM_4_CLEAR();
-	LED_NUM_4_0_ENABLE();
+	LED_NUM_4_6_ENABLE();
 	LED_NUM_4_1_ENABLE();
 	LED_NUM_4_3_ENABLE();
 	LED_NUM_4_4_ENABLE();

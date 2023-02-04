@@ -33,7 +33,7 @@ void LED_NUM_4_SET_9(void);
 
 
 
-#define LED_NUM_3_CLEAR() 		do{GPIOC->ODR &= ~(7 << 13);GPIOB->ODR &= ~(15 << 8);}while(0);
+#define LED_NUM_3_CLEAR() 		do{(GPIOC->ODR &= ~(7 << 13);GPIOB->ODR &= ~(15 << 8);)}while(0);
 #define LED_NUM_3_0_ENABLE() 	(GPIOC->ODR |= 1 << 13)
 #define LED_NUM_3_1_ENABLE() 	(GPIOC->ODR |= 1 << 14)
 #define LED_NUM_3_2_ENABLE() 	(GPIOC->ODR |= 1 << 15)

@@ -367,18 +367,6 @@ int main(void)
 	LED_Initalize();
 
 
-	LED_NUM_3_SET_0();
-	LED_NUM_3_SET_1();
-	LED_NUM_3_SET_2();
-	LED_NUM_3_SET_3();
-	LED_NUM_3_SET_4();
-	LED_NUM_3_SET_5();
-	LED_NUM_3_SET_6();
-	LED_NUM_3_SET_7();
-	LED_NUM_3_SET_8();
-	LED_NUM_3_SET_9();
-
-
 
 
 
@@ -700,18 +688,18 @@ void TIM3_IRQHandler(void)
 
 void TIM4_IRQHandler(void)
 {
-//	if(blinked == 0)
-//	{
-//		LED_NUM_4_CLEAR();
-//
-//	}
-//	else
-//	{
-//
-//		(*NUM_4_SET)();
-//
-//	}
-//	blinked = !blinked;
+	if(blinked == 0)
+	{
+		LED_NUM_4_CLEAR();
+
+	}
+	else
+	{
+
+		(*NUM_4_SET)();
+
+	}
+	blinked = !blinked;
 
 	TIM4->SR = 0;
 }

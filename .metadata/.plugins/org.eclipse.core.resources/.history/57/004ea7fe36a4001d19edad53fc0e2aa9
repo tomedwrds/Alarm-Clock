@@ -33,31 +33,6 @@ void LED_NUM_4_SET_9(void);
 
 
 
-#define LED_NUM_3_CLEAR() 		do{GPIOC->ODR &= ~(7 << 13);GPIOB->ODR &= ~(15 << 8);}while(0);
-#define LED_NUM_3_0_ENABLE() 	(GPIOC->ODR |= 1 << 13)
-#define LED_NUM_3_1_ENABLE() 	(GPIOC->ODR |= 1 << 14)
-#define LED_NUM_3_2_ENABLE() 	(GPIOC->ODR |= 1 << 15)
-#define LED_NUM_3_3_ENABLE() 	(GPIOB->ODR |= 1 << 10)
-#define LED_NUM_3_4_ENABLE() 	(GPIOB->ODR |= 1 << 11)
-#define LED_NUM_3_5_ENABLE() 	(GPIOB->ODR |= 1 << 9)
-#define LED_NUM_3_6_ENABLE() 	(GPIOB->ODR |= 1 << 8)
-
-//Function prototypes for initalizing leds
-void LED_Initalize(void);
-
-void LED_NUM_3_SET_0(void);
-void LED_NUM_3_SET_1(void);
-void LED_NUM_3_SET_2(void);
-void LED_NUM_3_SET_3(void);
-void LED_NUM_3_SET_4(void);
-void LED_NUM_3_SET_5(void);
-void LED_NUM_3_SET_6(void);
-void LED_NUM_3_SET_7(void);
-void LED_NUM_3_SET_8(void);
-void LED_NUM_3_SET_9(void);
-
-
-
 
 
 
