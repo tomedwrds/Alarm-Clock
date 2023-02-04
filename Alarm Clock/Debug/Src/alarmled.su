@@ -1,0 +1,11 @@
+../Src/alarmled.c:12:6:LED_Initalize	16	static
+../Src/alarmled.c:80:6:LED_NUM_4_SET_0	4	static
+../Src/alarmled.c:90:6:LED_NUM_4_SET_1	4	static
+../Src/alarmled.c:96:6:LED_NUM_4_SET_2	4	static
+../Src/alarmled.c:105:6:LED_NUM_4_SET_3	4	static
+../Src/alarmled.c:114:6:LED_NUM_4_SET_4	4	static
+../Src/alarmled.c:122:6:LED_NUM_4_SET_5	4	static
+../Src/alarmled.c:131:6:LED_NUM_4_SET_6	4	static
+../Src/alarmled.c:141:6:LED_NUM_4_SET_7	4	static
+../Src/alarmled.c:148:6:LED_NUM_4_SET_8	4	static
+../Src/alarmled.c:159:6:LED_NUM_4_SET_9	4	static

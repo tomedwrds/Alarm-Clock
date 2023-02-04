@@ -16,60 +16,19 @@
  ******************************************************************************
  */
 
-#include <stdint.h>
-#include <stdio.h>
-#include <string.h>
 
+#include "main.h"
 
 
 #if !defined(__SOFT_FP__) && defined(__ARM_FP)
   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
 #endif
 
-struct GPIO
-{
-	uint32_t CRL,CRH,IDR,ODR,BSSR,BRR,LCKR;
-};
-
-struct I2C
-{
-	uint32_t CR1, CR2, OAR1, OAR2, DR, SR1, SR2,CCR,TRISE;
-};
-
-struct TIM
-{
-	uint32_t CR1, CR2, RESERVED0, DIER, SR, EGR, RESERVED1,RESERVED2,RESERVED3,CNT,PSC,ARR;
-};
-
-#define GPIOA ((struct GPIO *) 0x40010800)
-#define GPIOB ((struct GPIO *) 0x40010C00)
-#define GPIOC ((struct GPIO *) 0x40011000)
-#define I2C1 ((struct I2C *)   0x40005400)
-#define TIM1 ((struct TIM *)	0x40012C00)
-#define TIM2 ((struct TIM *)	0x40000000)
-#define TIM3 ((struct TIM *)	0x40000400)
 
 
 
-#define LED_NUM_4_CLEAR() 		(GPIOA->ODR &= ~(127 << 0))
-#define LED_NUM_4_0_ENABLE() 	(GPIOA->ODR |= 1)
-#define LED_NUM_4_1_ENABLE() 	(GPIOA->ODR |= 1 << 1)
-#define LED_NUM_4_2_ENABLE() 	(GPIOA->ODR |= 1 << 2)
-#define LED_NUM_4_3_ENABLE() 	(GPIOA->ODR |= 1 << 3)
-#define LED_NUM_4_4_ENABLE() 	(GPIOA->ODR |= 1 << 4)
-#define LED_NUM_4_5_ENABLE() 	(GPIOA->ODR |= 1 << 5)
-#define LED_NUM_4_6_ENABLE() 	(GPIOA->ODR |= 1 << 6)
 
-#define LED_NUM_4_SET_0()		do{LED_NUM_4_CLEAR();LED_NUM_4_0_ENABLE();LED_NUM_4_1_ENABLE();LED_NUM_4_2_ENABLE();LED_NUM_4_4_ENABLE();LED_NUM_4_5_ENABLE();LED_NUM_4_6_ENABLE();} while(0);
-#define LED_NUM_4_SET_1()		do{LED_NUM_4_CLEAR();LED_NUM_4_2_ENABLE();LED_NUM_4_5_ENABLE();} while(0);
-#define LED_NUM_4_SET_2()		do{LED_NUM_4_CLEAR();LED_NUM_4_0_ENABLE();LED_NUM_4_2_ENABLE();LED_NUM_4_3_ENABLE();LED_NUM_4_4_ENABLE();LED_NUM_4_6_ENABLE();} while(0);
-#define LED_NUM_4_SET_3()		do{LED_NUM_4_CLEAR();LED_NUM_4_0_ENABLE();LED_NUM_4_2_ENABLE();LED_NUM_4_3_ENABLE();LED_NUM_4_5_ENABLE();LED_NUM_4_6_ENABLE();} while(0);
-#define LED_NUM_4_SET_4()		do{LED_NUM_4_CLEAR();LED_NUM_4_1_ENABLE();LED_NUM_4_2_ENABLE();LED_NUM_4_3_ENABLE();LED_NUM_4_5_ENABLE();} while(0);
-#define LED_NUM_4_SET_5()		do{LED_NUM_4_CLEAR();LED_NUM_4_0_ENABLE();LED_NUM_4_1_ENABLE();LED_NUM_4_3_ENABLE();LED_NUM_4_5_ENABLE();LED_NUM_4_6_ENABLE();} while(0);
-#define LED_NUM_4_SET_6()		do{LED_NUM_4_CLEAR();LED_NUM_4_6_ENABLE();LED_NUM_4_1_ENABLE();LED_NUM_4_3_ENABLE();LED_NUM_4_4_ENABLE();LED_NUM_4_5_ENABLE();LED_NUM_4_6_ENABLE();} while(0);
-#define LED_NUM_4_SET_7()		do{LED_NUM_4_CLEAR();LED_NUM_4_0_ENABLE();LED_NUM_4_2_ENABLE();LED_NUM_4_5_ENABLE();} while(0);
-#define LED_NUM_4_SET_8()		do{LED_NUM_4_CLEAR();LED_NUM_4_0_ENABLE();LED_NUM_4_1_ENABLE();LED_NUM_4_2_ENABLE();LED_NUM_4_3_ENABLE();LED_NUM_4_4_ENABLE();LED_NUM_4_5_ENABLE();LED_NUM_4_6_ENABLE();} while(0);
-#define LED_NUM_4_SET_9()		do{LED_NUM_4_CLEAR();LED_NUM_4_0_ENABLE();LED_NUM_4_1_ENABLE();LED_NUM_4_2_ENABLE();LED_NUM_4_3_ENABLE();LED_NUM_4_5_ENABLE();} while(0);
+
 
 
 #define I2C_SCL_SPEED_SM 	100000
@@ -129,6 +88,10 @@ uint8_t loadedData;
 uint8_t alarmClockState;
 uint8_t alarmClockSetNum;
 uint8_t timeSet = 0;
+uint8_t blinked = 0;
+void (*NUM_4_SET)(void) = &LED_NUM_4_SET_4;
+
+
 
 
 RTC_time_t current_time;
@@ -380,13 +343,15 @@ int main(void)
 	uint32_t *EXTI_RTSR =  (uint32_t *)(0x40010408);
 
 
-	//Enable clock on GPIOA, GPIOB, AFIO,TIM1,TIM2,TIM3 and I2C1
+	//Enable clock on GPIOA, GPIOB, GPIOC AFIO,TIM1,TIM2,TIM3,TIM4 and I2C1
 	*RCC_APB2ENR |= (1 << 2);
 	*RCC_APB2ENR |= (1 << 3);
+	*RCC_APB2ENR |= (1 << 4);
 	*RCC_APB2ENR |= (1 << 0);
 	*RCC_APB2ENR |= (1<< 11);
 	*RCC_APB1ENR |= (1<< 0);
 	*RCC_APB1ENR |= (1<< 1);
+	*RCC_APB1ENR |= (1<< 2);
 	*RCC_APB1ENR |= (1<< 21);
 
 
@@ -394,20 +359,16 @@ int main(void)
 	*((uint32_t*)NVIC_ISER0) |= 1<<6;
 	*((uint32_t*)NVIC_ISER0) |= 1<<7;
 	*((uint32_t*)NVIC_ISER0) |= 1<<29;
+	*((uint32_t*)NVIC_ISER0) |= 1<<30;
 	*((uint32_t*)NVIC_ISER0) |= 1<<31;
 	*((uint32_t*)NVIC_ISER1) |= 1<<0;
 
 	//Set the GPIOA ports to work for LEDS
-	uint32_t temp = 0;
-	temp |= (1<< 0);
-	temp |= (1<< 4);
-	temp |= (1<< 8);
-	temp |= (1<< 12);
-	temp |= (1<< 16);
-	temp |= (1<< 20);
-	temp |= (1<< 24);
-	temp |= (1<< 28);
-	GPIOA->CRL = temp;
+	LED_Initalize();
+
+
+
+
 
 
 	//Setup the pins for the buttons and the alarm LED
@@ -437,14 +398,19 @@ int main(void)
 	TIM3->PSC |= (8000-1);
 	TIM3->ARR = (4000-1);
 	TIM3->DIER |= 1;
+	TIM4->PSC |= (8000-1);
+		TIM4->ARR = (1000-1);
+		TIM4->DIER |= 1;
+		TIM4->CR1 |= 1 << 2;
 	TIM3->CR1 |= 1 << 1;
 	TIM3->CR1 |= 1 << 2;
 
 	//Enable the timer
 	TIM1->CR1 |= 1;
 	TIM2->CR1 |= 1;
+	TIM4->CR1 |= 1;
 
-	TIM3->CR1 |= 1;
+//	TIM3->CR1 |= 1;
 
 	for(int i = 0; i < 10000; i++)
 			{
@@ -486,7 +452,7 @@ int main(void)
 	I2C_state= I2C_READY;
 
 	//Make clock halt = 0 in DS peripheal
-	ds1307_write(0x0, DS1307_ADDR_SEC);
+	//ds1307_write(0x0, DS1307_ADDR_SEC);
 
 
 
@@ -502,68 +468,68 @@ int main(void)
 	alarm_time.hours = 12;
 	alarm_time.time_format = TIME_FORMAT_12HRS_PM;
 
-	ds1307_set_current_time(&current_time);
+	//ds1307_set_current_time(&current_time);
 
 
-	while(1)
-	{
-//		TEMPORARLIY DISABLE THE FETCHING OF DATA FROM I2C
-
-		//Handle mode swithching of alarm clock
-		if(!(GPIOB->IDR & 1) && !buttonModeProcessed && ((TIM1->CNT - buttonModeLastDebounceTime) > 50) && buttonModeLastDebounceTime != 0)
-		{
-			//Process the button press
-			buttonModeProcessed = 1;
-			buttonModeLastDebounceTime = 0;
-
-			//Change the alarm clock state
-			alarmClockState ++;
-			alarmClockState %= 4;
-			alarmClockSetNum = 0;
-		}
-
-
-		//Handle setting of alarm clock
-		if(!(GPIOB->IDR & (1<<1)) && !buttonSetProcessed && buttonSetLastDebounceTime != 0)
-		{
-			//Check for long pulse
-			if((TIM2->CNT - buttonSetLastDebounceTime) > 750)
-			{
-				//Process the button press
-				buttonSetProcessed = 1;
-				buttonSetLastDebounceTime = 0;
-
-				//Change the selected number
-				alarmClockSetNum ++;
-				alarmClockSetNum %= 5;
-
-
-
-			}
-			//Check for short pulse
-			else if((TIM2->CNT - buttonSetLastDebounceTime) > 50)
-			{
-
-				if(alarmClockState == ALARM_CLOCK_SET)
-				{
-					updateSetTime(&current_time);
-				}
-				if(alarmClockState == ALARM_CLOCK_SET_ALARM)
-				{
-					updateSetTime(&alarm_time);
-				}
-
-
-
-				//Process the button press
-				buttonSetProcessed = 1;
-				buttonSetLastDebounceTime = 0;
-			}
-
-		}
-	}
-
-
+//	while(1)
+//	{
+////		TEMPORARLIY DISABLE THE FETCHING OF DATA FROM I2C
+//
+//		//Handle mode swithching of alarm clock
+//		if(!(GPIOB->IDR & 1) && !buttonModeProcessed && ((TIM1->CNT - buttonModeLastDebounceTime) > 50) && buttonModeLastDebounceTime != 0)
+//		{
+//			//Process the button press
+//			buttonModeProcessed = 1;
+//			buttonModeLastDebounceTime = 0;
+//
+//			//Change the alarm clock state
+//			alarmClockState ++;
+//			alarmClockState %= 4;
+//			alarmClockSetNum = 0;
+//		}
+//
+//
+//		//Handle setting of alarm clock
+//		if(!(GPIOB->IDR & (1<<1)) && !buttonSetProcessed && buttonSetLastDebounceTime != 0)
+//		{
+//			//Check for long pulse
+//			if((TIM2->CNT - buttonSetLastDebounceTime) > 750)
+//			{
+//				//Process the button press
+//				buttonSetProcessed = 1;
+//				buttonSetLastDebounceTime = 0;
+//
+//				//Change the selected number
+//				alarmClockSetNum ++;
+//				alarmClockSetNum %= 5;
+//
+//
+//
+//			}
+//			//Check for short pulse
+//			else if((TIM2->CNT - buttonSetLastDebounceTime) > 50)
+//			{
+//
+//				if(alarmClockState == ALARM_CLOCK_SET)
+//				{
+//					updateSetTime(&current_time);
+//				}
+//				if(alarmClockState == ALARM_CLOCK_SET_ALARM)
+//				{
+//					updateSetTime(&alarm_time);
+//				}
+//
+//
+//
+//				//Process the button press
+//				buttonSetProcessed = 1;
+//				buttonSetLastDebounceTime = 0;
+//			}
+//
+//		}
+//	}
+//
+//
 }
 
 void I2C1_EV_IRQHandler(void)
@@ -710,7 +676,7 @@ void TIM3_IRQHandler(void)
 	//If not get the time data and store it
 	else
 	{
-		ds1307_get_current_time(&current_time);
+		//ds1307_get_current_time(&current_time);
 	}
 
 	//Handle alarm checking
@@ -720,6 +686,23 @@ void TIM3_IRQHandler(void)
 	TIM3->SR = 0;
 }
 
+void TIM4_IRQHandler(void)
+{
+	if(blinked == 0)
+	{
+		LED_NUM_4_CLEAR();
+
+	}
+	else
+	{
+
+		(*NUM_4_SET)();
+
+	}
+	blinked = !blinked;
+
+	TIM4->SR = 0;
+}
 
 
 
