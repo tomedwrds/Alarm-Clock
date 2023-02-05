@@ -13,6 +13,8 @@ void LED_Initalize(void)
 {
 	uint32_t temp = 0;
 
+
+
 	//Initalize lower register of GPIOA first
 	temp |= (1<< 0);
 	temp |= (1<< 4);
@@ -24,23 +26,23 @@ void LED_Initalize(void)
 	temp |= (1<< 28);
 	GPIOA->CRL = temp;
 
-	//GPIOA high register in this case GPIOA pins 13 and 14 need to remain untouched
+	//GPIOA high register in this case GPIOA pins 13, 14,15 need to remain untouched
 	//So will first clear all reigsters apart from these two then or operations
-	GPIOA->CRH &= ~(0xFFFFF00F);
+	GPIOA->CRH &= (0xFFF<<20);
 	temp = 0;
 	temp |= (1<< 0);
 	temp |= (1<< 4);
 	temp |= (1<< 8);
 	temp |= (1<< 12);
 	temp |= (1<< 16);
-	temp |= (1<< 28);
 	GPIOA->CRH |= temp;
 
-	//GPIOB low register in this case only need to set B3,4,5
-	GPIOB->CRH &= ~(0x000FFF00);
+	GPIOB->ODR &= ~(0x3 << 3);
+
+	//GPIOB low register in this case only need to set B3,B5
+	GPIOB->CRL &= ~(0xF0F<<12);
 	temp = 0;
 	temp |= (1<< 12);
-	temp |= (1<< 16);
 	temp |= (1<< 20);
 	GPIOB->CRL |= temp;
 
@@ -75,6 +77,107 @@ void LED_Initalize(void)
  * These functions can then be pointed to allowing the code to be run and a blinking effect to occur when being changed.
  *
  */
+
+void LED_NUM_1_SET_0(void)
+{
+	LED_NUM_1_CLEAR();
+	LED_NUM_1_0_ENABLE();
+}
+void LED_NUM_1_SET_1(void)
+{
+	LED_NUM_1_CLEAR();
+}
+
+
+void LED_NUM_2_SET_0 (void)
+{
+	LED_NUM_2_CLEAR();
+	LED_NUM_2_0_ENABLE();
+	LED_NUM_2_1_ENABLE();
+	LED_NUM_2_2_ENABLE();
+	LED_NUM_2_4_ENABLE();
+	LED_NUM_2_5_ENABLE();
+	LED_NUM_2_6_ENABLE();
+}
+void LED_NUM_2_SET_1(void)
+{
+	LED_NUM_2_CLEAR();
+	LED_NUM_2_2_ENABLE();
+	LED_NUM_2_5_ENABLE();
+}
+void LED_NUM_2_SET_2(void)
+{
+	LED_NUM_2_CLEAR();
+	LED_NUM_2_0_ENABLE();
+	LED_NUM_2_2_ENABLE();
+	LED_NUM_2_3_ENABLE();
+	LED_NUM_2_4_ENABLE();
+	LED_NUM_2_6_ENABLE();
+}
+void LED_NUM_2_SET_3(void)
+{
+	LED_NUM_2_CLEAR();
+	LED_NUM_2_0_ENABLE();
+	LED_NUM_2_2_ENABLE();
+	LED_NUM_2_3_ENABLE();
+	LED_NUM_2_5_ENABLE();
+	LED_NUM_2_6_ENABLE();
+}
+void LED_NUM_2_SET_4(void)
+{
+	LED_NUM_2_CLEAR();
+	LED_NUM_2_1_ENABLE();
+	LED_NUM_2_2_ENABLE();
+	LED_NUM_2_3_ENABLE();
+	LED_NUM_2_5_ENABLE();
+}
+void LED_NUM_2_SET_5(void)
+{
+	LED_NUM_2_CLEAR();
+	LED_NUM_2_0_ENABLE();
+	LED_NUM_2_1_ENABLE();
+	LED_NUM_2_3_ENABLE();
+	LED_NUM_2_5_ENABLE();
+	LED_NUM_2_6_ENABLE();
+}
+void LED_NUM_2_SET_6(void)
+{
+	LED_NUM_2_CLEAR();
+	LED_NUM_2_0_ENABLE();
+	LED_NUM_2_1_ENABLE();
+	LED_NUM_2_3_ENABLE();
+	LED_NUM_2_4_ENABLE();
+	LED_NUM_2_5_ENABLE();
+	LED_NUM_2_6_ENABLE();
+}
+void LED_NUM_2_SET_7(void)
+{
+	LED_NUM_2_CLEAR();
+	LED_NUM_2_0_ENABLE();
+	LED_NUM_2_2_ENABLE();
+	LED_NUM_2_5_ENABLE();
+}
+void LED_NUM_2_SET_8(void)
+{
+	LED_NUM_2_CLEAR();
+	LED_NUM_2_0_ENABLE();
+	LED_NUM_2_1_ENABLE();
+	LED_NUM_2_2_ENABLE();
+	LED_NUM_2_3_ENABLE();
+	LED_NUM_2_4_ENABLE();
+	LED_NUM_2_5_ENABLE();
+	LED_NUM_2_6_ENABLE();
+}
+void LED_NUM_2_SET_9(void)
+{
+	LED_NUM_2_CLEAR();
+	LED_NUM_2_0_ENABLE();
+	LED_NUM_2_1_ENABLE();
+	LED_NUM_2_2_ENABLE();
+	LED_NUM_2_3_ENABLE();
+	LED_NUM_2_5_ENABLE();
+}
+
 void LED_NUM_3_SET_0 (void)
 {
 	LED_NUM_3_CLEAR();

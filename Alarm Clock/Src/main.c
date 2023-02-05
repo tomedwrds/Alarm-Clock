@@ -339,21 +339,25 @@ int main(void)
 	uint32_t *RCC_APB2ENR = (uint32_t *)(0x40021018);
 	uint32_t *RCC_APB1ENR = (uint32_t *)(0x4002101C);
 	uint32_t *AFIO_EXTICR1 =  (uint32_t *)(0x40010008);
+	uint32_t *AFIO_MAPR = (uint32_t*)(0x40010004);
+
+
 	uint32_t *EXTI_IMR =  (uint32_t *)(0x40010400);
 	uint32_t *EXTI_RTSR =  (uint32_t *)(0x40010408);
 
 
 	//Enable clock on GPIOA, GPIOB, GPIOC AFIO,TIM1,TIM2,TIM3,TIM4 and I2C1
+
+	*RCC_APB2ENR |= (1 << 0);
 	*RCC_APB2ENR |= (1 << 2);
 	*RCC_APB2ENR |= (1 << 3);
 	*RCC_APB2ENR |= (1 << 4);
-	*RCC_APB2ENR |= (1 << 0);
 	*RCC_APB2ENR |= (1<< 11);
 	*RCC_APB1ENR |= (1<< 0);
 	*RCC_APB1ENR |= (1<< 1);
 	*RCC_APB1ENR |= (1<< 2);
 	*RCC_APB1ENR |= (1<< 21);
-
+	*AFIO_MAPR |=(2<<24);
 
 	//Enable interupts for I2C for both event and error I2C and EXTI lines 0 and 1
 	*((uint32_t*)NVIC_ISER0) |= 1<<6;
@@ -364,19 +368,21 @@ int main(void)
 	*((uint32_t*)NVIC_ISER1) |= 1<<0;
 
 	//Set the GPIOA ports to work for LEDS
+
 	LED_Initalize();
 
 
-	LED_NUM_3_SET_0();
-	LED_NUM_3_SET_1();
-	LED_NUM_3_SET_2();
-	LED_NUM_3_SET_3();
-	LED_NUM_3_SET_4();
-	LED_NUM_3_SET_5();
-	LED_NUM_3_SET_6();
-	LED_NUM_3_SET_7();
-	LED_NUM_3_SET_8();
-	LED_NUM_3_SET_9();
+	LED_NUM_2_SET_0();
+	LED_NUM_2_SET_1();
+	LED_NUM_2_SET_2();
+	LED_NUM_2_SET_3();
+	LED_NUM_2_SET_4();
+	LED_NUM_2_SET_5();
+	LED_NUM_2_SET_6();
+	LED_NUM_2_SET_7();
+	LED_NUM_2_SET_8();
+	LED_NUM_2_SET_9();
+
 
 
 
@@ -395,6 +401,8 @@ int main(void)
 	//Configure AFIO line so EXTI0 is on Port B
 	*AFIO_EXTICR1 |= (1<< 0);
 	*AFIO_EXTICR1 |= (1<< 4);
+	//Disable unused jtag pins to allow there use for gpio
+
 
 	//Configure the EXTI by demasking the line and setting the trigger on rising edge
 	*EXTI_IMR |= (1<< 0);
@@ -411,9 +419,9 @@ int main(void)
 	TIM3->ARR = (4000-1);
 	TIM3->DIER |= 1;
 	TIM4->PSC |= (8000-1);
-		TIM4->ARR = (1000-1);
-		TIM4->DIER |= 1;
-		TIM4->CR1 |= 1 << 2;
+	TIM4->ARR = (1000-1);
+	TIM4->DIER |= 1;
+	TIM4->CR1 |= 1 << 2;
 	TIM3->CR1 |= 1 << 1;
 	TIM3->CR1 |= 1 << 2;
 
