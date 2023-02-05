@@ -195,9 +195,7 @@ int main(void)
 	alarm_time.time_format = TIME_FORMAT_12HRS_PM;
 
 	ds1307_set_current_time(&current_time);
-
 	ds1307_get_current_time(&current_time);
-	while(1);
 
 
 //	while(1)

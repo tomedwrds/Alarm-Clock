@@ -190,8 +190,7 @@ void ds1307_set_current_time(RTC_time_t *rtc_time)
 }
 void ds1307_get_current_time(RTC_time_t *rtc_time)
 {
-	uint8_t a;
-	uint8_t *time_data =  &a;
+	uint8_t *time_data;
 	ds1307_read(DS1307_ADDR_SEC, time_data);
 	uint8_t seconds,hrs;
 	seconds = time_data[0];

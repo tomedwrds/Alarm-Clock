@@ -1,9 +1,9 @@
 ../Src/rtci2c.c:10:9:binary_to_bcd	24	static
 ../Src/rtci2c.c:25:9:bcd_to_binary	24	static
 ../Src/rtci2c.c:39:7:I2C_SendData	32	static
-../Src/rtci2c.c:89:7:I2C_RecieveData	24	static
-../Src/rtci2c.c:131:6:ds1307_write	24	static
-../Src/rtci2c.c:140:9:ds1307_read	24	static
-../Src/rtci2c.c:151:6:ds1307_set_current_time	24	static
-../Src/rtci2c.c:176:6:ds1307_get_current_time	24	static
-../Src/rtci2c.c:205:6:updateSetTime	32	static
+../Src/rtci2c.c:89:6:I2C_RecieveData	24	static
+../Src/rtci2c.c:147:6:ds1307_write	24	static
+../Src/rtci2c.c:156:6:ds1307_read	16	static
+../Src/rtci2c.c:166:6:ds1307_set_current_time	24	static
+../Src/rtci2c.c:191:6:ds1307_get_current_time	32	static
+../Src/rtci2c.c:223:6:updateSetTime	32	static
