@@ -137,7 +137,7 @@ void  I2C_SendData(uint8_t *pTXBuffer, uint32_t Len)
 
 	//Write the slave address to the DR
 	//First bit must be cleared
-	I2C1->DR = DS1307_DEVICE_ADDR << 1;
+	I2C1->DR = (DS1307_DEVICE_ADDR << 1) & ~(1);
 
 	//Poll the ADDR flag in SR1. Hang program until its set
 	while(!(I2C1->SR1& (1<< 1)));
@@ -192,7 +192,8 @@ void  I2C_RecieveData(uint8_t *pRXBuffer)
 	//Poll the ADDR flag in SR1. Hang program until its set
 	while(!(I2C1->SR1& (1<< 1)));
 
-
+	//Disable acking
+	I2C1->CR1 &= ~(1<< 10);
 
 	//ADDR flag cleared by reading SR1 then SR2
 	uint32_t dummyread;
@@ -200,17 +201,11 @@ void  I2C_RecieveData(uint8_t *pRXBuffer)
 	dummyread = I2C1->SR2;
 	(void)dummyread;
 
-
-	//Disable acking
-	I2C1->CR1 &= ~(1<< 10);
-
-	//Generate the stop condition
-	I2C1->CR1 |= (1<< 9);
-
 	//Wait until RXNE is set signifing data is received
 	while(!(I2C1->SR1& (1<< 6)));
 
-
+	//Generate the stop condition
+	I2C1->CR1 |= (1<< 9);
 
 	//Read the data
 	*pRXBuffer = I2C1->DR;
@@ -220,19 +215,17 @@ void  I2C_RecieveData(uint8_t *pRXBuffer)
 static void ds1307_write(uint8_t value,uint8_t reg_addr)
 {
 	//Sends two bytes of data to enable the clock
-	uint8_t tx[2];
-	tx[0] = reg_addr;
-	tx[1] = value;
-	I2C_SendData(tx, 2);
+
+
+	while(I2C_RXTX_Start(tx, 2, 0,I2C_BUSY_IN_TX,value,reg_addr) != I2C_READY);
 }
 
-uint8_t ds1307_read(uint8_t reg_addr)
+void ds1307_read(uint8_t reg_addr)
 {
-	uint8_t data;
-	//Send address then receive data
-	I2C_SendData(&reg_addr, 1);
-	I2C_RecieveData(&data);
-	return data;
+
+	//Data will be read from current position of pointer so data write is used to set pointer position
+	while(I2C_RXTX_Start(&reg_addr, 1, 1,I2C_BUSY_IN_TX,0,0)  != I2C_READY);
+	while(I2C_RXTX_Start(&data, 1, 0,I2C_BUSY_IN_RX,0,0) != I2C_READY);
 
 }
 
@@ -271,14 +264,28 @@ void ds1307_set_current_time(RTC_time_t *rtc_time)
 void ds1307_get_current_time(RTC_time_t *rtc_time)
 {
 	uint8_t seconds,hrs;
-	seconds = ds1307_read(DS1307_ADDR_SEC);
+	ds1307_read(DS1307_ADDR_SEC);
+	for(int k = 0; k < 1000; k++)
+	{
+		;
+	}
+	seconds = loadedData;
 	seconds &= ~(1 << 7);
+
 	rtc_time->seconds = bcd_to_binary(seconds);
+	ds1307_read(DS1307_ADDR_MIN);
+	for(int k = 0; k < 1000; k++)
+		{
+			;
+		}
+	rtc_time->minutes = bcd_to_binary(loadedData);
 
-
-	rtc_time->minutes = bcd_to_binary(ds1307_read(DS1307_ADDR_MIN));
-
-	hrs = ds1307_read(DS1307_ADDR_HRS);
+	ds1307_read(DS1307_ADDR_HRS);
+	for(int k = 0; k < 1000; k++)
+		{
+			;
+		}
+	hrs = loadedData;
 	if(hrs & (1<<6))
 	{
 		//12hr format
@@ -411,18 +418,18 @@ int main(void)
 
 	LED_Initalize();
 
-//
-//	LED_NUM_2_SET_0();
-//	LED_NUM_2_SET_1();
-//	LED_NUM_2_SET_2();
-//	LED_NUM_2_SET_3();
-//	LED_NUM_2_SET_4();
-//	LED_NUM_2_SET_5();
-//	LED_NUM_2_SET_6();
-//	LED_NUM_2_SET_7();
-//	LED_NUM_2_SET_8();
-//	LED_NUM_2_SET_9();
-//
+
+	LED_NUM_2_SET_0();
+	LED_NUM_2_SET_1();
+	LED_NUM_2_SET_2();
+	LED_NUM_2_SET_3();
+	LED_NUM_2_SET_4();
+	LED_NUM_2_SET_5();
+	LED_NUM_2_SET_6();
+	LED_NUM_2_SET_7();
+	LED_NUM_2_SET_8();
+	LED_NUM_2_SET_9();
+
 
 
 
@@ -472,6 +479,10 @@ int main(void)
 
 //	TIM3->CR1 |= 1;
 
+	for(int i = 0; i < 10000; i++)
+			{
+				;
+			}
 
 
 	TIM3->SR = 0;
@@ -505,9 +516,10 @@ int main(void)
 	I2C1->CR1 |= 1;
 
 
+	I2C_state= I2C_READY;
 
 	//Make clock halt = 0 in DS peripheal
-	ds1307_write(0x0, DS1307_ADDR_SEC);
+	//ds1307_write(0x0, DS1307_ADDR_SEC);
 
 
 
@@ -523,8 +535,7 @@ int main(void)
 	alarm_time.hours = 12;
 	alarm_time.time_format = TIME_FORMAT_12HRS_PM;
 
-	ds1307_set_current_time(&current_time);
-	ds1307_get_current_time(&current_time);
+	//ds1307_set_current_time(&current_time);
 
 
 //	while(1)

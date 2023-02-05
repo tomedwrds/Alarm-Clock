@@ -199,18 +199,14 @@ void  I2C_RecieveData(uint8_t *pRXBuffer)
 	dummyread = I2C1->SR1;
 	dummyread = I2C1->SR2;
 	(void)dummyread;
-
-
 	//Disable acking
-	I2C1->CR1 &= ~(1<< 10);
-
-	//Generate the stop condition
-	I2C1->CR1 |= (1<< 9);
+		I2C1->CR1 &= ~(1<< 10);
 
 	//Wait until RXNE is set signifing data is received
 	while(!(I2C1->SR1& (1<< 6)));
 
-
+	//Generate the stop condition
+	I2C1->CR1 |= (1<< 9);
 
 	//Read the data
 	*pRXBuffer = I2C1->DR;

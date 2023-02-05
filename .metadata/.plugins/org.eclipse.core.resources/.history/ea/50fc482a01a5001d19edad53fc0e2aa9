@@ -192,7 +192,8 @@ void  I2C_RecieveData(uint8_t *pRXBuffer)
 	//Poll the ADDR flag in SR1. Hang program until its set
 	while(!(I2C1->SR1& (1<< 1)));
 
-
+	//Disable acking
+	I2C1->CR1 &= ~(1<< 10);
 
 	//ADDR flag cleared by reading SR1 then SR2
 	uint32_t dummyread;
@@ -200,17 +201,11 @@ void  I2C_RecieveData(uint8_t *pRXBuffer)
 	dummyread = I2C1->SR2;
 	(void)dummyread;
 
-
-	//Disable acking
-	I2C1->CR1 &= ~(1<< 10);
-
-	//Generate the stop condition
-	I2C1->CR1 |= (1<< 9);
-
 	//Wait until RXNE is set signifing data is received
 	while(!(I2C1->SR1& (1<< 6)));
 
-
+	//Generate the stop condition
+	I2C1->CR1 |= (1<< 9);
 
 	//Read the data
 	*pRXBuffer = I2C1->DR;
@@ -472,6 +467,10 @@ int main(void)
 
 //	TIM3->CR1 |= 1;
 
+	for(int i = 0; i < 10000; i++)
+			{
+				;
+			}
 
 
 	TIM3->SR = 0;
