@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;Alarm Clock/Src/rtci2c&apos; to &apos;rtci2c.c&apos;" description="Rename resource &apos;rtci2c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Src/rtci2c" name="rtci2c.c" stamp="1675566354240" updateReferences="true"/>
+</session>

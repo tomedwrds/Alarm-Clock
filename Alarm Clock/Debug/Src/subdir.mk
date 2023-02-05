@@ -7,18 +7,21 @@
 C_SRCS += \
 ../Src/alarmled.c \
 ../Src/main.c \
+../Src/rtci2c.c \
 ../Src/syscalls.c \
 ../Src/sysmem.c 
 
 OBJS += \
 ./Src/alarmled.o \
 ./Src/main.o \
+./Src/rtci2c.o \
 ./Src/syscalls.o \
 ./Src/sysmem.o 
 
 C_DEPS += \
 ./Src/alarmled.d \
 ./Src/main.d \
+./Src/rtci2c.d \
 ./Src/syscalls.d \
 ./Src/sysmem.d 
 
@@ -30,7 +33,7 @@ Src/%.o Src/%.su: ../Src/%.c Src/subdir.mk
 clean: clean-Src
 
 clean-Src:
-	-$(RM) ./Src/alarmled.d ./Src/alarmled.o ./Src/alarmled.su ./Src/main.d ./Src/main.o ./Src/main.su ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su
+	-$(RM) ./Src/alarmled.d ./Src/alarmled.o ./Src/alarmled.su ./Src/main.d ./Src/main.o ./Src/main.su ./Src/rtci2c.d ./Src/rtci2c.o ./Src/rtci2c.su ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su
 
 .PHONY: clean-Src
 

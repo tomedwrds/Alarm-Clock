@@ -35,6 +35,34 @@ struct TIM
 #define TIM2 ((struct TIM *)	0x40000000)
 #define TIM3 ((struct TIM *)	0x40000400)
 #define TIM4 ((struct TIM *)	0x40000800)
+
+
+#define ALARM_CLOCK_NO_ALARM		0
+#define ALARM_CLOCK_ALARM			1
+#define ALARM_CLOCK_SET				2
+#define ALARM_CLOCK_SET_ALARM		3
+
+#define NVIC_ISER0		0xE000E100
+#define NVIC_ISER1		0xE000E104
+
+
+typedef struct
+{
+	uint8_t seconds;
+	uint8_t minutes;
+	uint8_t hours;
+	uint8_t time_format;
+}RTC_time_t;
+
+
+
+
+
 #include "alarmled.h"
+#include "rtci2c.h"
+
+
+
+
 
 #endif /* MAIN_H_ */
