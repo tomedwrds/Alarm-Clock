@@ -30,7 +30,7 @@
 //Global variables
 uint8_t alarmClockState;
 uint8_t alarmClockSetNum;
-uint8_t timeSet = 0;
+uint8_t userUpdatedTime = 0;
 uint8_t blinked = 0;
 void (*NUM_4_SET)(void) = &LED_NUM_4_SET_4;
 
@@ -43,6 +43,11 @@ uint32_t buttonSetProcessed = 0, buttonSetLastDebounceTime = 0;
 
 
 
+
+
+
+
+
 int main(void)
 {
 
@@ -50,11 +55,6 @@ int main(void)
     /* Loop forever */
 	uint32_t *RCC_APB2ENR = (uint32_t *)(0x40021018);
 	uint32_t *RCC_APB1ENR = (uint32_t *)(0x4002101C);
-	uint32_t *AFIO_EXTICR1 =  (uint32_t *)(0x40010008);
-	uint32_t *AFIO_MAPR = (uint32_t*)(0x40010004);
-
-	uint32_t *EXTI_IMR =  (uint32_t *)(0x40010400);
-	uint32_t *EXTI_RTSR =  (uint32_t *)(0x40010408);
 
 
 	//Enable clock on GPIOA, GPIOB, GPIOC AFIO,TIM1,TIM2,TIM3,TIM4 and I2C1
@@ -68,17 +68,14 @@ int main(void)
 	*RCC_APB1ENR |= (1<< 1);
 	*RCC_APB1ENR |= (1<< 2);
 	*RCC_APB1ENR |= (1<< 21);
-	*AFIO_MAPR |=(2<<24);
 
-	//Enable interupts for I2C for both event and error I2C and EXTI lines 0 and 1
+	//Enable interupts for EXTI (button presses) and timers
 	*((uint32_t*)NVIC_ISER0) |= 1<<6;
 	*((uint32_t*)NVIC_ISER0) |= 1<<7;
 	*((uint32_t*)NVIC_ISER0) |= 1<<29;
 	*((uint32_t*)NVIC_ISER0) |= 1<<30;
-	*((uint32_t*)NVIC_ISER0) |= 1<<31;
-	*((uint32_t*)NVIC_ISER1) |= 1<<0;
 
-	//Set the GPIOA ports to work for LEDS
+
 
 	LED_Initalize();
 
@@ -94,211 +91,155 @@ int main(void)
 //	LED_NUM_2_SET_8();
 //	LED_NUM_2_SET_9();
 //
-
-
-
-
-
-
-	//Setup the pins for the buttons and the alarm LED
-
-	//B0 for mode button and B1 for set button
-	//Set the Configuration to Input Pulldown
-	GPIOB->CRL &= ~(0xF << 0);
-	GPIOB->CRL |= (0x8 << 0);
-	GPIOB->CRL &= ~(0xF << 4);
-	GPIOB->CRL |= (0x8 << 4);
-
-	//Configure AFIO line so EXTI0 is on Port B
-	*AFIO_EXTICR1 |= (1<< 0);
-	*AFIO_EXTICR1 |= (1<< 4);
-	//Disable unused jtag pins to allow there use for gpio
-
-
-	//Configure the EXTI by demasking the line and setting the trigger on rising edge
-	*EXTI_IMR |= (1<< 0);
-	*EXTI_RTSR |= (1<< 0);
-	*EXTI_IMR |= (1<< 1);
-	*EXTI_RTSR |= (1<< 1);
-
-	//Configure the timer that handles long / short press
-
-	//Set the PSC value
-	TIM1->PSC |= (8000-1);
-	TIM2->PSC |= (8000-1);
-	TIM3->PSC |= (8000-1);
-	TIM3->ARR = (4000-1);
-	TIM3->DIER |= 1;
 	TIM4->PSC |= (8000-1);
 	TIM4->ARR = (1000-1);
 	TIM4->DIER |= 1;
 	TIM4->CR1 |= 1 << 2;
-	TIM3->CR1 |= 1 << 1;
-	TIM3->CR1 |= 1 << 2;
 
-	//Enable the timer
-	TIM1->CR1 |= 1;
-	TIM2->CR1 |= 1;
-	TIM4->CR1 |= 1;
-
-//	TIM3->CR1 |= 1;
+	buttons_intalize();
 
 
-
-	TIM3->SR = 0;
-	TIM3->CR1 &= ~(1 << 1);
-
-	//Configure the pins B8 and B9 for I2C -> both need to be AF and open drain value of 1101
-	GPIOB->CRL &= ~(0xF << 24);
-	GPIOB->CRL |= (0xD << 24);
-	GPIOB->CRL &= ~(0xF << 28);
-	GPIOB->CRL |= (0xD << 28);
-
-
-
-	//Set the frequency of clock provided to cr2
-	I2C1->CR2 |= ((HSI_SPEED/1000000));
-
-
-	//Configure the device address will maybe do
-	I2C1->OAR1 |= (0x61 << 1);
-
-	//The 14th bit of the OAR1 register must always be mainted by software as 1
-	I2C1->OAR1 |= (1<<14);
-
-	//Set the CCR
-	I2C1->CCR |= ((HSI_SPEED / (2*I2C_SCL_SPEED_SM)));
-
-	//Set the trise value
-	I2C1->TRISE =(((HSI_SPEED / 1000000) + 1) & 0x3F);
-
-	//Enable the I2C
-	I2C1->CR1 |= 1;
-
+	//Configure and intalize the i2c peripheal to send data
+	I2C_initalize();
 
 
 	//Make clock halt = 0 in DS peripheal
 	ds1307_write(0x0, DS1307_ADDR_SEC);
 
 
-
-
-	current_time.seconds = 34;
-	current_time.hours = 8;
-	current_time.minutes = 42;
+	//Set the default values of the clock and alarm
+	current_time.seconds = 0;
+	current_time.minutes = 0;
+	current_time.hours = 12;
 	current_time.time_format = TIME_FORMAT_12HRS_PM;
-
 
 	alarm_time.seconds = 0;
 	alarm_time.minutes = 0;
 	alarm_time.hours = 12;
 	alarm_time.time_format = TIME_FORMAT_12HRS_PM;
 
-	ds1307_set_current_time(&current_time);
-
-	ds1307_get_current_time(&current_time);
-	while(1);
+	//Set user updated time to true so the values are passed into the rtc module
+	userUpdatedTime = USER_UPDATED_TIME;
 
 
-//	while(1)
-//	{
-////		TEMPORARLIY DISABLE THE FETCHING OF DATA FROM I2C
-//
-//		//Handle mode swithching of alarm clock
-//		if(!(GPIOB->IDR & 1) && !buttonModeProcessed && ((TIM1->CNT - buttonModeLastDebounceTime) > 50) && buttonModeLastDebounceTime != 0)
-//		{
-//			//Process the button press
-//			buttonModeProcessed = 1;
-//			buttonModeLastDebounceTime = 0;
-//
-//			//Change the alarm clock state
-//			alarmClockState ++;
-//			alarmClockState %= 4;
-//			alarmClockSetNum = 0;
-//		}
-//
-//
-//		//Handle setting of alarm clock
-//		if(!(GPIOB->IDR & (1<<1)) && !buttonSetProcessed && buttonSetLastDebounceTime != 0)
-//		{
-//			//Check for long pulse
-//			if((TIM2->CNT - buttonSetLastDebounceTime) > 750)
-//			{
-//				//Process the button press
-//				buttonSetProcessed = 1;
-//				buttonSetLastDebounceTime = 0;
-//
-//				//Change the selected number
-//				alarmClockSetNum ++;
-//				alarmClockSetNum %= 5;
-//
-//
-//
-//			}
-//			//Check for short pulse
-//			else if((TIM2->CNT - buttonSetLastDebounceTime) > 50)
-//			{
-//
-//				if(alarmClockState == ALARM_CLOCK_SET)
-//				{
-//					updateSetTime(&current_time);
-//				}
-//				if(alarmClockState == ALARM_CLOCK_SET_ALARM)
-//				{
-//					updateSetTime(&alarm_time);
-//				}
-//
-//
-//
-//				//Process the button press
-//				buttonSetProcessed = 1;
-//				buttonSetLastDebounceTime = 0;
-//			}
-//
-//		}
-//	}
-//
-//
+	//Enable the timer that controls the interaction between the mcu and the rtc
+	TIM3->PSC |= (8000-1);
+	TIM3->ARR = (8000-1);
+	TIM3->DIER |= 1;
+	TIM3->CR1 |= 1 << 2;
+	TIM3->CR1 |= 1;
+
+
+
+
+
+
+	while(1)
+	{
+//		TEMPORARLIY DISABLE THE FETCHING OF DATA FROM I2C
+
+		//Handle mode swithching of alarm clock
+		if(!(GPIOB->IDR & 1) && !buttonModeProcessed && ((TIM1->CNT - buttonModeLastDebounceTime) > 250) && buttonModeLastDebounceTime != 0)
+		{
+			//Process the button press
+			buttonModeProcessed = 1;
+			buttonModeLastDebounceTime = 0;
+
+			//Change the alarm clock state
+			alarmClockState ++;
+			alarmClockState %= 4;
+			alarmClockSetNum = 0;
+		}
+
+
+		//Handle setting of alarm clock
+		if(!(GPIOB->IDR & (1<<1)) && !buttonSetProcessed && buttonSetLastDebounceTime != 0)
+		{
+			//Check for long pulse
+			if((TIM2->CNT - buttonSetLastDebounceTime) > 750)
+			{
+				//Process the button press
+				buttonSetProcessed = 1;
+				buttonSetLastDebounceTime = 0;
+
+				//Change the selected number
+				alarmClockSetNum ++;
+				alarmClockSetNum %= 5;
+
+
+
+			}
+			//Check for short pulse
+			else if((TIM2->CNT - buttonSetLastDebounceTime) > 250)
+			{
+				//Update time. Time variable updated is based on what is being set
+				if(alarmClockState == ALARM_CLOCK_SET)
+				{
+					//Update time then set userupdatedtime vairable so that mcu knows to write new time value to rtc
+					updateClockTime(&current_time, alarmClockSetNum);
+					userUpdatedTime = USER_UPDATED_TIME;
+				}
+				if(alarmClockState == ALARM_CLOCK_SET_ALARM)
+				{
+					updateClockTime(&alarm_time, alarmClockSetNum);
+				}
+
+				//Process the button press
+				buttonSetProcessed = 1;
+				buttonSetLastDebounceTime = 0;
+			}
+
+		}
+	}
+
+
 }
 
 
 void EXTI0_IRQHandler(void)
 {
-	uint32_t *EXTI_PR =  (uint32_t *)(0x40010414);
-	//Set debounce time
+	//Save timer state to use a comparison to determine press length
 	buttonModeLastDebounceTime = TIM1->CNT;
 	buttonModeProcessed = 0;
-	//Clear interupt
+	//Clear the EXTI interupt
+	uint32_t *EXTI_PR =  (uint32_t *)(0x40010414);
 	*EXTI_PR |= (1 << 0);
 
 }
 
 void EXTI1_IRQHandler(void)
 {
-	uint32_t *EXTI_PR =  (uint32_t *)(0x40010414);
-	//Set debounce time
+	//Save timer state to use a comparison to determine press length
 	buttonSetLastDebounceTime = TIM2->CNT;
 	buttonSetProcessed = 0;
 	//Clear interupt
+	uint32_t *EXTI_PR =  (uint32_t *)(0x40010414);
 	*EXTI_PR |= (1 << 1);
 }
 
 void TIM3_IRQHandler(void)
 {
-	//Check if time has been updated within last cycle if so new time should be set
-	if((timeSet = 1) && (alarmClockState == ALARM_CLOCK_SET))
+	//Handle the interaction between rtc and mcu
+
+	//First a check must be made if the user has changed the clock values between interactions.
+	//If this is the case the mcu should write the changed value to the rtc.
+	//If this change has not been made the user should read the time value from the rtc.
+	//ds1307_set_current_time(&current_time);
+	if(userUpdatedTime == USER_UPDATED_TIME)
 	{
 		ds1307_set_current_time(&current_time);
-		timeSet = 0;
+		userUpdatedTime = USER_NOT_UPDATED_TIME;
 	}
-	//If not get the time data and store it
 	else
 	{
-		//ds1307_get_current_time(&current_time);
+		ds1307_get_current_time(&current_time);
 	}
 
-	//Handle alarm checking
-
+	//Handle the checking of alarms by comparing all time values between the two clocks
+	if(alarmClockState == ALARM_CLOCK_ALARM && alarm_time.hours == current_time.hours && alarm_time.minutes == current_time.minutes && alarm_time.time_format == current_time.time_format)
+	{
+		//Handle the alarm
+	}
 
 	//Clear the interupt
 	TIM3->SR = 0;

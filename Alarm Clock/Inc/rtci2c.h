@@ -48,12 +48,13 @@ void  I2C_RecieveData(uint8_t *pRXBuffer);
 void ds1307_write(uint8_t value,uint8_t reg_addr);
 
 void ds1307_read(uint8_t reg_addr,uint8_t *data);
+void I2C_initalize(void);
 
 
 void ds1307_set_current_time(RTC_time_t *rtc_time);
 void ds1307_get_current_time(RTC_time_t *rtc_time);
 
 
-void updateSetTime(RTC_time_t *rtc_time, uint8_t * alarmClockSetNum,uint8_t *timeSet);
+void updateClockTime(RTC_time_t *rtc_time, uint8_t alarmClockSetNum);
 
 #endif /* RTCI2C_H_ */

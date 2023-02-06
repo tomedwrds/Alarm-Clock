@@ -79,9 +79,9 @@ void  I2C_SendData(uint8_t *pTXBuffer, uint32_t Len, uint8_t Sr)
 	while(!(I2C1->SR1& (1<< 7)));
 	while(!(I2C1->SR1& (1<< 2)));
 
-	if(Sr == 0)
-		//Generate the stop condition
-		I2C1->CR1 |= (1<< 9);
+
+	//Generate the stop condition
+	I2C1->CR1 |= (1<< 9);
 
 }
 
@@ -116,24 +116,28 @@ void I2C_RecieveData(uint8_t *pRXBuffer)
 	//Wait until RXNE is set signifing data is received
 	while(!(I2C1->SR1& (1<< 6)));
 
+
+	while(!(I2C1->SR1& (1<< 2)));
+
+	//Disable acking
+		I2C1->CR1 &= ~(1<< 10);
+
 	//Read the data
 	*pRXBuffer = I2C1->DR;
 	pRXBuffer++;
-
-	//Wait until RXNE is set signifing data is received
-	while(!(I2C1->SR1& (1<< 6)));
 
 	//AS 2nd byte is now being recieved, 3rd and final byte will be being sent therfore stop condtion must be now generated
 
-	//Disable acking
-	I2C1->CR1 &= ~(1<< 10);
-
 	//Generate the stop condition
-	I2C1->CR1 |= (1<< 9);
+		I2C1->CR1 |= (1<< 9);
+
+
 
 	//Read the data
 	*pRXBuffer = I2C1->DR;
 	pRXBuffer++;
+
+
 
 	//Wait until RXNE is set signifing data is received
 	while(!(I2C1->SR1& (1<< 6)));
@@ -220,11 +224,11 @@ void ds1307_get_current_time(RTC_time_t *rtc_time)
 }
 
 
-void updateSetTime(RTC_time_t *rtc_time, uint8_t * alarmClockSetNum,uint8_t *timeSet)
+void updateClockTime(RTC_time_t *rtc_time, uint8_t alarmClockSetNum)
 {
 	uint8_t tens, ones;
 	//Tens hours
-	if(*alarmClockSetNum == 0)
+	if(alarmClockSetNum == 0)
 	{
 		rtc_time->hours += 10;
 		if(rtc_time->hours > 12)
@@ -238,7 +242,7 @@ void updateSetTime(RTC_time_t *rtc_time, uint8_t * alarmClockSetNum,uint8_t *tim
 
 	}
 	//One hours
-	else if(*alarmClockSetNum == 1)
+	else if(alarmClockSetNum == 1)
 	{
 		tens = rtc_time->hours / 10;
 		ones = (rtc_time->hours) %10;
@@ -256,7 +260,7 @@ void updateSetTime(RTC_time_t *rtc_time, uint8_t * alarmClockSetNum,uint8_t *tim
 
 	}
 	//Tens minutes
-	else if(*alarmClockSetNum == 2)
+	else if(alarmClockSetNum == 2)
 	{
 		tens = rtc_time->minutes / 10;
 		ones = rtc_time->minutes % 10;
@@ -265,14 +269,14 @@ void updateSetTime(RTC_time_t *rtc_time, uint8_t * alarmClockSetNum,uint8_t *tim
 		rtc_time->minutes = (tens*10 + ones);
 	}
 	//ones minutes
-	else if(*alarmClockSetNum == 3)
+	else if(alarmClockSetNum == 3)
 	{
 		tens = rtc_time->minutes / 10;
 		ones = (rtc_time->minutes +1) % 10;
 
 		rtc_time->minutes = (tens*10 + ones);
 	}
-	else if(*alarmClockSetNum == 4)
+	else if(alarmClockSetNum == 4)
 	{
 		if(rtc_time->time_format == TIME_FORMAT_12HRS_PM)
 		{
@@ -284,4 +288,32 @@ void updateSetTime(RTC_time_t *rtc_time, uint8_t * alarmClockSetNum,uint8_t *tim
 		}
 	}
 
+}
+
+void I2C_initalize(void)
+{
+	//Configure the gpio pins B6 and B7 for I2C -> both need to be AF and open drain value of 1101
+	GPIOB->CRL &= ~(0xF << 24);
+	GPIOB->CRL |= (0xD << 24);
+	GPIOB->CRL &= ~(0xF << 28);
+	GPIOB->CRL |= (0xD << 28);
+
+	//Set the frequency of clock provided to cr2
+	I2C1->CR2 |= ((HSI_SPEED/1000000));
+
+
+	//Configure the device address will maybe do
+	I2C1->OAR1 |= (0x61 << 1);
+
+	//The 14th bit of the OAR1 register must always be mainted by software as 1
+	I2C1->OAR1 |= (1<<14);
+
+	//Set the CCR
+	I2C1->CCR |= ((HSI_SPEED / (2*I2C_SCL_SPEED_SM)));
+
+	//Set the trise value
+	I2C1->TRISE =(((HSI_SPEED / 1000000) + 1) & 0x3F);
+
+	//Enable the I2C
+	I2C1->CR1 |= 1;
 }

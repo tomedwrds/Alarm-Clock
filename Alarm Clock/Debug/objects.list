@@ -1,4 +1,5 @@
 "./Src/alarmled.o"
+"./Src/clocksettings.o"
 "./Src/main.o"
 "./Src/rtci2c.o"
 "./Src/syscalls.o"

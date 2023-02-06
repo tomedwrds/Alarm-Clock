@@ -6,6 +6,7 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../Src/alarmled.c \
+../Src/clocksettings.c \
 ../Src/main.c \
 ../Src/rtci2c.c \
 ../Src/syscalls.c \
@@ -13,6 +14,7 @@ C_SRCS += \
 
 OBJS += \
 ./Src/alarmled.o \
+./Src/clocksettings.o \
 ./Src/main.o \
 ./Src/rtci2c.o \
 ./Src/syscalls.o \
@@ -20,6 +22,7 @@ OBJS += \
 
 C_DEPS += \
 ./Src/alarmled.d \
+./Src/clocksettings.d \
 ./Src/main.d \
 ./Src/rtci2c.d \
 ./Src/syscalls.d \
@@ -33,7 +36,7 @@ Src/%.o Src/%.su: ../Src/%.c Src/subdir.mk
 clean: clean-Src
 
 clean-Src:
-	-$(RM) ./Src/alarmled.d ./Src/alarmled.o ./Src/alarmled.su ./Src/main.d ./Src/main.o ./Src/main.su ./Src/rtci2c.d ./Src/rtci2c.o ./Src/rtci2c.su ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su
+	-$(RM) ./Src/alarmled.d ./Src/alarmled.o ./Src/alarmled.su ./Src/clocksettings.d ./Src/clocksettings.o ./Src/clocksettings.su ./Src/main.d ./Src/main.o ./Src/main.su ./Src/rtci2c.d ./Src/rtci2c.o ./Src/rtci2c.su ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su
 
 .PHONY: clean-Src
 

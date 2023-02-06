@@ -42,6 +42,9 @@ struct TIM
 #define ALARM_CLOCK_SET				2
 #define ALARM_CLOCK_SET_ALARM		3
 
+#define USER_UPDATED_TIME			1
+#define USER_NOT_UPDATED_TIME		0
+
 #define NVIC_ISER0		0xE000E100
 #define NVIC_ISER1		0xE000E104
 
@@ -60,6 +63,7 @@ typedef struct
 
 #include "alarmled.h"
 #include "rtci2c.h"
+#include "clocksettings.h"
 
 
 
