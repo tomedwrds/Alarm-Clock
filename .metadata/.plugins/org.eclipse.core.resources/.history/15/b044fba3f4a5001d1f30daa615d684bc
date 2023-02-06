@@ -32,15 +32,7 @@ uint8_t alarmClockState;
 uint8_t alarmClockSetNum;
 uint8_t userUpdatedTime = 0;
 uint8_t blinked = 0;
-
-
-//All the numbers have functions to set the LEDs to display a specific number
-//This array of function pointers stores the address of all of these functions
-//This array can then be access then derefrenced to set the leds to dispaly a number
-void(*NUM_1_SET[2])(void) = {LED_NUM_1_SET_0,LED_NUM_1_SET_1};
-void(*NUM_2_SET[10])(void) = {LED_NUM_2_SET_0,LED_NUM_2_SET_1,LED_NUM_2_SET_2,LED_NUM_2_SET_3,LED_NUM_2_SET_4,LED_NUM_2_SET_5,LED_NUM_2_SET_6,LED_NUM_2_SET_7,LED_NUM_2_SET_8,LED_NUM_2_SET_9};
-void(*NUM_3_SET[10])(void) = {LED_NUM_3_SET_0,LED_NUM_3_SET_1,LED_NUM_3_SET_3,LED_NUM_3_SET_3,LED_NUM_3_SET_4,LED_NUM_3_SET_5,LED_NUM_3_SET_6,LED_NUM_3_SET_7,LED_NUM_3_SET_8,LED_NUM_3_SET_9};
-void(*NUM_4_SET[10])(void) = {LED_NUM_4_SET_0,LED_NUM_4_SET_1,LED_NUM_4_SET_4,LED_NUM_4_SET_4,LED_NUM_4_SET_4,LED_NUM_4_SET_5,LED_NUM_4_SET_6,LED_NUM_4_SET_7,LED_NUM_4_SET_8,LED_NUM_4_SET_9};
+void (*NUM_4_SET)(void) = &LED_NUM_4_SET_4;
 
 
 RTC_time_t current_time;
@@ -144,6 +136,7 @@ int main(void)
 
 	while(1)
 	{
+//		TEMPORARLIY DISABLE THE FETCHING OF DATA FROM I2C
 
 		//Handle mode swithching of alarm clock
 		if(!(GPIOB->IDR & 1) && !buttonModeProcessed && ((TIM1->CNT - buttonModeLastDebounceTime) > 250) && buttonModeLastDebounceTime != 0)
@@ -240,20 +233,7 @@ void TIM3_IRQHandler(void)
 	else
 	{
 		ds1307_get_current_time(&current_time);
-
 		//Update the displayed LEDs
-		uint8_t hoursTen,hoursOne,minsTen,minsOne;
-		hoursTen = current_time.hours / 10;
-		hoursOne = current_time.hours % 10;
-		minsTen = current_time.minutes / 10;
-		minsOne = current_time.minutes % 10;
-
-		//Set the LEDS to display the numbers
-		(*NUM_1_SET[hoursTen])();
-		(*NUM_2_SET[hoursOne])();
-		(*NUM_3_SET[minsTen])();
-		(*NUM_4_SET[minsOne])();
-
 
 
 	}
@@ -270,65 +250,19 @@ void TIM3_IRQHandler(void)
 
 void TIM4_IRQHandler(void)
 {
-	//When a user is editing the time of the clock or an alarm they must be able to know what number they are currently changing.
-	//This timer toggles the current number on a set clock creating a blinking effect
+//	if(blinked == 0)
+//	{
+//		LED_NUM_4_CLEAR();
+//
+//	}
+//	else
+//	{
+//
+//		(*NUM_4_SET)();
+//
+//	}
+//	blinked = !blinked;
 
-	if(blinked == LED_ON)
-	{
-		switch(alarmClockSetNum)
-		{
-		case 1:
-			LED_NUM_1_CLEAR();
-			break;
-		case 2:
-			LED_NUM_2_CLEAR();
-			break;
-		case 3:
-			LED_NUM_3_CLEAR();
-			break;
-		case 4:
-			LED_NUM_4_CLEAR();
-			break;
-		}
-		//Now turn the led to off
-		blinked = LED_OFF;
-	}
-	else
-	{
-
-		switch(alarmClockSetNum)
-		{
-		case 1:
-		{
-			uint8_t hoursTen = current_time.hours / 10;
-			(*NUM_1_SET[hoursTen])();
-			break;
-		}
-		case 2:
-		{
-			uint8_t hoursOne = current_time.hours % 10;
-			(*NUM_2_SET[hoursOne])();
-			break;
-		}
-		case 3:
-		{
-			uint8_t minsTen = current_time.minutes / 10;
-			(*NUM_3_SET[minsTen])();
-			break;
-		}
-		case 4:
-		{
-			uint8_t minsOne = current_time.minutes % 10;
-			(*NUM_4_SET[minsOne])();
-			break;
-		}
-		}
-		//Turn the LED ON
-		blinked = LED_ON;
-
-	}
-
-	//Clear the SR
 	TIM4->SR = 0;
 }
 

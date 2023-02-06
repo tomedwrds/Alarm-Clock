@@ -299,29 +299,21 @@ void TIM4_IRQHandler(void)
 		switch(alarmClockSetNum)
 		{
 		case 1:
-		{
 			uint8_t hoursTen = current_time.hours / 10;
 			(*NUM_1_SET[hoursTen])();
 			break;
-		}
 		case 2:
-		{
 			uint8_t hoursOne = current_time.hours % 10;
 			(*NUM_2_SET[hoursOne])();
 			break;
-		}
 		case 3:
-		{
 			uint8_t minsTen = current_time.minutes / 10;
 			(*NUM_3_SET[minsTen])();
 			break;
-		}
 		case 4:
-		{
 			uint8_t minsOne = current_time.minutes % 10;
 			(*NUM_4_SET[minsOne])();
 			break;
-		}
 		}
 		//Turn the LED ON
 		blinked = LED_ON;

@@ -8,10 +8,6 @@
 #ifndef ALARMLED_H_
 #include "main.h"
 
-//General macros
-#define LED_ON 1
-#define LED_OFF 0
-
 //Function prototypes for initalizing leds
 void LED_Initalize(void);
 
