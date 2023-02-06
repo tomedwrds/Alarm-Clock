@@ -5,6 +5,6 @@
 ../Src/rtci2c.c:148:6:ds1307_write	24	static
 ../Src/rtci2c.c:157:6:ds1307_read	16	static
 ../Src/rtci2c.c:167:6:ds1307_set_current_time	24	static
-../Src/rtci2c.c:192:6:ds1307_get_current_time	32	static
-../Src/rtci2c.c:224:6:updateClockTime	24	static
-../Src/rtci2c.c:290:6:I2C_initalize	4	static
+../Src/rtci2c.c:189:6:ds1307_get_current_time	24	static
+../Src/rtci2c.c:220:6:updateClockTime	24	static
+../Src/rtci2c.c:286:6:I2C_initalize	4	static

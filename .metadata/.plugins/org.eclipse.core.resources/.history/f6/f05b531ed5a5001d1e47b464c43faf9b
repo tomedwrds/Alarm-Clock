@@ -233,9 +233,6 @@ void TIM3_IRQHandler(void)
 	else
 	{
 		ds1307_get_current_time(&current_time);
-		//Update the displayed LEDs
-
-
 	}
 
 	//Handle the checking of alarms by comparing all time values between the two clocks

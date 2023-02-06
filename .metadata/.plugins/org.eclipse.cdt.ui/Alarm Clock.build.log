@@ -1,10 +1,17 @@
-15:51:17 **** Incremental Build of configuration Debug for project Alarm Clock ****
+16:30:38 **** Incremental Build of configuration Debug for project Alarm Clock ****
 make -j8 all 
+arm-none-eabi-gcc "../Src/rtci2c.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F1 -DSTM32F103C8Tx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/rtci2c.d" -MT"Src/rtci2c.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/rtci2c.o"
+arm-none-eabi-gcc -o "Alarm Clock.elf" @"objects.list"   -mcpu=cortex-m3 -T"C:\Users\tomed\Documents\GitHub\Alarm-Clock\Alarm Clock\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Alarm Clock.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Alarm Clock.elf
+ 
 arm-none-eabi-size   Alarm\ Clock.elf 
+arm-none-eabi-objdump -h -S  Alarm\ Clock.elf  > "Alarm Clock.list"
    text	   data	    bss	    dec	    hex	filename
-   3552	      8	   1592	   5152	   1420	Alarm Clock.elf
+   3536	      8	   1592	   5136	   1410	Alarm Clock.elf
 Finished building: default.size.stdout
  
+Finished building: Alarm Clock.list
+ 
 
-15:51:18 Build Finished. 0 errors, 0 warnings. (took 253ms)
+16:30:39 Build Finished. 0 errors, 0 warnings. (took 635ms)
 
