@@ -103,7 +103,6 @@ void I2C_RecieveData(uint8_t *pRXBuffer)
 
 	//ONLY THREE BYTES ARE EITHER RECIEVED AT A TIME AS THAT IS ALL THAT IS REQUIRED TO GET THE RTC STATE
 	//THEREFORE CODE IS SET UP AS PER I2C MANUAL TO RECIEVE THESE 3 BYTES
-	//pg 5 - https://www.st.com/resource/en/application_note/cd00209826-stm32f10xxx-i-c-optimized-examples-stmicroelectronics.pdf
 
 	//Poll the ADDR flag in SR1. Hang program until its set
 	while(!(I2C1->SR1& (1<< 1)));
@@ -117,26 +116,30 @@ void I2C_RecieveData(uint8_t *pRXBuffer)
 	//Wait until RXNE is set signifing data is received
 	while(!(I2C1->SR1& (1<< 6)));
 
-	//Wait until btf flag is set signfying two bytes of data have been recieved as both the shift and data register are full
+
 	while(!(I2C1->SR1& (1<< 2)));
 
-	//Disable acking so that when the next byte of data is received (final byte) it recieves a nack
-	I2C1->CR1 &= ~(1<< 10);
+	//Disable acking
+		I2C1->CR1 &= ~(1<< 10);
 
-	//Read the first byte of data
+	//Read the data
 	*pRXBuffer = I2C1->DR;
 	pRXBuffer++;
 
-	//Final byte is now recieved and NACK pulse send ending data transfer
+	//AS 2nd byte is now being recieved, 3rd and final byte will be being sent therfore stop condtion must be now generated
 
-	//Generate the stop condition as no more data should be sent
-	I2C1->CR1 |= (1<< 9);
+	//Generate the stop condition
+		I2C1->CR1 |= (1<< 9);
 
-	//Read the second byte of data
+
+
+	//Read the data
 	*pRXBuffer = I2C1->DR;
 	pRXBuffer++;
 
-	//Wait until RXNE is set signifing last byte of data has defiently arrived
+
+
+	//Wait until RXNE is set signifing data is received
 	while(!(I2C1->SR1& (1<< 6)));
 
 	//Read the data

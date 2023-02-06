@@ -72,8 +72,8 @@ int main(void)
 	//Enable interupts for EXTI (button presses) and timers
 	//*((uint32_t*)NVIC_ISER0) |= 1<<6;
 	//*((uint32_t*)NVIC_ISER0) |= 1<<7;
-	*((uint32_t*)NVIC_ISER0) |= 1<<29;
-	*((uint32_t*)NVIC_ISER0) |= 1<<30;
+	//*((uint32_t*)NVIC_ISER0) |= 1<<29;
+	//*((uint32_t*)NVIC_ISER0) |= 1<<30;
 
 
 

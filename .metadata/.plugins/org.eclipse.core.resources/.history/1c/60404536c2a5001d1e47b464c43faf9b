@@ -70,8 +70,8 @@ int main(void)
 	*RCC_APB1ENR |= (1<< 21);
 
 	//Enable interupts for EXTI (button presses) and timers
-	//*((uint32_t*)NVIC_ISER0) |= 1<<6;
-	//*((uint32_t*)NVIC_ISER0) |= 1<<7;
+	*((uint32_t*)NVIC_ISER0) |= 1<<6;
+	*((uint32_t*)NVIC_ISER0) |= 1<<7;
 	*((uint32_t*)NVIC_ISER0) |= 1<<29;
 	*((uint32_t*)NVIC_ISER0) |= 1<<30;
 
