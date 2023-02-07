@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="timeSet"/>
+		<item key="selection" value="3"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="true"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="3"/>
+			<item value="2"/>
 			<item value="timeSet"/>
 			<item value="loadedData"/>
 			<item value="data"/>
@@ -21,6 +23,8 @@
 			<item value="address"/>
 		</list>
 		<list key="replacehistory">
+			<item value="4"/>
+			<item value="3"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">

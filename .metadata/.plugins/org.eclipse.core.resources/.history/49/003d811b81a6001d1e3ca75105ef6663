@@ -1,0 +1,45 @@
+/*
+ * button.c
+ *
+ *  Created on: 6/02/2023
+ *      Author: tomed
+ */
+
+
+#include "clocksettings.h"
+
+
+void buttons_intalize(void)
+{
+	//Configrue the GPIO ports of the button.
+	//B0 contains mode change button and B1 is set button
+	//These need to be set to input pull down
+	GPIOB->CRL &= ~(0xF << 0);
+	GPIOB->CRL |= (0x8 << 0);
+	GPIOB->CRL &= ~(0xF << 4);
+	GPIOB->CRL |= (0x8 << 4);
+
+	//Enable interupts to occur on button press
+
+	//Configure AFIO line so EXTI0 & 1 is on Port B
+	uint32_t *AFIO_EXTICR1 =  (uint32_t *)(0x40010008);
+	*AFIO_EXTICR1 |= (1<< 0);
+	*AFIO_EXTICR1 |= (1<< 4);
+
+	//Enable the EXTI by demasking the line and setting the trigger on rising edge
+	uint32_t *EXTI_IMR =  (uint32_t *)(0x40010400);
+	uint32_t *EXTI_RTSR =  (uint32_t *)(0x40010408);
+	*EXTI_IMR |= (1<< 0);
+	*EXTI_RTSR |= (1<< 0);
+	*EXTI_IMR |= (1<< 1);
+	*EXTI_RTSR |= (1<< 1);
+
+	//Configure the timer that handles long / short press
+	//Timer 1 is used by mode button and 2 by set button
+	//Set the PSC value (this equates to the timer incrementig every 1ms)
+	TIM1->PSC |= (8000-1);
+	TIM2->PSC |= (8000-1);
+	//Enable the timers
+	TIM1->CR1 |= 1;
+	TIM2->CR1 |= 1;
+}

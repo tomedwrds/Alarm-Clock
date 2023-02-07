@@ -72,7 +72,7 @@ void LED_NUM_3_SET_8(void);
 void LED_NUM_3_SET_9(void);
 
 
-void LED_NUM_4_CLEAR(void);
+#define LED_NUM_4_CLEAR()
 #define LED_NUM_4_0_ENABLE() 	(GPIOA->ODR |= 1)
 #define LED_NUM_4_1_ENABLE() 	(GPIOA->ODR |= 1 << 1)
 #define LED_NUM_4_2_ENABLE() 	(GPIOA->ODR |= 1 << 2)
