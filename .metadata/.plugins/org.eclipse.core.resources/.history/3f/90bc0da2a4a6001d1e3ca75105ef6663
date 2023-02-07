@@ -157,35 +157,6 @@ int main(void)
 			alarmClockState ++;
 			alarmClockState %= 4;
 			alarmClockSetNum = 0;
-
-			if(alarmClockState == ALARM_CLOCK_ALARM || alarmClockState == ALARM_CLOCK_SET_ALARM)
-			{
-				uint8_t hoursTen,hoursOne,minsTen,minsOne;
-				hoursTen = alarm_time.hours / 10;
-				hoursOne = alarm_time.hours % 10;
-				minsTen = alarm_time.minutes / 10;
-				minsOne = alarm_time.minutes % 10;
-
-				//Set the LEDS to display the numbers
-				(*NUM_1_SET[hoursTen])();
-				(*NUM_2_SET[hoursOne])();
-				(*NUM_3_SET[minsTen])();
-				(*NUM_4_SET[minsOne])();
-			}
-			else if(alarmClockState == ALARM_CLOCK_NO_ALARM || alarmClockState == ALARM_CLOCK_SET)
-			{
-				uint8_t hoursTen,hoursOne,minsTen,minsOne;
-				hoursTen = current_time.hours / 10;
-				hoursOne = current_time.hours % 10;
-				minsTen = current_time.minutes / 10;
-				minsOne = current_time.minutes % 10;
-
-				//Set the LEDS to display the numbers
-				(*NUM_1_SET[hoursTen])();
-				(*NUM_2_SET[hoursOne])();
-				(*NUM_3_SET[minsTen])();
-				(*NUM_4_SET[minsOne])();
-			}
 		}
 
 
@@ -202,7 +173,6 @@ int main(void)
 				//Change the selected number
 				alarmClockSetNum ++;
 				alarmClockSetNum %= 5;
-
 
 
 
@@ -286,23 +256,25 @@ void TIM3_IRQHandler(void)
 		ds1307_get_current_time(&current_time);
 
 
-	}
+		//Update the displayed LEDs
+		//We only need to do this in the case we are viewing the time
+		if(alarmClockState == ALARM_CLOCK_NO_ALARM)
+		{
+			uint8_t hoursTen,hoursOne,minsTen,minsOne;
+			hoursTen = current_time.hours / 10;
+			hoursOne = current_time.hours % 10;
+			minsTen = current_time.minutes / 10;
+			minsOne = current_time.minutes % 10;
 
-	//Update the displayed LEDs
-	//We only need to do this in the case we are viewing the time
-	if(alarmClockState == ALARM_CLOCK_NO_ALARM)
-	{
-		uint8_t hoursTen,hoursOne,minsTen,minsOne;
-		hoursTen = current_time.hours / 10;
-		hoursOne = current_time.hours % 10;
-		minsTen = current_time.minutes / 10;
-		minsOne = current_time.minutes % 10;
+			//Set the LEDS to display the numbers
+			(*NUM_1_SET[hoursTen])();
+			(*NUM_2_SET[hoursOne])();
+			(*NUM_3_SET[minsTen])();
+			(*NUM_4_SET[minsOne])();
+		}
 
-		//Set the LEDS to display the numbers
-		(*NUM_1_SET[hoursTen])();
-		(*NUM_2_SET[hoursOne])();
-		(*NUM_3_SET[minsTen])();
-		(*NUM_4_SET[minsOne])();
+
+
 	}
 
 	//Handle the checking of alarms by comparing all time values between the two clocks

@@ -5,45 +5,45 @@ Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
   0 .isr_vector   00000130  08000000  08000000  00010000  2**0
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  1 .text         000019b0  08000130  08000130  00010130  2**2
+  1 .text         00001bf0  08000130  08000130  00010130  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .rodata       00000000  08001ae0  08001ae0  00020084  2**0
+  2 .rodata       00000000  08001d20  08001d20  00020084  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  3 .ARM.extab    00000000  08001ae0  08001ae0  00020084  2**0
+  3 .ARM.extab    00000000  08001d20  08001d20  00020084  2**0
                   CONTENTS
-  4 .ARM          00000000  08001ae0  08001ae0  00020084  2**0
+  4 .ARM          00000000  08001d20  08001d20  00020084  2**0
                   CONTENTS
-  5 .preinit_array 00000000  08001ae0  08001ae0  00020084  2**0
+  5 .preinit_array 00000000  08001d20  08001d20  00020084  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  6 .init_array   00000004  08001ae0  08001ae0  00011ae0  2**2
+  6 .init_array   00000004  08001d20  08001d20  00011d20  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  7 .fini_array   00000004  08001ae4  08001ae4  00011ae4  2**2
+  7 .fini_array   00000004  08001d24  08001d24  00011d24  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  8 .data         00000084  20000000  08001ae8  00020000  2**2
+  8 .data         00000084  20000000  08001d28  00020000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .bss          00000038  20000084  08001b6c  00020084  2**2
+  9 .bss          00000038  20000084  08001dac  00020084  2**2
                   ALLOC
- 10 ._user_heap_stack 00000604  200000bc  08001b6c  000200bc  2**0
+ 10 ._user_heap_stack 00000604  200000bc  08001dac  000200bc  2**0
                   ALLOC
  11 .ARM.attributes 00000029  00000000  00000000  00020084  2**0
                   CONTENTS, READONLY
- 12 .debug_info   0000104e  00000000  00000000  000200ad  2**0
+ 12 .debug_info   00001106  00000000  00000000  000200ad  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 000004c3  00000000  00000000  000210fb  2**0
+ 13 .debug_abbrev 000004c3  00000000  00000000  000211b3  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 00000218  00000000  00000000  000215c0  2**3
+ 14 .debug_aranges 00000218  00000000  00000000  00021678  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_ranges 000001d0  00000000  00000000  000217d8  2**3
+ 15 .debug_ranges 000001d0  00000000  00000000  00021890  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  000025c3  00000000  00000000  000219a8  2**0
+ 16 .debug_macro  000025c3  00000000  00000000  00021a60  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   00002187  00000000  00000000  00023f6b  2**0
+ 17 .debug_line   00002249  00000000  00000000  00024023  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    0000883f  00000000  00000000  000260f2  2**0
+ 18 .debug_str    0000883f  00000000  00000000  0002626c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000050  00000000  00000000  0002e931  2**0
+ 19 .comment      00000050  00000000  00000000  0002eaab  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  000006e4  00000000  00000000  0002e984  2**2
+ 20 .debug_frame  000006e4  00000000  00000000  0002eafc  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -62,7 +62,7 @@ Disassembly of section .text:
  8000146:	bd10      	pop	{r4, pc}
  8000148:	20000084 	.word	0x20000084
  800014c:	00000000 	.word	0x00000000
- 8000150:	08001ac8 	.word	0x08001ac8
+ 8000150:	08001d08 	.word	0x08001d08
 
 08000154 <frame_dummy>:
  8000154:	b508      	push	{r3, lr}
@@ -74,7 +74,7 @@ Disassembly of section .text:
  8000162:	bd08      	pop	{r3, pc}
  8000164:	00000000 	.word	0x00000000
  8000168:	20000088 	.word	0x20000088
- 800016c:	08001ac8 	.word	0x08001ac8
+ 800016c:	08001d08 	.word	0x08001d08
 
 08000170 <LED_Initalize>:
 #include "alarmled.h"
@@ -1958,99 +1958,99 @@ void buttons_intalize(void)
 int main(void)
 {
  8000eec:	b580      	push	{r7, lr}
- 8000eee:	b082      	sub	sp, #8
+ 8000eee:	b086      	sub	sp, #24
  8000ef0:	af00      	add	r7, sp, #0
 
 
     /* Loop forever */
 	uint32_t *RCC_APB2ENR = (uint32_t *)(0x40021018);
- 8000ef2:	4b9b      	ldr	r3, [pc, #620]	; (8001160 <main+0x274>)
- 8000ef4:	607b      	str	r3, [r7, #4]
+ 8000ef2:	4b92      	ldr	r3, [pc, #584]	; (800113c <main+0x250>)
+ 8000ef4:	617b      	str	r3, [r7, #20]
 	uint32_t *RCC_APB1ENR = (uint32_t *)(0x4002101C);
- 8000ef6:	4b9b      	ldr	r3, [pc, #620]	; (8001164 <main+0x278>)
- 8000ef8:	603b      	str	r3, [r7, #0]
+ 8000ef6:	4b92      	ldr	r3, [pc, #584]	; (8001140 <main+0x254>)
+ 8000ef8:	613b      	str	r3, [r7, #16]
 
 
 	//Enable clock on GPIOA, GPIOB, GPIOC AFIO,TIM1,TIM2,TIM3,TIM4 and I2C1
 
 	*RCC_APB2ENR |= (1 << 0);
- 8000efa:	687b      	ldr	r3, [r7, #4]
+ 8000efa:	697b      	ldr	r3, [r7, #20]
  8000efc:	681b      	ldr	r3, [r3, #0]
  8000efe:	f043 0201 	orr.w	r2, r3, #1
- 8000f02:	687b      	ldr	r3, [r7, #4]
+ 8000f02:	697b      	ldr	r3, [r7, #20]
  8000f04:	601a      	str	r2, [r3, #0]
 	*RCC_APB2ENR |= (1 << 2);
- 8000f06:	687b      	ldr	r3, [r7, #4]
+ 8000f06:	697b      	ldr	r3, [r7, #20]
  8000f08:	681b      	ldr	r3, [r3, #0]
  8000f0a:	f043 0204 	orr.w	r2, r3, #4
- 8000f0e:	687b      	ldr	r3, [r7, #4]
+ 8000f0e:	697b      	ldr	r3, [r7, #20]
  8000f10:	601a      	str	r2, [r3, #0]
 	*RCC_APB2ENR |= (1 << 3);
- 8000f12:	687b      	ldr	r3, [r7, #4]
+ 8000f12:	697b      	ldr	r3, [r7, #20]
  8000f14:	681b      	ldr	r3, [r3, #0]
  8000f16:	f043 0208 	orr.w	r2, r3, #8
- 8000f1a:	687b      	ldr	r3, [r7, #4]
+ 8000f1a:	697b      	ldr	r3, [r7, #20]
  8000f1c:	601a      	str	r2, [r3, #0]
 	*RCC_APB2ENR |= (1 << 4);
- 8000f1e:	687b      	ldr	r3, [r7, #4]
+ 8000f1e:	697b      	ldr	r3, [r7, #20]
  8000f20:	681b      	ldr	r3, [r3, #0]
  8000f22:	f043 0210 	orr.w	r2, r3, #16
- 8000f26:	687b      	ldr	r3, [r7, #4]
+ 8000f26:	697b      	ldr	r3, [r7, #20]
  8000f28:	601a      	str	r2, [r3, #0]
 	*RCC_APB2ENR |= (1<< 11);
- 8000f2a:	687b      	ldr	r3, [r7, #4]
+ 8000f2a:	697b      	ldr	r3, [r7, #20]
  8000f2c:	681b      	ldr	r3, [r3, #0]
  8000f2e:	f443 6200 	orr.w	r2, r3, #2048	; 0x800
- 8000f32:	687b      	ldr	r3, [r7, #4]
+ 8000f32:	697b      	ldr	r3, [r7, #20]
  8000f34:	601a      	str	r2, [r3, #0]
 	*RCC_APB1ENR |= (1<< 0);
- 8000f36:	683b      	ldr	r3, [r7, #0]
+ 8000f36:	693b      	ldr	r3, [r7, #16]
  8000f38:	681b      	ldr	r3, [r3, #0]
  8000f3a:	f043 0201 	orr.w	r2, r3, #1
- 8000f3e:	683b      	ldr	r3, [r7, #0]
+ 8000f3e:	693b      	ldr	r3, [r7, #16]
  8000f40:	601a      	str	r2, [r3, #0]
 	*RCC_APB1ENR |= (1<< 1);
- 8000f42:	683b      	ldr	r3, [r7, #0]
+ 8000f42:	693b      	ldr	r3, [r7, #16]
  8000f44:	681b      	ldr	r3, [r3, #0]
  8000f46:	f043 0202 	orr.w	r2, r3, #2
- 8000f4a:	683b      	ldr	r3, [r7, #0]
+ 8000f4a:	693b      	ldr	r3, [r7, #16]
  8000f4c:	601a      	str	r2, [r3, #0]
 	*RCC_APB1ENR |= (1<< 2);
- 8000f4e:	683b      	ldr	r3, [r7, #0]
+ 8000f4e:	693b      	ldr	r3, [r7, #16]
  8000f50:	681b      	ldr	r3, [r3, #0]
  8000f52:	f043 0204 	orr.w	r2, r3, #4
- 8000f56:	683b      	ldr	r3, [r7, #0]
+ 8000f56:	693b      	ldr	r3, [r7, #16]
  8000f58:	601a      	str	r2, [r3, #0]
 	*RCC_APB1ENR |= (1<< 21);
- 8000f5a:	683b      	ldr	r3, [r7, #0]
+ 8000f5a:	693b      	ldr	r3, [r7, #16]
  8000f5c:	681b      	ldr	r3, [r3, #0]
  8000f5e:	f443 1200 	orr.w	r2, r3, #2097152	; 0x200000
- 8000f62:	683b      	ldr	r3, [r7, #0]
+ 8000f62:	693b      	ldr	r3, [r7, #16]
  8000f64:	601a      	str	r2, [r3, #0]
 
 	//Enable interupts for EXTI (button presses) and timers
 	*((uint32_t*)NVIC_ISER0) |= 1<<6;
- 8000f66:	4b80      	ldr	r3, [pc, #512]	; (8001168 <main+0x27c>)
+ 8000f66:	4b77      	ldr	r3, [pc, #476]	; (8001144 <main+0x258>)
  8000f68:	681b      	ldr	r3, [r3, #0]
- 8000f6a:	4a7f      	ldr	r2, [pc, #508]	; (8001168 <main+0x27c>)
+ 8000f6a:	4a76      	ldr	r2, [pc, #472]	; (8001144 <main+0x258>)
  8000f6c:	f043 0340 	orr.w	r3, r3, #64	; 0x40
  8000f70:	6013      	str	r3, [r2, #0]
 	*((uint32_t*)NVIC_ISER0) |= 1<<7;
- 8000f72:	4b7d      	ldr	r3, [pc, #500]	; (8001168 <main+0x27c>)
+ 8000f72:	4b74      	ldr	r3, [pc, #464]	; (8001144 <main+0x258>)
  8000f74:	681b      	ldr	r3, [r3, #0]
- 8000f76:	4a7c      	ldr	r2, [pc, #496]	; (8001168 <main+0x27c>)
+ 8000f76:	4a73      	ldr	r2, [pc, #460]	; (8001144 <main+0x258>)
  8000f78:	f043 0380 	orr.w	r3, r3, #128	; 0x80
  8000f7c:	6013      	str	r3, [r2, #0]
 	*((uint32_t*)NVIC_ISER0) |= 1<<29;
- 8000f7e:	4b7a      	ldr	r3, [pc, #488]	; (8001168 <main+0x27c>)
+ 8000f7e:	4b71      	ldr	r3, [pc, #452]	; (8001144 <main+0x258>)
  8000f80:	681b      	ldr	r3, [r3, #0]
- 8000f82:	4a79      	ldr	r2, [pc, #484]	; (8001168 <main+0x27c>)
+ 8000f82:	4a70      	ldr	r2, [pc, #448]	; (8001144 <main+0x258>)
  8000f84:	f043 5300 	orr.w	r3, r3, #536870912	; 0x20000000
  8000f88:	6013      	str	r3, [r2, #0]
 	*((uint32_t*)NVIC_ISER0) |= 1<<30;
- 8000f8a:	4b77      	ldr	r3, [pc, #476]	; (8001168 <main+0x27c>)
+ 8000f8a:	4b6e      	ldr	r3, [pc, #440]	; (8001144 <main+0x258>)
  8000f8c:	681b      	ldr	r3, [r3, #0]
- 8000f8e:	4a76      	ldr	r2, [pc, #472]	; (8001168 <main+0x27c>)
+ 8000f8e:	4a6d      	ldr	r2, [pc, #436]	; (8001144 <main+0x258>)
  8000f90:	f043 4380 	orr.w	r3, r3, #1073741824	; 0x40000000
  8000f94:	6013      	str	r3, [r2, #0]
 
@@ -2064,32 +2064,32 @@ int main(void)
 //	LED_NUM_2_SET_9();
 //
 	TIM4->PSC |= (8000-1);
- 8000f9a:	4b74      	ldr	r3, [pc, #464]	; (800116c <main+0x280>)
+ 8000f9a:	4b6b      	ldr	r3, [pc, #428]	; (8001148 <main+0x25c>)
  8000f9c:	6a9b      	ldr	r3, [r3, #40]	; 0x28
- 8000f9e:	4a73      	ldr	r2, [pc, #460]	; (800116c <main+0x280>)
+ 8000f9e:	4a6a      	ldr	r2, [pc, #424]	; (8001148 <main+0x25c>)
  8000fa0:	f443 53f9 	orr.w	r3, r3, #7968	; 0x1f20
  8000fa4:	f043 031f 	orr.w	r3, r3, #31
  8000fa8:	6293      	str	r3, [r2, #40]	; 0x28
 	TIM4->ARR = (1000-1);
- 8000faa:	4b70      	ldr	r3, [pc, #448]	; (800116c <main+0x280>)
+ 8000faa:	4b67      	ldr	r3, [pc, #412]	; (8001148 <main+0x25c>)
  8000fac:	f240 32e7 	movw	r2, #999	; 0x3e7
  8000fb0:	62da      	str	r2, [r3, #44]	; 0x2c
 	TIM4->DIER |= 1;
- 8000fb2:	4b6e      	ldr	r3, [pc, #440]	; (800116c <main+0x280>)
+ 8000fb2:	4b65      	ldr	r3, [pc, #404]	; (8001148 <main+0x25c>)
  8000fb4:	68db      	ldr	r3, [r3, #12]
- 8000fb6:	4a6d      	ldr	r2, [pc, #436]	; (800116c <main+0x280>)
+ 8000fb6:	4a64      	ldr	r2, [pc, #400]	; (8001148 <main+0x25c>)
  8000fb8:	f043 0301 	orr.w	r3, r3, #1
  8000fbc:	60d3      	str	r3, [r2, #12]
 	TIM4->CR1 |= 1 << 2;
- 8000fbe:	4b6b      	ldr	r3, [pc, #428]	; (800116c <main+0x280>)
+ 8000fbe:	4b62      	ldr	r3, [pc, #392]	; (8001148 <main+0x25c>)
  8000fc0:	681b      	ldr	r3, [r3, #0]
- 8000fc2:	4a6a      	ldr	r2, [pc, #424]	; (800116c <main+0x280>)
+ 8000fc2:	4a61      	ldr	r2, [pc, #388]	; (8001148 <main+0x25c>)
  8000fc4:	f043 0304 	orr.w	r3, r3, #4
  8000fc8:	6013      	str	r3, [r2, #0]
 	TIM4->CR1 |= 1;
- 8000fca:	4b68      	ldr	r3, [pc, #416]	; (800116c <main+0x280>)
+ 8000fca:	4b5f      	ldr	r3, [pc, #380]	; (8001148 <main+0x25c>)
  8000fcc:	681b      	ldr	r3, [r3, #0]
- 8000fce:	4a67      	ldr	r2, [pc, #412]	; (800116c <main+0x280>)
+ 8000fce:	4a5e      	ldr	r2, [pc, #376]	; (8001148 <main+0x25c>)
  8000fd0:	f043 0301 	orr.w	r3, r3, #1
  8000fd4:	6013      	str	r3, [r2, #0]
 
@@ -2099,86 +2099,86 @@ int main(void)
 
 	//Configure and intalize the i2c peripheal to send data
 	I2C_initalize();
- 8000fda:	f000 fce3 	bl	80019a4 <I2C_initalize>
+ 8000fda:	f000 fe03 	bl	8001be4 <I2C_initalize>
 
 
 	//Make clock halt = 0 in DS peripheal
 	ds1307_write(0x0, DS1307_ADDR_SEC);
  8000fde:	2100      	movs	r1, #0
  8000fe0:	2000      	movs	r0, #0
- 8000fe2:	f000 fb45 	bl	8001670 <ds1307_write>
+ 8000fe2:	f000 fc65 	bl	80018b0 <ds1307_write>
 
 
 	//Set the default values of the clock and alarm
 	current_time.seconds = 0;
- 8000fe6:	4b62      	ldr	r3, [pc, #392]	; (8001170 <main+0x284>)
+ 8000fe6:	4b59      	ldr	r3, [pc, #356]	; (800114c <main+0x260>)
  8000fe8:	2200      	movs	r2, #0
  8000fea:	701a      	strb	r2, [r3, #0]
 	current_time.minutes = 0;
- 8000fec:	4b60      	ldr	r3, [pc, #384]	; (8001170 <main+0x284>)
+ 8000fec:	4b57      	ldr	r3, [pc, #348]	; (800114c <main+0x260>)
  8000fee:	2200      	movs	r2, #0
  8000ff0:	705a      	strb	r2, [r3, #1]
 	current_time.hours = 12;
- 8000ff2:	4b5f      	ldr	r3, [pc, #380]	; (8001170 <main+0x284>)
+ 8000ff2:	4b56      	ldr	r3, [pc, #344]	; (800114c <main+0x260>)
  8000ff4:	220c      	movs	r2, #12
  8000ff6:	709a      	strb	r2, [r3, #2]
 	current_time.time_format = TIME_FORMAT_12HRS_PM;
- 8000ff8:	4b5d      	ldr	r3, [pc, #372]	; (8001170 <main+0x284>)
+ 8000ff8:	4b54      	ldr	r3, [pc, #336]	; (800114c <main+0x260>)
  8000ffa:	2201      	movs	r2, #1
  8000ffc:	70da      	strb	r2, [r3, #3]
 
 	alarm_time.seconds = 0;
- 8000ffe:	4b5d      	ldr	r3, [pc, #372]	; (8001174 <main+0x288>)
+ 8000ffe:	4b54      	ldr	r3, [pc, #336]	; (8001150 <main+0x264>)
  8001000:	2200      	movs	r2, #0
  8001002:	701a      	strb	r2, [r3, #0]
 	alarm_time.minutes = 0;
- 8001004:	4b5b      	ldr	r3, [pc, #364]	; (8001174 <main+0x288>)
+ 8001004:	4b52      	ldr	r3, [pc, #328]	; (8001150 <main+0x264>)
  8001006:	2200      	movs	r2, #0
  8001008:	705a      	strb	r2, [r3, #1]
 	alarm_time.hours = 12;
- 800100a:	4b5a      	ldr	r3, [pc, #360]	; (8001174 <main+0x288>)
+ 800100a:	4b51      	ldr	r3, [pc, #324]	; (8001150 <main+0x264>)
  800100c:	220c      	movs	r2, #12
  800100e:	709a      	strb	r2, [r3, #2]
 	alarm_time.time_format = TIME_FORMAT_12HRS_PM;
- 8001010:	4b58      	ldr	r3, [pc, #352]	; (8001174 <main+0x288>)
+ 8001010:	4b4f      	ldr	r3, [pc, #316]	; (8001150 <main+0x264>)
  8001012:	2201      	movs	r2, #1
  8001014:	70da      	strb	r2, [r3, #3]
 
 	//Set user updated time to true so the values are passed into the rtc module
 	userUpdatedTime = USER_UPDATED_TIME;
- 8001016:	4b58      	ldr	r3, [pc, #352]	; (8001178 <main+0x28c>)
+ 8001016:	4b4f      	ldr	r3, [pc, #316]	; (8001154 <main+0x268>)
  8001018:	2201      	movs	r2, #1
  800101a:	701a      	strb	r2, [r3, #0]
 
 
 	//Enable the timer that controls the interaction between the mcu and the rtc
 	TIM3->PSC |= (8000-1);
- 800101c:	4b57      	ldr	r3, [pc, #348]	; (800117c <main+0x290>)
+ 800101c:	4b4e      	ldr	r3, [pc, #312]	; (8001158 <main+0x26c>)
  800101e:	6a9b      	ldr	r3, [r3, #40]	; 0x28
- 8001020:	4a56      	ldr	r2, [pc, #344]	; (800117c <main+0x290>)
+ 8001020:	4a4d      	ldr	r2, [pc, #308]	; (8001158 <main+0x26c>)
  8001022:	f443 53f9 	orr.w	r3, r3, #7968	; 0x1f20
  8001026:	f043 031f 	orr.w	r3, r3, #31
  800102a:	6293      	str	r3, [r2, #40]	; 0x28
-	TIM3->ARR = (8000-1);
- 800102c:	4b53      	ldr	r3, [pc, #332]	; (800117c <main+0x290>)
- 800102e:	f641 723f 	movw	r2, #7999	; 0x1f3f
+	TIM3->ARR = (40000-1);
+ 800102c:	4b4a      	ldr	r3, [pc, #296]	; (8001158 <main+0x26c>)
+ 800102e:	f649 423f 	movw	r2, #39999	; 0x9c3f
  8001032:	62da      	str	r2, [r3, #44]	; 0x2c
 	TIM3->DIER |= 1;
- 8001034:	4b51      	ldr	r3, [pc, #324]	; (800117c <main+0x290>)
+ 8001034:	4b48      	ldr	r3, [pc, #288]	; (8001158 <main+0x26c>)
  8001036:	68db      	ldr	r3, [r3, #12]
- 8001038:	4a50      	ldr	r2, [pc, #320]	; (800117c <main+0x290>)
+ 8001038:	4a47      	ldr	r2, [pc, #284]	; (8001158 <main+0x26c>)
  800103a:	f043 0301 	orr.w	r3, r3, #1
  800103e:	60d3      	str	r3, [r2, #12]
 	TIM3->CR1 |= 1 << 2;
- 8001040:	4b4e      	ldr	r3, [pc, #312]	; (800117c <main+0x290>)
+ 8001040:	4b45      	ldr	r3, [pc, #276]	; (8001158 <main+0x26c>)
  8001042:	681b      	ldr	r3, [r3, #0]
- 8001044:	4a4d      	ldr	r2, [pc, #308]	; (800117c <main+0x290>)
+ 8001044:	4a44      	ldr	r2, [pc, #272]	; (8001158 <main+0x26c>)
  8001046:	f043 0304 	orr.w	r3, r3, #4
  800104a:	6013      	str	r3, [r2, #0]
 	TIM3->CR1 |= 1;
- 800104c:	4b4b      	ldr	r3, [pc, #300]	; (800117c <main+0x290>)
+ 800104c:	4b42      	ldr	r3, [pc, #264]	; (8001158 <main+0x26c>)
  800104e:	681b      	ldr	r3, [r3, #0]
- 8001050:	4a4a      	ldr	r2, [pc, #296]	; (800117c <main+0x290>)
+ 8001050:	4a41      	ldr	r2, [pc, #260]	; (8001158 <main+0x26c>)
  8001052:	f043 0301 	orr.w	r3, r3, #1
  8001056:	6013      	str	r3, [r2, #0]
 
@@ -2186,1755 +2186,2056 @@ int main(void)
 	{
 
 		//Handle mode swithching of alarm clock
-		if(!(GPIOB->IDR & 1) && !buttonModeProcessed && ((TIM1->CNT - buttonModeLastDebounceTime) > 250) && buttonModeLastDebounceTime != 0)
- 8001058:	4b49      	ldr	r3, [pc, #292]	; (8001180 <main+0x294>)
+		if(!(GPIOB->IDR & 1) && !buttonModeProcessed && ((TIM1->CNT - buttonModeLastDebounceTime) > 50) && buttonModeLastDebounceTime != 0)
+ 8001058:	4b40      	ldr	r3, [pc, #256]	; (800115c <main+0x270>)
  800105a:	689b      	ldr	r3, [r3, #8]
  800105c:	f003 0301 	and.w	r3, r3, #1
  8001060:	2b00      	cmp	r3, #0
- 8001062:	d124      	bne.n	80010ae <main+0x1c2>
- 8001064:	4b47      	ldr	r3, [pc, #284]	; (8001184 <main+0x298>)
- 8001066:	681b      	ldr	r3, [r3, #0]
- 8001068:	2b00      	cmp	r3, #0
- 800106a:	d120      	bne.n	80010ae <main+0x1c2>
- 800106c:	4b46      	ldr	r3, [pc, #280]	; (8001188 <main+0x29c>)
- 800106e:	6a5a      	ldr	r2, [r3, #36]	; 0x24
- 8001070:	4b46      	ldr	r3, [pc, #280]	; (800118c <main+0x2a0>)
- 8001072:	681b      	ldr	r3, [r3, #0]
- 8001074:	1ad3      	subs	r3, r2, r3
- 8001076:	2bfa      	cmp	r3, #250	; 0xfa
- 8001078:	d919      	bls.n	80010ae <main+0x1c2>
- 800107a:	4b44      	ldr	r3, [pc, #272]	; (800118c <main+0x2a0>)
- 800107c:	681b      	ldr	r3, [r3, #0]
- 800107e:	2b00      	cmp	r3, #0
- 8001080:	d015      	beq.n	80010ae <main+0x1c2>
+ 8001062:	f040 80d3 	bne.w	800120c <main+0x320>
+ 8001066:	4b3e      	ldr	r3, [pc, #248]	; (8001160 <main+0x274>)
+ 8001068:	681b      	ldr	r3, [r3, #0]
+ 800106a:	2b00      	cmp	r3, #0
+ 800106c:	f040 80ce 	bne.w	800120c <main+0x320>
+ 8001070:	4b3c      	ldr	r3, [pc, #240]	; (8001164 <main+0x278>)
+ 8001072:	6a5a      	ldr	r2, [r3, #36]	; 0x24
+ 8001074:	4b3c      	ldr	r3, [pc, #240]	; (8001168 <main+0x27c>)
+ 8001076:	681b      	ldr	r3, [r3, #0]
+ 8001078:	1ad3      	subs	r3, r2, r3
+ 800107a:	2b32      	cmp	r3, #50	; 0x32
+ 800107c:	f240 80c6 	bls.w	800120c <main+0x320>
+ 8001080:	4b39      	ldr	r3, [pc, #228]	; (8001168 <main+0x27c>)
+ 8001082:	681b      	ldr	r3, [r3, #0]
+ 8001084:	2b00      	cmp	r3, #0
+ 8001086:	f000 80c1 	beq.w	800120c <main+0x320>
 		{
 			//Process the button press
 			buttonModeProcessed = 1;
- 8001082:	4b40      	ldr	r3, [pc, #256]	; (8001184 <main+0x298>)
- 8001084:	2201      	movs	r2, #1
- 8001086:	601a      	str	r2, [r3, #0]
+ 800108a:	4b35      	ldr	r3, [pc, #212]	; (8001160 <main+0x274>)
+ 800108c:	2201      	movs	r2, #1
+ 800108e:	601a      	str	r2, [r3, #0]
 			buttonModeLastDebounceTime = 0;
- 8001088:	4b40      	ldr	r3, [pc, #256]	; (800118c <main+0x2a0>)
- 800108a:	2200      	movs	r2, #0
- 800108c:	601a      	str	r2, [r3, #0]
+ 8001090:	4b35      	ldr	r3, [pc, #212]	; (8001168 <main+0x27c>)
+ 8001092:	2200      	movs	r2, #0
+ 8001094:	601a      	str	r2, [r3, #0]
 
 			//Change the alarm clock state
 			alarmClockState ++;
- 800108e:	4b40      	ldr	r3, [pc, #256]	; (8001190 <main+0x2a4>)
- 8001090:	781b      	ldrb	r3, [r3, #0]
- 8001092:	3301      	adds	r3, #1
- 8001094:	b2da      	uxtb	r2, r3
- 8001096:	4b3e      	ldr	r3, [pc, #248]	; (8001190 <main+0x2a4>)
- 8001098:	701a      	strb	r2, [r3, #0]
+ 8001096:	4b35      	ldr	r3, [pc, #212]	; (800116c <main+0x280>)
+ 8001098:	781b      	ldrb	r3, [r3, #0]
+ 800109a:	3301      	adds	r3, #1
+ 800109c:	b2da      	uxtb	r2, r3
+ 800109e:	4b33      	ldr	r3, [pc, #204]	; (800116c <main+0x280>)
+ 80010a0:	701a      	strb	r2, [r3, #0]
 			alarmClockState %= 4;
- 800109a:	4b3d      	ldr	r3, [pc, #244]	; (8001190 <main+0x2a4>)
- 800109c:	781b      	ldrb	r3, [r3, #0]
- 800109e:	f003 0303 	and.w	r3, r3, #3
- 80010a2:	b2da      	uxtb	r2, r3
- 80010a4:	4b3a      	ldr	r3, [pc, #232]	; (8001190 <main+0x2a4>)
- 80010a6:	701a      	strb	r2, [r3, #0]
+ 80010a2:	4b32      	ldr	r3, [pc, #200]	; (800116c <main+0x280>)
+ 80010a4:	781b      	ldrb	r3, [r3, #0]
+ 80010a6:	f003 0303 	and.w	r3, r3, #3
+ 80010aa:	b2da      	uxtb	r2, r3
+ 80010ac:	4b2f      	ldr	r3, [pc, #188]	; (800116c <main+0x280>)
+ 80010ae:	701a      	strb	r2, [r3, #0]
 			alarmClockSetNum = 0;
- 80010a8:	4b3a      	ldr	r3, [pc, #232]	; (8001194 <main+0x2a8>)
- 80010aa:	2200      	movs	r2, #0
- 80010ac:	701a      	strb	r2, [r3, #0]
+ 80010b0:	4b2f      	ldr	r3, [pc, #188]	; (8001170 <main+0x284>)
+ 80010b2:	2200      	movs	r2, #0
+ 80010b4:	701a      	strb	r2, [r3, #0]
+
+			if(alarmClockState == ALARM_CLOCK_ALARM || alarmClockState == ALARM_CLOCK_SET_ALARM)
+ 80010b6:	4b2d      	ldr	r3, [pc, #180]	; (800116c <main+0x280>)
+ 80010b8:	781b      	ldrb	r3, [r3, #0]
+ 80010ba:	2b01      	cmp	r3, #1
+ 80010bc:	d003      	beq.n	80010c6 <main+0x1da>
+ 80010be:	4b2b      	ldr	r3, [pc, #172]	; (800116c <main+0x280>)
+ 80010c0:	781b      	ldrb	r3, [r3, #0]
+ 80010c2:	2b03      	cmp	r3, #3
+ 80010c4:	d160      	bne.n	8001188 <main+0x29c>
+			{
+				uint8_t hoursTen,hoursOne,minsTen,minsOne;
+				hoursTen = alarm_time.hours / 10;
+ 80010c6:	4b22      	ldr	r3, [pc, #136]	; (8001150 <main+0x264>)
+ 80010c8:	789b      	ldrb	r3, [r3, #2]
+ 80010ca:	4a2a      	ldr	r2, [pc, #168]	; (8001174 <main+0x288>)
+ 80010cc:	fba2 2303 	umull	r2, r3, r2, r3
+ 80010d0:	08db      	lsrs	r3, r3, #3
+ 80010d2:	72fb      	strb	r3, [r7, #11]
+				hoursOne = alarm_time.hours % 10;
+ 80010d4:	4b1e      	ldr	r3, [pc, #120]	; (8001150 <main+0x264>)
+ 80010d6:	789a      	ldrb	r2, [r3, #2]
+ 80010d8:	4b26      	ldr	r3, [pc, #152]	; (8001174 <main+0x288>)
+ 80010da:	fba3 1302 	umull	r1, r3, r3, r2
+ 80010de:	08d9      	lsrs	r1, r3, #3
+ 80010e0:	460b      	mov	r3, r1
+ 80010e2:	009b      	lsls	r3, r3, #2
+ 80010e4:	440b      	add	r3, r1
+ 80010e6:	005b      	lsls	r3, r3, #1
+ 80010e8:	1ad3      	subs	r3, r2, r3
+ 80010ea:	72bb      	strb	r3, [r7, #10]
+				minsTen = alarm_time.minutes / 10;
+ 80010ec:	4b18      	ldr	r3, [pc, #96]	; (8001150 <main+0x264>)
+ 80010ee:	785b      	ldrb	r3, [r3, #1]
+ 80010f0:	4a20      	ldr	r2, [pc, #128]	; (8001174 <main+0x288>)
+ 80010f2:	fba2 2303 	umull	r2, r3, r2, r3
+ 80010f6:	08db      	lsrs	r3, r3, #3
+ 80010f8:	727b      	strb	r3, [r7, #9]
+				minsOne = alarm_time.minutes % 10;
+ 80010fa:	4b15      	ldr	r3, [pc, #84]	; (8001150 <main+0x264>)
+ 80010fc:	785a      	ldrb	r2, [r3, #1]
+ 80010fe:	4b1d      	ldr	r3, [pc, #116]	; (8001174 <main+0x288>)
+ 8001100:	fba3 1302 	umull	r1, r3, r3, r2
+ 8001104:	08d9      	lsrs	r1, r3, #3
+ 8001106:	460b      	mov	r3, r1
+ 8001108:	009b      	lsls	r3, r3, #2
+ 800110a:	440b      	add	r3, r1
+ 800110c:	005b      	lsls	r3, r3, #1
+ 800110e:	1ad3      	subs	r3, r2, r3
+ 8001110:	723b      	strb	r3, [r7, #8]
+
+				//Set the LEDS to display the numbers
+				(*NUM_1_SET[hoursTen])();
+ 8001112:	7afb      	ldrb	r3, [r7, #11]
+ 8001114:	4a18      	ldr	r2, [pc, #96]	; (8001178 <main+0x28c>)
+ 8001116:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 800111a:	4798      	blx	r3
+				(*NUM_2_SET[hoursOne])();
+ 800111c:	7abb      	ldrb	r3, [r7, #10]
+ 800111e:	4a17      	ldr	r2, [pc, #92]	; (800117c <main+0x290>)
+ 8001120:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 8001124:	4798      	blx	r3
+				(*NUM_3_SET[minsTen])();
+ 8001126:	7a7b      	ldrb	r3, [r7, #9]
+ 8001128:	4a15      	ldr	r2, [pc, #84]	; (8001180 <main+0x294>)
+ 800112a:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 800112e:	4798      	blx	r3
+				(*NUM_4_SET[minsOne])();
+ 8001130:	7a3b      	ldrb	r3, [r7, #8]
+ 8001132:	4a14      	ldr	r2, [pc, #80]	; (8001184 <main+0x298>)
+ 8001134:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 8001138:	4798      	blx	r3
+			{
+ 800113a:	e067      	b.n	800120c <main+0x320>
+ 800113c:	40021018 	.word	0x40021018
+ 8001140:	4002101c 	.word	0x4002101c
+ 8001144:	e000e100 	.word	0xe000e100
+ 8001148:	40000800 	.word	0x40000800
+ 800114c:	200000a4 	.word	0x200000a4
+ 8001150:	200000a8 	.word	0x200000a8
+ 8001154:	200000a2 	.word	0x200000a2
+ 8001158:	40000400 	.word	0x40000400
+ 800115c:	40010c00 	.word	0x40010c00
+ 8001160:	200000ac 	.word	0x200000ac
+ 8001164:	40012c00 	.word	0x40012c00
+ 8001168:	200000b0 	.word	0x200000b0
+ 800116c:	200000a0 	.word	0x200000a0
+ 8001170:	200000a1 	.word	0x200000a1
+ 8001174:	cccccccd 	.word	0xcccccccd
+ 8001178:	20000004 	.word	0x20000004
+ 800117c:	2000000c 	.word	0x2000000c
+ 8001180:	20000034 	.word	0x20000034
+ 8001184:	2000005c 	.word	0x2000005c
+			}
+			else if(alarmClockState == ALARM_CLOCK_NO_ALARM || alarmClockState == ALARM_CLOCK_SET)
+ 8001188:	4b6b      	ldr	r3, [pc, #428]	; (8001338 <main+0x44c>)
+ 800118a:	781b      	ldrb	r3, [r3, #0]
+ 800118c:	2b00      	cmp	r3, #0
+ 800118e:	d003      	beq.n	8001198 <main+0x2ac>
+ 8001190:	4b69      	ldr	r3, [pc, #420]	; (8001338 <main+0x44c>)
+ 8001192:	781b      	ldrb	r3, [r3, #0]
+ 8001194:	2b02      	cmp	r3, #2
+ 8001196:	d139      	bne.n	800120c <main+0x320>
+			{
+				uint8_t hoursTen,hoursOne,minsTen,minsOne;
+				hoursTen = current_time.hours / 10;
+ 8001198:	4b68      	ldr	r3, [pc, #416]	; (800133c <main+0x450>)
+ 800119a:	789b      	ldrb	r3, [r3, #2]
+ 800119c:	4a68      	ldr	r2, [pc, #416]	; (8001340 <main+0x454>)
+ 800119e:	fba2 2303 	umull	r2, r3, r2, r3
+ 80011a2:	08db      	lsrs	r3, r3, #3
+ 80011a4:	73fb      	strb	r3, [r7, #15]
+				hoursOne = current_time.hours % 10;
+ 80011a6:	4b65      	ldr	r3, [pc, #404]	; (800133c <main+0x450>)
+ 80011a8:	789a      	ldrb	r2, [r3, #2]
+ 80011aa:	4b65      	ldr	r3, [pc, #404]	; (8001340 <main+0x454>)
+ 80011ac:	fba3 1302 	umull	r1, r3, r3, r2
+ 80011b0:	08d9      	lsrs	r1, r3, #3
+ 80011b2:	460b      	mov	r3, r1
+ 80011b4:	009b      	lsls	r3, r3, #2
+ 80011b6:	440b      	add	r3, r1
+ 80011b8:	005b      	lsls	r3, r3, #1
+ 80011ba:	1ad3      	subs	r3, r2, r3
+ 80011bc:	73bb      	strb	r3, [r7, #14]
+				minsTen = current_time.minutes / 10;
+ 80011be:	4b5f      	ldr	r3, [pc, #380]	; (800133c <main+0x450>)
+ 80011c0:	785b      	ldrb	r3, [r3, #1]
+ 80011c2:	4a5f      	ldr	r2, [pc, #380]	; (8001340 <main+0x454>)
+ 80011c4:	fba2 2303 	umull	r2, r3, r2, r3
+ 80011c8:	08db      	lsrs	r3, r3, #3
+ 80011ca:	737b      	strb	r3, [r7, #13]
+				minsOne = current_time.minutes % 10;
+ 80011cc:	4b5b      	ldr	r3, [pc, #364]	; (800133c <main+0x450>)
+ 80011ce:	785a      	ldrb	r2, [r3, #1]
+ 80011d0:	4b5b      	ldr	r3, [pc, #364]	; (8001340 <main+0x454>)
+ 80011d2:	fba3 1302 	umull	r1, r3, r3, r2
+ 80011d6:	08d9      	lsrs	r1, r3, #3
+ 80011d8:	460b      	mov	r3, r1
+ 80011da:	009b      	lsls	r3, r3, #2
+ 80011dc:	440b      	add	r3, r1
+ 80011de:	005b      	lsls	r3, r3, #1
+ 80011e0:	1ad3      	subs	r3, r2, r3
+ 80011e2:	733b      	strb	r3, [r7, #12]
+
+				//Set the LEDS to display the numbers
+				(*NUM_1_SET[hoursTen])();
+ 80011e4:	7bfb      	ldrb	r3, [r7, #15]
+ 80011e6:	4a57      	ldr	r2, [pc, #348]	; (8001344 <main+0x458>)
+ 80011e8:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 80011ec:	4798      	blx	r3
+				(*NUM_2_SET[hoursOne])();
+ 80011ee:	7bbb      	ldrb	r3, [r7, #14]
+ 80011f0:	4a55      	ldr	r2, [pc, #340]	; (8001348 <main+0x45c>)
+ 80011f2:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 80011f6:	4798      	blx	r3
+				(*NUM_3_SET[minsTen])();
+ 80011f8:	7b7b      	ldrb	r3, [r7, #13]
+ 80011fa:	4a54      	ldr	r2, [pc, #336]	; (800134c <main+0x460>)
+ 80011fc:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 8001200:	4798      	blx	r3
+				(*NUM_4_SET[minsOne])();
+ 8001202:	7b3b      	ldrb	r3, [r7, #12]
+ 8001204:	4a52      	ldr	r2, [pc, #328]	; (8001350 <main+0x464>)
+ 8001206:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 800120a:	4798      	blx	r3
+			}
 		}
 
 
 		//Handle setting of alarm clock
 		if(!(GPIOB->IDR & (1<<1)) && !buttonSetProcessed && buttonSetLastDebounceTime != 0)
- 80010ae:	4b34      	ldr	r3, [pc, #208]	; (8001180 <main+0x294>)
- 80010b0:	689b      	ldr	r3, [r3, #8]
- 80010b2:	f003 0302 	and.w	r3, r3, #2
- 80010b6:	2b00      	cmp	r3, #0
- 80010b8:	d1ce      	bne.n	8001058 <main+0x16c>
- 80010ba:	4b37      	ldr	r3, [pc, #220]	; (8001198 <main+0x2ac>)
- 80010bc:	681b      	ldr	r3, [r3, #0]
- 80010be:	2b00      	cmp	r3, #0
- 80010c0:	d1ca      	bne.n	8001058 <main+0x16c>
- 80010c2:	4b36      	ldr	r3, [pc, #216]	; (800119c <main+0x2b0>)
- 80010c4:	681b      	ldr	r3, [r3, #0]
- 80010c6:	2b00      	cmp	r3, #0
- 80010c8:	d0c6      	beq.n	8001058 <main+0x16c>
+ 800120c:	4b51      	ldr	r3, [pc, #324]	; (8001354 <main+0x468>)
+ 800120e:	689b      	ldr	r3, [r3, #8]
+ 8001210:	f003 0302 	and.w	r3, r3, #2
+ 8001214:	2b00      	cmp	r3, #0
+ 8001216:	f47f af1f 	bne.w	8001058 <main+0x16c>
+ 800121a:	4b4f      	ldr	r3, [pc, #316]	; (8001358 <main+0x46c>)
+ 800121c:	681b      	ldr	r3, [r3, #0]
+ 800121e:	2b00      	cmp	r3, #0
+ 8001220:	f47f af1a 	bne.w	8001058 <main+0x16c>
+ 8001224:	4b4d      	ldr	r3, [pc, #308]	; (800135c <main+0x470>)
+ 8001226:	681b      	ldr	r3, [r3, #0]
+ 8001228:	2b00      	cmp	r3, #0
+ 800122a:	f43f af15 	beq.w	8001058 <main+0x16c>
 		{
 			//Check for long pulse
-			if((TIM2->CNT - buttonSetLastDebounceTime) > 750)
- 80010ca:	f04f 4380 	mov.w	r3, #1073741824	; 0x40000000
- 80010ce:	6a5a      	ldr	r2, [r3, #36]	; 0x24
- 80010d0:	4b32      	ldr	r3, [pc, #200]	; (800119c <main+0x2b0>)
- 80010d2:	681b      	ldr	r3, [r3, #0]
- 80010d4:	1ad3      	subs	r3, r2, r3
- 80010d6:	f240 22ee 	movw	r2, #750	; 0x2ee
- 80010da:	4293      	cmp	r3, r2
- 80010dc:	d919      	bls.n	8001112 <main+0x226>
+			if((TIM2->CNT - buttonSetLastDebounceTime) > 500)
+ 800122e:	f04f 4380 	mov.w	r3, #1073741824	; 0x40000000
+ 8001232:	6a5a      	ldr	r2, [r3, #36]	; 0x24
+ 8001234:	4b49      	ldr	r3, [pc, #292]	; (800135c <main+0x470>)
+ 8001236:	681b      	ldr	r3, [r3, #0]
+ 8001238:	1ad3      	subs	r3, r2, r3
+ 800123a:	f5b3 7ffa 	cmp.w	r3, #500	; 0x1f4
+ 800123e:	d919      	bls.n	8001274 <main+0x388>
 			{
 				//Process the button press
 				buttonSetProcessed = 1;
- 80010de:	4b2e      	ldr	r3, [pc, #184]	; (8001198 <main+0x2ac>)
- 80010e0:	2201      	movs	r2, #1
- 80010e2:	601a      	str	r2, [r3, #0]
+ 8001240:	4b45      	ldr	r3, [pc, #276]	; (8001358 <main+0x46c>)
+ 8001242:	2201      	movs	r2, #1
+ 8001244:	601a      	str	r2, [r3, #0]
 				buttonSetLastDebounceTime = 0;
- 80010e4:	4b2d      	ldr	r3, [pc, #180]	; (800119c <main+0x2b0>)
- 80010e6:	2200      	movs	r2, #0
- 80010e8:	601a      	str	r2, [r3, #0]
+ 8001246:	4b45      	ldr	r3, [pc, #276]	; (800135c <main+0x470>)
+ 8001248:	2200      	movs	r2, #0
+ 800124a:	601a      	str	r2, [r3, #0]
 
 				//Change the selected number
 				alarmClockSetNum ++;
- 80010ea:	4b2a      	ldr	r3, [pc, #168]	; (8001194 <main+0x2a8>)
- 80010ec:	781b      	ldrb	r3, [r3, #0]
- 80010ee:	3301      	adds	r3, #1
- 80010f0:	b2da      	uxtb	r2, r3
- 80010f2:	4b28      	ldr	r3, [pc, #160]	; (8001194 <main+0x2a8>)
- 80010f4:	701a      	strb	r2, [r3, #0]
+ 800124c:	4b44      	ldr	r3, [pc, #272]	; (8001360 <main+0x474>)
+ 800124e:	781b      	ldrb	r3, [r3, #0]
+ 8001250:	3301      	adds	r3, #1
+ 8001252:	b2da      	uxtb	r2, r3
+ 8001254:	4b42      	ldr	r3, [pc, #264]	; (8001360 <main+0x474>)
+ 8001256:	701a      	strb	r2, [r3, #0]
 				alarmClockSetNum %= 5;
- 80010f6:	4b27      	ldr	r3, [pc, #156]	; (8001194 <main+0x2a8>)
- 80010f8:	781a      	ldrb	r2, [r3, #0]
- 80010fa:	4b29      	ldr	r3, [pc, #164]	; (80011a0 <main+0x2b4>)
- 80010fc:	fba3 1302 	umull	r1, r3, r3, r2
- 8001100:	0899      	lsrs	r1, r3, #2
- 8001102:	460b      	mov	r3, r1
- 8001104:	009b      	lsls	r3, r3, #2
- 8001106:	440b      	add	r3, r1
- 8001108:	1ad3      	subs	r3, r2, r3
- 800110a:	b2da      	uxtb	r2, r3
- 800110c:	4b21      	ldr	r3, [pc, #132]	; (8001194 <main+0x2a8>)
- 800110e:	701a      	strb	r2, [r3, #0]
- 8001110:	e7a2      	b.n	8001058 <main+0x16c>
+ 8001258:	4b41      	ldr	r3, [pc, #260]	; (8001360 <main+0x474>)
+ 800125a:	781a      	ldrb	r2, [r3, #0]
+ 800125c:	4b38      	ldr	r3, [pc, #224]	; (8001340 <main+0x454>)
+ 800125e:	fba3 1302 	umull	r1, r3, r3, r2
+ 8001262:	0899      	lsrs	r1, r3, #2
+ 8001264:	460b      	mov	r3, r1
+ 8001266:	009b      	lsls	r3, r3, #2
+ 8001268:	440b      	add	r3, r1
+ 800126a:	1ad3      	subs	r3, r2, r3
+ 800126c:	b2da      	uxtb	r2, r3
+ 800126e:	4b3c      	ldr	r3, [pc, #240]	; (8001360 <main+0x474>)
+ 8001270:	701a      	strb	r2, [r3, #0]
+ 8001272:	e6f1      	b.n	8001058 <main+0x16c>
 
 
 
 			}
 			//Check for short pulse
-			else if((TIM2->CNT - buttonSetLastDebounceTime) > 250)
- 8001112:	f04f 4380 	mov.w	r3, #1073741824	; 0x40000000
- 8001116:	6a5a      	ldr	r2, [r3, #36]	; 0x24
- 8001118:	4b20      	ldr	r3, [pc, #128]	; (800119c <main+0x2b0>)
- 800111a:	681b      	ldr	r3, [r3, #0]
- 800111c:	1ad3      	subs	r3, r2, r3
- 800111e:	2bfa      	cmp	r3, #250	; 0xfa
- 8001120:	d99a      	bls.n	8001058 <main+0x16c>
+			else if((TIM2->CNT - buttonSetLastDebounceTime) > 50)
+ 8001274:	f04f 4380 	mov.w	r3, #1073741824	; 0x40000000
+ 8001278:	6a5a      	ldr	r2, [r3, #36]	; 0x24
+ 800127a:	4b38      	ldr	r3, [pc, #224]	; (800135c <main+0x470>)
+ 800127c:	681b      	ldr	r3, [r3, #0]
+ 800127e:	1ad3      	subs	r3, r2, r3
+ 8001280:	2b32      	cmp	r3, #50	; 0x32
+ 8001282:	f67f aee9 	bls.w	8001058 <main+0x16c>
 			{
 				//Update time. Time variable updated is based on what is being set
 				if(alarmClockState == ALARM_CLOCK_SET)
- 8001122:	4b1b      	ldr	r3, [pc, #108]	; (8001190 <main+0x2a4>)
- 8001124:	781b      	ldrb	r3, [r3, #0]
- 8001126:	2b02      	cmp	r3, #2
- 8001128:	d108      	bne.n	800113c <main+0x250>
+ 8001286:	4b2c      	ldr	r3, [pc, #176]	; (8001338 <main+0x44c>)
+ 8001288:	781b      	ldrb	r3, [r3, #0]
+ 800128a:	2b02      	cmp	r3, #2
+ 800128c:	d108      	bne.n	80012a0 <main+0x3b4>
 				{
 					//Update time then set userupdatedtime vairable so that mcu knows to write new time value to rtc
 					updateClockTime(&current_time, alarmClockSetNum);
- 800112a:	4b1a      	ldr	r3, [pc, #104]	; (8001194 <main+0x2a8>)
- 800112c:	781b      	ldrb	r3, [r3, #0]
- 800112e:	4619      	mov	r1, r3
- 8001130:	480f      	ldr	r0, [pc, #60]	; (8001170 <main+0x284>)
- 8001132:	f000 fb47 	bl	80017c4 <updateClockTime>
+ 800128e:	4b34      	ldr	r3, [pc, #208]	; (8001360 <main+0x474>)
+ 8001290:	781b      	ldrb	r3, [r3, #0]
+ 8001292:	4619      	mov	r1, r3
+ 8001294:	4829      	ldr	r0, [pc, #164]	; (800133c <main+0x450>)
+ 8001296:	f000 fbb5 	bl	8001a04 <updateClockTime>
 					userUpdatedTime = USER_UPDATED_TIME;
- 8001136:	4b10      	ldr	r3, [pc, #64]	; (8001178 <main+0x28c>)
- 8001138:	2201      	movs	r2, #1
- 800113a:	701a      	strb	r2, [r3, #0]
+ 800129a:	4b32      	ldr	r3, [pc, #200]	; (8001364 <main+0x478>)
+ 800129c:	2201      	movs	r2, #1
+ 800129e:	701a      	strb	r2, [r3, #0]
 				}
 				if(alarmClockState == ALARM_CLOCK_SET_ALARM)
- 800113c:	4b14      	ldr	r3, [pc, #80]	; (8001190 <main+0x2a4>)
- 800113e:	781b      	ldrb	r3, [r3, #0]
- 8001140:	2b03      	cmp	r3, #3
- 8001142:	d105      	bne.n	8001150 <main+0x264>
+ 80012a0:	4b25      	ldr	r3, [pc, #148]	; (8001338 <main+0x44c>)
+ 80012a2:	781b      	ldrb	r3, [r3, #0]
+ 80012a4:	2b03      	cmp	r3, #3
+ 80012a6:	d13f      	bne.n	8001328 <main+0x43c>
 				{
+					//Update the dispalyed alarm to reflect this change in time
 					updateClockTime(&alarm_time, alarmClockSetNum);
- 8001144:	4b13      	ldr	r3, [pc, #76]	; (8001194 <main+0x2a8>)
- 8001146:	781b      	ldrb	r3, [r3, #0]
- 8001148:	4619      	mov	r1, r3
- 800114a:	480a      	ldr	r0, [pc, #40]	; (8001174 <main+0x288>)
- 800114c:	f000 fb3a 	bl	80017c4 <updateClockTime>
+ 80012a8:	4b2d      	ldr	r3, [pc, #180]	; (8001360 <main+0x474>)
+ 80012aa:	781b      	ldrb	r3, [r3, #0]
+ 80012ac:	4619      	mov	r1, r3
+ 80012ae:	482e      	ldr	r0, [pc, #184]	; (8001368 <main+0x47c>)
+ 80012b0:	f000 fba8 	bl	8001a04 <updateClockTime>
+					uint8_t hoursTen,hoursOne,minsTen,minsOne;
+					hoursTen = alarm_time.hours / 10;
+ 80012b4:	4b2c      	ldr	r3, [pc, #176]	; (8001368 <main+0x47c>)
+ 80012b6:	789b      	ldrb	r3, [r3, #2]
+ 80012b8:	4a21      	ldr	r2, [pc, #132]	; (8001340 <main+0x454>)
+ 80012ba:	fba2 2303 	umull	r2, r3, r2, r3
+ 80012be:	08db      	lsrs	r3, r3, #3
+ 80012c0:	71fb      	strb	r3, [r7, #7]
+					hoursOne = alarm_time.hours % 10;
+ 80012c2:	4b29      	ldr	r3, [pc, #164]	; (8001368 <main+0x47c>)
+ 80012c4:	789a      	ldrb	r2, [r3, #2]
+ 80012c6:	4b1e      	ldr	r3, [pc, #120]	; (8001340 <main+0x454>)
+ 80012c8:	fba3 1302 	umull	r1, r3, r3, r2
+ 80012cc:	08d9      	lsrs	r1, r3, #3
+ 80012ce:	460b      	mov	r3, r1
+ 80012d0:	009b      	lsls	r3, r3, #2
+ 80012d2:	440b      	add	r3, r1
+ 80012d4:	005b      	lsls	r3, r3, #1
+ 80012d6:	1ad3      	subs	r3, r2, r3
+ 80012d8:	71bb      	strb	r3, [r7, #6]
+					minsTen = alarm_time.minutes / 10;
+ 80012da:	4b23      	ldr	r3, [pc, #140]	; (8001368 <main+0x47c>)
+ 80012dc:	785b      	ldrb	r3, [r3, #1]
+ 80012de:	4a18      	ldr	r2, [pc, #96]	; (8001340 <main+0x454>)
+ 80012e0:	fba2 2303 	umull	r2, r3, r2, r3
+ 80012e4:	08db      	lsrs	r3, r3, #3
+ 80012e6:	717b      	strb	r3, [r7, #5]
+					minsOne = alarm_time.minutes % 10;
+ 80012e8:	4b1f      	ldr	r3, [pc, #124]	; (8001368 <main+0x47c>)
+ 80012ea:	785a      	ldrb	r2, [r3, #1]
+ 80012ec:	4b14      	ldr	r3, [pc, #80]	; (8001340 <main+0x454>)
+ 80012ee:	fba3 1302 	umull	r1, r3, r3, r2
+ 80012f2:	08d9      	lsrs	r1, r3, #3
+ 80012f4:	460b      	mov	r3, r1
+ 80012f6:	009b      	lsls	r3, r3, #2
+ 80012f8:	440b      	add	r3, r1
+ 80012fa:	005b      	lsls	r3, r3, #1
+ 80012fc:	1ad3      	subs	r3, r2, r3
+ 80012fe:	713b      	strb	r3, [r7, #4]
+
+					//Set the LEDS to display the numbers
+					(*NUM_1_SET[hoursTen])();
+ 8001300:	79fb      	ldrb	r3, [r7, #7]
+ 8001302:	4a10      	ldr	r2, [pc, #64]	; (8001344 <main+0x458>)
+ 8001304:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 8001308:	4798      	blx	r3
+					(*NUM_2_SET[hoursOne])();
+ 800130a:	79bb      	ldrb	r3, [r7, #6]
+ 800130c:	4a0e      	ldr	r2, [pc, #56]	; (8001348 <main+0x45c>)
+ 800130e:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 8001312:	4798      	blx	r3
+					(*NUM_3_SET[minsTen])();
+ 8001314:	797b      	ldrb	r3, [r7, #5]
+ 8001316:	4a0d      	ldr	r2, [pc, #52]	; (800134c <main+0x460>)
+ 8001318:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 800131c:	4798      	blx	r3
+					(*NUM_4_SET[minsOne])();
+ 800131e:	793b      	ldrb	r3, [r7, #4]
+ 8001320:	4a0b      	ldr	r2, [pc, #44]	; (8001350 <main+0x464>)
+ 8001322:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 8001326:	4798      	blx	r3
+
 				}
 
 				//Process the button press
 				buttonSetProcessed = 1;
- 8001150:	4b11      	ldr	r3, [pc, #68]	; (8001198 <main+0x2ac>)
- 8001152:	2201      	movs	r2, #1
- 8001154:	601a      	str	r2, [r3, #0]
+ 8001328:	4b0b      	ldr	r3, [pc, #44]	; (8001358 <main+0x46c>)
+ 800132a:	2201      	movs	r2, #1
+ 800132c:	601a      	str	r2, [r3, #0]
 				buttonSetLastDebounceTime = 0;
- 8001156:	4b11      	ldr	r3, [pc, #68]	; (800119c <main+0x2b0>)
- 8001158:	2200      	movs	r2, #0
- 800115a:	601a      	str	r2, [r3, #0]
-		if(!(GPIOB->IDR & 1) && !buttonModeProcessed && ((TIM1->CNT - buttonModeLastDebounceTime) > 250) && buttonModeLastDebounceTime != 0)
- 800115c:	e77c      	b.n	8001058 <main+0x16c>
- 800115e:	bf00      	nop
- 8001160:	40021018 	.word	0x40021018
- 8001164:	4002101c 	.word	0x4002101c
- 8001168:	e000e100 	.word	0xe000e100
- 800116c:	40000800 	.word	0x40000800
- 8001170:	200000a4 	.word	0x200000a4
- 8001174:	200000a8 	.word	0x200000a8
- 8001178:	200000a2 	.word	0x200000a2
- 800117c:	40000400 	.word	0x40000400
- 8001180:	40010c00 	.word	0x40010c00
- 8001184:	200000ac 	.word	0x200000ac
- 8001188:	40012c00 	.word	0x40012c00
- 800118c:	200000b0 	.word	0x200000b0
- 8001190:	200000a0 	.word	0x200000a0
- 8001194:	200000a1 	.word	0x200000a1
- 8001198:	200000b4 	.word	0x200000b4
- 800119c:	200000b8 	.word	0x200000b8
- 80011a0:	cccccccd 	.word	0xcccccccd
+ 800132e:	4b0b      	ldr	r3, [pc, #44]	; (800135c <main+0x470>)
+ 8001330:	2200      	movs	r2, #0
+ 8001332:	601a      	str	r2, [r3, #0]
+		if(!(GPIOB->IDR & 1) && !buttonModeProcessed && ((TIM1->CNT - buttonModeLastDebounceTime) > 50) && buttonModeLastDebounceTime != 0)
+ 8001334:	e690      	b.n	8001058 <main+0x16c>
+ 8001336:	bf00      	nop
+ 8001338:	200000a0 	.word	0x200000a0
+ 800133c:	200000a4 	.word	0x200000a4
+ 8001340:	cccccccd 	.word	0xcccccccd
+ 8001344:	20000004 	.word	0x20000004
+ 8001348:	2000000c 	.word	0x2000000c
+ 800134c:	20000034 	.word	0x20000034
+ 8001350:	2000005c 	.word	0x2000005c
+ 8001354:	40010c00 	.word	0x40010c00
+ 8001358:	200000b4 	.word	0x200000b4
+ 800135c:	200000b8 	.word	0x200000b8
+ 8001360:	200000a1 	.word	0x200000a1
+ 8001364:	200000a2 	.word	0x200000a2
+ 8001368:	200000a8 	.word	0x200000a8
 
-080011a4 <EXTI0_IRQHandler>:
+0800136c <EXTI0_IRQHandler>:
 
 }
 
 
 void EXTI0_IRQHandler(void)
 {
- 80011a4:	b480      	push	{r7}
- 80011a6:	b083      	sub	sp, #12
- 80011a8:	af00      	add	r7, sp, #0
+ 800136c:	b480      	push	{r7}
+ 800136e:	b083      	sub	sp, #12
+ 8001370:	af00      	add	r7, sp, #0
 	//Save timer state to use a comparison to determine press length
 	buttonModeLastDebounceTime = TIM1->CNT;
- 80011aa:	4b0a      	ldr	r3, [pc, #40]	; (80011d4 <EXTI0_IRQHandler+0x30>)
- 80011ac:	6a5b      	ldr	r3, [r3, #36]	; 0x24
- 80011ae:	4a0a      	ldr	r2, [pc, #40]	; (80011d8 <EXTI0_IRQHandler+0x34>)
- 80011b0:	6013      	str	r3, [r2, #0]
+ 8001372:	4b0a      	ldr	r3, [pc, #40]	; (800139c <EXTI0_IRQHandler+0x30>)
+ 8001374:	6a5b      	ldr	r3, [r3, #36]	; 0x24
+ 8001376:	4a0a      	ldr	r2, [pc, #40]	; (80013a0 <EXTI0_IRQHandler+0x34>)
+ 8001378:	6013      	str	r3, [r2, #0]
 	buttonModeProcessed = 0;
- 80011b2:	4b0a      	ldr	r3, [pc, #40]	; (80011dc <EXTI0_IRQHandler+0x38>)
- 80011b4:	2200      	movs	r2, #0
- 80011b6:	601a      	str	r2, [r3, #0]
+ 800137a:	4b0a      	ldr	r3, [pc, #40]	; (80013a4 <EXTI0_IRQHandler+0x38>)
+ 800137c:	2200      	movs	r2, #0
+ 800137e:	601a      	str	r2, [r3, #0]
 	//Clear the EXTI interupt
 	uint32_t *EXTI_PR =  (uint32_t *)(0x40010414);
- 80011b8:	4b09      	ldr	r3, [pc, #36]	; (80011e0 <EXTI0_IRQHandler+0x3c>)
- 80011ba:	607b      	str	r3, [r7, #4]
+ 8001380:	4b09      	ldr	r3, [pc, #36]	; (80013a8 <EXTI0_IRQHandler+0x3c>)
+ 8001382:	607b      	str	r3, [r7, #4]
 	*EXTI_PR |= (1 << 0);
- 80011bc:	687b      	ldr	r3, [r7, #4]
- 80011be:	681b      	ldr	r3, [r3, #0]
- 80011c0:	f043 0201 	orr.w	r2, r3, #1
- 80011c4:	687b      	ldr	r3, [r7, #4]
- 80011c6:	601a      	str	r2, [r3, #0]
+ 8001384:	687b      	ldr	r3, [r7, #4]
+ 8001386:	681b      	ldr	r3, [r3, #0]
+ 8001388:	f043 0201 	orr.w	r2, r3, #1
+ 800138c:	687b      	ldr	r3, [r7, #4]
+ 800138e:	601a      	str	r2, [r3, #0]
 
 }
- 80011c8:	bf00      	nop
- 80011ca:	370c      	adds	r7, #12
- 80011cc:	46bd      	mov	sp, r7
- 80011ce:	bc80      	pop	{r7}
- 80011d0:	4770      	bx	lr
- 80011d2:	bf00      	nop
- 80011d4:	40012c00 	.word	0x40012c00
- 80011d8:	200000b0 	.word	0x200000b0
- 80011dc:	200000ac 	.word	0x200000ac
- 80011e0:	40010414 	.word	0x40010414
+ 8001390:	bf00      	nop
+ 8001392:	370c      	adds	r7, #12
+ 8001394:	46bd      	mov	sp, r7
+ 8001396:	bc80      	pop	{r7}
+ 8001398:	4770      	bx	lr
+ 800139a:	bf00      	nop
+ 800139c:	40012c00 	.word	0x40012c00
+ 80013a0:	200000b0 	.word	0x200000b0
+ 80013a4:	200000ac 	.word	0x200000ac
+ 80013a8:	40010414 	.word	0x40010414
 
-080011e4 <EXTI1_IRQHandler>:
+080013ac <EXTI1_IRQHandler>:
 
 void EXTI1_IRQHandler(void)
 {
- 80011e4:	b480      	push	{r7}
- 80011e6:	b083      	sub	sp, #12
- 80011e8:	af00      	add	r7, sp, #0
+ 80013ac:	b480      	push	{r7}
+ 80013ae:	b083      	sub	sp, #12
+ 80013b0:	af00      	add	r7, sp, #0
 	//Save timer state to use a comparison to determine press length
 	buttonSetLastDebounceTime = TIM2->CNT;
- 80011ea:	f04f 4380 	mov.w	r3, #1073741824	; 0x40000000
- 80011ee:	6a5b      	ldr	r3, [r3, #36]	; 0x24
- 80011f0:	4a08      	ldr	r2, [pc, #32]	; (8001214 <EXTI1_IRQHandler+0x30>)
- 80011f2:	6013      	str	r3, [r2, #0]
+ 80013b2:	f04f 4380 	mov.w	r3, #1073741824	; 0x40000000
+ 80013b6:	6a5b      	ldr	r3, [r3, #36]	; 0x24
+ 80013b8:	4a08      	ldr	r2, [pc, #32]	; (80013dc <EXTI1_IRQHandler+0x30>)
+ 80013ba:	6013      	str	r3, [r2, #0]
 	buttonSetProcessed = 0;
- 80011f4:	4b08      	ldr	r3, [pc, #32]	; (8001218 <EXTI1_IRQHandler+0x34>)
- 80011f6:	2200      	movs	r2, #0
- 80011f8:	601a      	str	r2, [r3, #0]
+ 80013bc:	4b08      	ldr	r3, [pc, #32]	; (80013e0 <EXTI1_IRQHandler+0x34>)
+ 80013be:	2200      	movs	r2, #0
+ 80013c0:	601a      	str	r2, [r3, #0]
 	//Clear interupt
 	uint32_t *EXTI_PR =  (uint32_t *)(0x40010414);
- 80011fa:	4b08      	ldr	r3, [pc, #32]	; (800121c <EXTI1_IRQHandler+0x38>)
- 80011fc:	607b      	str	r3, [r7, #4]
+ 80013c2:	4b08      	ldr	r3, [pc, #32]	; (80013e4 <EXTI1_IRQHandler+0x38>)
+ 80013c4:	607b      	str	r3, [r7, #4]
 	*EXTI_PR |= (1 << 1);
- 80011fe:	687b      	ldr	r3, [r7, #4]
- 8001200:	681b      	ldr	r3, [r3, #0]
- 8001202:	f043 0202 	orr.w	r2, r3, #2
- 8001206:	687b      	ldr	r3, [r7, #4]
- 8001208:	601a      	str	r2, [r3, #0]
+ 80013c6:	687b      	ldr	r3, [r7, #4]
+ 80013c8:	681b      	ldr	r3, [r3, #0]
+ 80013ca:	f043 0202 	orr.w	r2, r3, #2
+ 80013ce:	687b      	ldr	r3, [r7, #4]
+ 80013d0:	601a      	str	r2, [r3, #0]
 }
- 800120a:	bf00      	nop
- 800120c:	370c      	adds	r7, #12
- 800120e:	46bd      	mov	sp, r7
- 8001210:	bc80      	pop	{r7}
- 8001212:	4770      	bx	lr
- 8001214:	200000b8 	.word	0x200000b8
- 8001218:	200000b4 	.word	0x200000b4
- 800121c:	40010414 	.word	0x40010414
+ 80013d2:	bf00      	nop
+ 80013d4:	370c      	adds	r7, #12
+ 80013d6:	46bd      	mov	sp, r7
+ 80013d8:	bc80      	pop	{r7}
+ 80013da:	4770      	bx	lr
+ 80013dc:	200000b8 	.word	0x200000b8
+ 80013e0:	200000b4 	.word	0x200000b4
+ 80013e4:	40010414 	.word	0x40010414
 
-08001220 <TIM3_IRQHandler>:
+080013e8 <TIM3_IRQHandler>:
 
 void TIM3_IRQHandler(void)
 {
- 8001220:	b580      	push	{r7, lr}
- 8001222:	b082      	sub	sp, #8
- 8001224:	af00      	add	r7, sp, #0
+ 80013e8:	b580      	push	{r7, lr}
+ 80013ea:	b082      	sub	sp, #8
+ 80013ec:	af00      	add	r7, sp, #0
 
 	//First a check must be made if the user has changed the clock values between interactions.
 	//If this is the case the mcu should write the changed value to the rtc.
 	//If this change has not been made the user should read the time value from the rtc.
-	//ds1307_set_current_time(&current_time);
+
 	if(userUpdatedTime == USER_UPDATED_TIME)
- 8001226:	4b2f      	ldr	r3, [pc, #188]	; (80012e4 <TIM3_IRQHandler+0xc4>)
- 8001228:	781b      	ldrb	r3, [r3, #0]
- 800122a:	2b01      	cmp	r3, #1
- 800122c:	d106      	bne.n	800123c <TIM3_IRQHandler+0x1c>
+ 80013ee:	4b31      	ldr	r3, [pc, #196]	; (80014b4 <TIM3_IRQHandler+0xcc>)
+ 80013f0:	781b      	ldrb	r3, [r3, #0]
+ 80013f2:	2b01      	cmp	r3, #1
+ 80013f4:	d106      	bne.n	8001404 <TIM3_IRQHandler+0x1c>
 	{
 		ds1307_set_current_time(&current_time);
- 800122e:	482e      	ldr	r0, [pc, #184]	; (80012e8 <TIM3_IRQHandler+0xc8>)
- 8001230:	f000 fa48 	bl	80016c4 <ds1307_set_current_time>
+ 80013f6:	4830      	ldr	r0, [pc, #192]	; (80014b8 <TIM3_IRQHandler+0xd0>)
+ 80013f8:	f000 fa84 	bl	8001904 <ds1307_set_current_time>
 		userUpdatedTime = USER_NOT_UPDATED_TIME;
- 8001234:	4b2b      	ldr	r3, [pc, #172]	; (80012e4 <TIM3_IRQHandler+0xc4>)
- 8001236:	2200      	movs	r2, #0
- 8001238:	701a      	strb	r2, [r3, #0]
- 800123a:	e03c      	b.n	80012b6 <TIM3_IRQHandler+0x96>
+ 80013fc:	4b2d      	ldr	r3, [pc, #180]	; (80014b4 <TIM3_IRQHandler+0xcc>)
+ 80013fe:	2200      	movs	r2, #0
+ 8001400:	701a      	strb	r2, [r3, #0]
+ 8001402:	e002      	b.n	800140a <TIM3_IRQHandler+0x22>
 	}
 	else
 	{
 		ds1307_get_current_time(&current_time);
- 800123c:	482a      	ldr	r0, [pc, #168]	; (80012e8 <TIM3_IRQHandler+0xc8>)
- 800123e:	f000 fa7a 	bl	8001736 <ds1307_get_current_time>
+ 8001404:	482c      	ldr	r0, [pc, #176]	; (80014b8 <TIM3_IRQHandler+0xd0>)
+ 8001406:	f000 fab6 	bl	8001976 <ds1307_get_current_time>
 
-		//Update the displayed LEDs
+	}
+
+	//Update the displayed LEDs
+	//We only need to do this in the case we are viewing the time
+	if(alarmClockState == ALARM_CLOCK_NO_ALARM)
+ 800140a:	4b2c      	ldr	r3, [pc, #176]	; (80014bc <TIM3_IRQHandler+0xd4>)
+ 800140c:	781b      	ldrb	r3, [r3, #0]
+ 800140e:	2b00      	cmp	r3, #0
+ 8001410:	d139      	bne.n	8001486 <TIM3_IRQHandler+0x9e>
+	{
 		uint8_t hoursTen,hoursOne,minsTen,minsOne;
 		hoursTen = current_time.hours / 10;
- 8001242:	4b29      	ldr	r3, [pc, #164]	; (80012e8 <TIM3_IRQHandler+0xc8>)
- 8001244:	789b      	ldrb	r3, [r3, #2]
- 8001246:	4a29      	ldr	r2, [pc, #164]	; (80012ec <TIM3_IRQHandler+0xcc>)
- 8001248:	fba2 2303 	umull	r2, r3, r2, r3
- 800124c:	08db      	lsrs	r3, r3, #3
- 800124e:	71fb      	strb	r3, [r7, #7]
+ 8001412:	4b29      	ldr	r3, [pc, #164]	; (80014b8 <TIM3_IRQHandler+0xd0>)
+ 8001414:	789b      	ldrb	r3, [r3, #2]
+ 8001416:	4a2a      	ldr	r2, [pc, #168]	; (80014c0 <TIM3_IRQHandler+0xd8>)
+ 8001418:	fba2 2303 	umull	r2, r3, r2, r3
+ 800141c:	08db      	lsrs	r3, r3, #3
+ 800141e:	71fb      	strb	r3, [r7, #7]
 		hoursOne = current_time.hours % 10;
- 8001250:	4b25      	ldr	r3, [pc, #148]	; (80012e8 <TIM3_IRQHandler+0xc8>)
- 8001252:	789a      	ldrb	r2, [r3, #2]
- 8001254:	4b25      	ldr	r3, [pc, #148]	; (80012ec <TIM3_IRQHandler+0xcc>)
- 8001256:	fba3 1302 	umull	r1, r3, r3, r2
- 800125a:	08d9      	lsrs	r1, r3, #3
- 800125c:	460b      	mov	r3, r1
- 800125e:	009b      	lsls	r3, r3, #2
- 8001260:	440b      	add	r3, r1
- 8001262:	005b      	lsls	r3, r3, #1
- 8001264:	1ad3      	subs	r3, r2, r3
- 8001266:	71bb      	strb	r3, [r7, #6]
+ 8001420:	4b25      	ldr	r3, [pc, #148]	; (80014b8 <TIM3_IRQHandler+0xd0>)
+ 8001422:	789a      	ldrb	r2, [r3, #2]
+ 8001424:	4b26      	ldr	r3, [pc, #152]	; (80014c0 <TIM3_IRQHandler+0xd8>)
+ 8001426:	fba3 1302 	umull	r1, r3, r3, r2
+ 800142a:	08d9      	lsrs	r1, r3, #3
+ 800142c:	460b      	mov	r3, r1
+ 800142e:	009b      	lsls	r3, r3, #2
+ 8001430:	440b      	add	r3, r1
+ 8001432:	005b      	lsls	r3, r3, #1
+ 8001434:	1ad3      	subs	r3, r2, r3
+ 8001436:	71bb      	strb	r3, [r7, #6]
 		minsTen = current_time.minutes / 10;
- 8001268:	4b1f      	ldr	r3, [pc, #124]	; (80012e8 <TIM3_IRQHandler+0xc8>)
- 800126a:	785b      	ldrb	r3, [r3, #1]
- 800126c:	4a1f      	ldr	r2, [pc, #124]	; (80012ec <TIM3_IRQHandler+0xcc>)
- 800126e:	fba2 2303 	umull	r2, r3, r2, r3
- 8001272:	08db      	lsrs	r3, r3, #3
- 8001274:	717b      	strb	r3, [r7, #5]
+ 8001438:	4b1f      	ldr	r3, [pc, #124]	; (80014b8 <TIM3_IRQHandler+0xd0>)
+ 800143a:	785b      	ldrb	r3, [r3, #1]
+ 800143c:	4a20      	ldr	r2, [pc, #128]	; (80014c0 <TIM3_IRQHandler+0xd8>)
+ 800143e:	fba2 2303 	umull	r2, r3, r2, r3
+ 8001442:	08db      	lsrs	r3, r3, #3
+ 8001444:	717b      	strb	r3, [r7, #5]
 		minsOne = current_time.minutes % 10;
- 8001276:	4b1c      	ldr	r3, [pc, #112]	; (80012e8 <TIM3_IRQHandler+0xc8>)
- 8001278:	785a      	ldrb	r2, [r3, #1]
- 800127a:	4b1c      	ldr	r3, [pc, #112]	; (80012ec <TIM3_IRQHandler+0xcc>)
- 800127c:	fba3 1302 	umull	r1, r3, r3, r2
- 8001280:	08d9      	lsrs	r1, r3, #3
- 8001282:	460b      	mov	r3, r1
- 8001284:	009b      	lsls	r3, r3, #2
- 8001286:	440b      	add	r3, r1
- 8001288:	005b      	lsls	r3, r3, #1
- 800128a:	1ad3      	subs	r3, r2, r3
- 800128c:	713b      	strb	r3, [r7, #4]
+ 8001446:	4b1c      	ldr	r3, [pc, #112]	; (80014b8 <TIM3_IRQHandler+0xd0>)
+ 8001448:	785a      	ldrb	r2, [r3, #1]
+ 800144a:	4b1d      	ldr	r3, [pc, #116]	; (80014c0 <TIM3_IRQHandler+0xd8>)
+ 800144c:	fba3 1302 	umull	r1, r3, r3, r2
+ 8001450:	08d9      	lsrs	r1, r3, #3
+ 8001452:	460b      	mov	r3, r1
+ 8001454:	009b      	lsls	r3, r3, #2
+ 8001456:	440b      	add	r3, r1
+ 8001458:	005b      	lsls	r3, r3, #1
+ 800145a:	1ad3      	subs	r3, r2, r3
+ 800145c:	713b      	strb	r3, [r7, #4]
 
 		//Set the LEDS to display the numbers
 		(*NUM_1_SET[hoursTen])();
- 800128e:	79fb      	ldrb	r3, [r7, #7]
- 8001290:	4a17      	ldr	r2, [pc, #92]	; (80012f0 <TIM3_IRQHandler+0xd0>)
- 8001292:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
- 8001296:	4798      	blx	r3
+ 800145e:	79fb      	ldrb	r3, [r7, #7]
+ 8001460:	4a18      	ldr	r2, [pc, #96]	; (80014c4 <TIM3_IRQHandler+0xdc>)
+ 8001462:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 8001466:	4798      	blx	r3
 		(*NUM_2_SET[hoursOne])();
- 8001298:	79bb      	ldrb	r3, [r7, #6]
- 800129a:	4a16      	ldr	r2, [pc, #88]	; (80012f4 <TIM3_IRQHandler+0xd4>)
- 800129c:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
- 80012a0:	4798      	blx	r3
+ 8001468:	79bb      	ldrb	r3, [r7, #6]
+ 800146a:	4a17      	ldr	r2, [pc, #92]	; (80014c8 <TIM3_IRQHandler+0xe0>)
+ 800146c:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 8001470:	4798      	blx	r3
 		(*NUM_3_SET[minsTen])();
- 80012a2:	797b      	ldrb	r3, [r7, #5]
- 80012a4:	4a14      	ldr	r2, [pc, #80]	; (80012f8 <TIM3_IRQHandler+0xd8>)
- 80012a6:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
- 80012aa:	4798      	blx	r3
+ 8001472:	797b      	ldrb	r3, [r7, #5]
+ 8001474:	4a15      	ldr	r2, [pc, #84]	; (80014cc <TIM3_IRQHandler+0xe4>)
+ 8001476:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 800147a:	4798      	blx	r3
 		(*NUM_4_SET[minsOne])();
- 80012ac:	793b      	ldrb	r3, [r7, #4]
- 80012ae:	4a13      	ldr	r2, [pc, #76]	; (80012fc <TIM3_IRQHandler+0xdc>)
- 80012b0:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
- 80012b4:	4798      	blx	r3
-
-
+ 800147c:	793b      	ldrb	r3, [r7, #4]
+ 800147e:	4a14      	ldr	r2, [pc, #80]	; (80014d0 <TIM3_IRQHandler+0xe8>)
+ 8001480:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 8001484:	4798      	blx	r3
 	}
 
 	//Handle the checking of alarms by comparing all time values between the two clocks
 	if(alarmClockState == ALARM_CLOCK_ALARM && alarm_time.hours == current_time.hours && alarm_time.minutes == current_time.minutes && alarm_time.time_format == current_time.time_format)
- 80012b6:	4b12      	ldr	r3, [pc, #72]	; (8001300 <TIM3_IRQHandler+0xe0>)
- 80012b8:	781b      	ldrb	r3, [r3, #0]
- 80012ba:	2b01      	cmp	r3, #1
- 80012bc:	d10a      	bne.n	80012d4 <TIM3_IRQHandler+0xb4>
- 80012be:	4b11      	ldr	r3, [pc, #68]	; (8001304 <TIM3_IRQHandler+0xe4>)
- 80012c0:	789a      	ldrb	r2, [r3, #2]
- 80012c2:	4b09      	ldr	r3, [pc, #36]	; (80012e8 <TIM3_IRQHandler+0xc8>)
- 80012c4:	789b      	ldrb	r3, [r3, #2]
- 80012c6:	429a      	cmp	r2, r3
- 80012c8:	d104      	bne.n	80012d4 <TIM3_IRQHandler+0xb4>
- 80012ca:	4b0e      	ldr	r3, [pc, #56]	; (8001304 <TIM3_IRQHandler+0xe4>)
- 80012cc:	785a      	ldrb	r2, [r3, #1]
- 80012ce:	4b06      	ldr	r3, [pc, #24]	; (80012e8 <TIM3_IRQHandler+0xc8>)
- 80012d0:	785b      	ldrb	r3, [r3, #1]
- 80012d2:	429a      	cmp	r2, r3
+ 8001486:	4b0d      	ldr	r3, [pc, #52]	; (80014bc <TIM3_IRQHandler+0xd4>)
+ 8001488:	781b      	ldrb	r3, [r3, #0]
+ 800148a:	2b01      	cmp	r3, #1
+ 800148c:	d10a      	bne.n	80014a4 <TIM3_IRQHandler+0xbc>
+ 800148e:	4b11      	ldr	r3, [pc, #68]	; (80014d4 <TIM3_IRQHandler+0xec>)
+ 8001490:	789a      	ldrb	r2, [r3, #2]
+ 8001492:	4b09      	ldr	r3, [pc, #36]	; (80014b8 <TIM3_IRQHandler+0xd0>)
+ 8001494:	789b      	ldrb	r3, [r3, #2]
+ 8001496:	429a      	cmp	r2, r3
+ 8001498:	d104      	bne.n	80014a4 <TIM3_IRQHandler+0xbc>
+ 800149a:	4b0e      	ldr	r3, [pc, #56]	; (80014d4 <TIM3_IRQHandler+0xec>)
+ 800149c:	785a      	ldrb	r2, [r3, #1]
+ 800149e:	4b06      	ldr	r3, [pc, #24]	; (80014b8 <TIM3_IRQHandler+0xd0>)
+ 80014a0:	785b      	ldrb	r3, [r3, #1]
+ 80014a2:	429a      	cmp	r2, r3
 	{
 		//Handle the alarm
 	}
 
 	//Clear the interupt
 	TIM3->SR = 0;
- 80012d4:	4b0c      	ldr	r3, [pc, #48]	; (8001308 <TIM3_IRQHandler+0xe8>)
- 80012d6:	2200      	movs	r2, #0
- 80012d8:	611a      	str	r2, [r3, #16]
+ 80014a4:	4b0c      	ldr	r3, [pc, #48]	; (80014d8 <TIM3_IRQHandler+0xf0>)
+ 80014a6:	2200      	movs	r2, #0
+ 80014a8:	611a      	str	r2, [r3, #16]
 }
- 80012da:	bf00      	nop
- 80012dc:	3708      	adds	r7, #8
- 80012de:	46bd      	mov	sp, r7
- 80012e0:	bd80      	pop	{r7, pc}
- 80012e2:	bf00      	nop
- 80012e4:	200000a2 	.word	0x200000a2
- 80012e8:	200000a4 	.word	0x200000a4
- 80012ec:	cccccccd 	.word	0xcccccccd
- 80012f0:	20000004 	.word	0x20000004
- 80012f4:	2000000c 	.word	0x2000000c
- 80012f8:	20000034 	.word	0x20000034
- 80012fc:	2000005c 	.word	0x2000005c
- 8001300:	200000a0 	.word	0x200000a0
- 8001304:	200000a8 	.word	0x200000a8
- 8001308:	40000400 	.word	0x40000400
+ 80014aa:	bf00      	nop
+ 80014ac:	3708      	adds	r7, #8
+ 80014ae:	46bd      	mov	sp, r7
+ 80014b0:	bd80      	pop	{r7, pc}
+ 80014b2:	bf00      	nop
+ 80014b4:	200000a2 	.word	0x200000a2
+ 80014b8:	200000a4 	.word	0x200000a4
+ 80014bc:	200000a0 	.word	0x200000a0
+ 80014c0:	cccccccd 	.word	0xcccccccd
+ 80014c4:	20000004 	.word	0x20000004
+ 80014c8:	2000000c 	.word	0x2000000c
+ 80014cc:	20000034 	.word	0x20000034
+ 80014d0:	2000005c 	.word	0x2000005c
+ 80014d4:	200000a8 	.word	0x200000a8
+ 80014d8:	40000400 	.word	0x40000400
 
-0800130c <TIM4_IRQHandler>:
+080014dc <TIM4_IRQHandler>:
 
 void TIM4_IRQHandler(void)
 {
- 800130c:	b580      	push	{r7, lr}
- 800130e:	b082      	sub	sp, #8
- 8001310:	af00      	add	r7, sp, #0
+ 80014dc:	b580      	push	{r7, lr}
+ 80014de:	b082      	sub	sp, #8
+ 80014e0:	af00      	add	r7, sp, #0
 	//When a user is editing the time of the clock or an alarm they must be able to know what number they are currently changing.
 	//This timer toggles the current number on a set clock creating a blinking effect
 
-	if(blinked == LED_ON)
- 8001312:	4b49      	ldr	r3, [pc, #292]	; (8001438 <TIM4_IRQHandler+0x12c>)
- 8001314:	781b      	ldrb	r3, [r3, #0]
- 8001316:	2b01      	cmp	r3, #1
- 8001318:	d136      	bne.n	8001388 <TIM4_IRQHandler+0x7c>
+	//Only blink if setting alarm or time
+	if(alarmClockState == ALARM_CLOCK_SET || alarmClockState == ALARM_CLOCK_SET_ALARM)
+ 80014e2:	4b63      	ldr	r3, [pc, #396]	; (8001670 <TIM4_IRQHandler+0x194>)
+ 80014e4:	781b      	ldrb	r3, [r3, #0]
+ 80014e6:	2b02      	cmp	r3, #2
+ 80014e8:	d004      	beq.n	80014f4 <TIM4_IRQHandler+0x18>
+ 80014ea:	4b61      	ldr	r3, [pc, #388]	; (8001670 <TIM4_IRQHandler+0x194>)
+ 80014ec:	781b      	ldrb	r3, [r3, #0]
+ 80014ee:	2b03      	cmp	r3, #3
+ 80014f0:	f040 80b6 	bne.w	8001660 <TIM4_IRQHandler+0x184>
 	{
-		if(alarmClockSetNum == 0)
- 800131a:	4b48      	ldr	r3, [pc, #288]	; (800143c <TIM4_IRQHandler+0x130>)
- 800131c:	781b      	ldrb	r3, [r3, #0]
- 800131e:	2b00      	cmp	r3, #0
- 8001320:	d106      	bne.n	8001330 <TIM4_IRQHandler+0x24>
+		if(blinked == LED_ON)
+ 80014f4:	4b5f      	ldr	r3, [pc, #380]	; (8001674 <TIM4_IRQHandler+0x198>)
+ 80014f6:	781b      	ldrb	r3, [r3, #0]
+ 80014f8:	2b01      	cmp	r3, #1
+ 80014fa:	d136      	bne.n	800156a <TIM4_IRQHandler+0x8e>
 		{
-			LED_NUM_1_CLEAR();
- 8001322:	4b47      	ldr	r3, [pc, #284]	; (8001440 <TIM4_IRQHandler+0x134>)
- 8001324:	68db      	ldr	r3, [r3, #12]
- 8001326:	4a46      	ldr	r2, [pc, #280]	; (8001440 <TIM4_IRQHandler+0x134>)
- 8001328:	f023 0328 	bic.w	r3, r3, #40	; 0x28
- 800132c:	60d3      	str	r3, [r2, #12]
- 800132e:	e027      	b.n	8001380 <TIM4_IRQHandler+0x74>
-		}
-		else if(alarmClockSetNum == 1)
- 8001330:	4b42      	ldr	r3, [pc, #264]	; (800143c <TIM4_IRQHandler+0x130>)
- 8001332:	781b      	ldrb	r3, [r3, #0]
- 8001334:	2b01      	cmp	r3, #1
- 8001336:	d10c      	bne.n	8001352 <TIM4_IRQHandler+0x46>
-		{
-			LED_NUM_2_CLEAR();
- 8001338:	4b42      	ldr	r3, [pc, #264]	; (8001444 <TIM4_IRQHandler+0x138>)
- 800133a:	68db      	ldr	r3, [r3, #12]
- 800133c:	4a41      	ldr	r2, [pc, #260]	; (8001444 <TIM4_IRQHandler+0x138>)
- 800133e:	f423 53f8 	bic.w	r3, r3, #7936	; 0x1f00
- 8001342:	60d3      	str	r3, [r2, #12]
- 8001344:	4b3e      	ldr	r3, [pc, #248]	; (8001440 <TIM4_IRQHandler+0x134>)
- 8001346:	68db      	ldr	r3, [r3, #12]
- 8001348:	4a3d      	ldr	r2, [pc, #244]	; (8001440 <TIM4_IRQHandler+0x134>)
- 800134a:	f423 4340 	bic.w	r3, r3, #49152	; 0xc000
- 800134e:	60d3      	str	r3, [r2, #12]
- 8001350:	e016      	b.n	8001380 <TIM4_IRQHandler+0x74>
-		}
-		else if(alarmClockSetNum == 2)
- 8001352:	4b3a      	ldr	r3, [pc, #232]	; (800143c <TIM4_IRQHandler+0x130>)
- 8001354:	781b      	ldrb	r3, [r3, #0]
- 8001356:	2b02      	cmp	r3, #2
- 8001358:	d10c      	bne.n	8001374 <TIM4_IRQHandler+0x68>
-		{
-			LED_NUM_3_CLEAR();
- 800135a:	4b3b      	ldr	r3, [pc, #236]	; (8001448 <TIM4_IRQHandler+0x13c>)
- 800135c:	68db      	ldr	r3, [r3, #12]
- 800135e:	4a3a      	ldr	r2, [pc, #232]	; (8001448 <TIM4_IRQHandler+0x13c>)
- 8001360:	f423 4360 	bic.w	r3, r3, #57344	; 0xe000
- 8001364:	60d3      	str	r3, [r2, #12]
- 8001366:	4b36      	ldr	r3, [pc, #216]	; (8001440 <TIM4_IRQHandler+0x134>)
- 8001368:	68db      	ldr	r3, [r3, #12]
- 800136a:	4a35      	ldr	r2, [pc, #212]	; (8001440 <TIM4_IRQHandler+0x134>)
- 800136c:	f423 6370 	bic.w	r3, r3, #3840	; 0xf00
- 8001370:	60d3      	str	r3, [r2, #12]
- 8001372:	e005      	b.n	8001380 <TIM4_IRQHandler+0x74>
-		}
-		else if(alarmClockSetNum == 3)
- 8001374:	4b31      	ldr	r3, [pc, #196]	; (800143c <TIM4_IRQHandler+0x130>)
- 8001376:	781b      	ldrb	r3, [r3, #0]
- 8001378:	2b03      	cmp	r3, #3
- 800137a:	d101      	bne.n	8001380 <TIM4_IRQHandler+0x74>
-		{
-			LED_NUM_4_CLEAR();
- 800137c:	f7ff fbc4 	bl	8000b08 <LED_NUM_4_CLEAR>
-		}
+			if(alarmClockSetNum == 0)
+ 80014fc:	4b5e      	ldr	r3, [pc, #376]	; (8001678 <TIM4_IRQHandler+0x19c>)
+ 80014fe:	781b      	ldrb	r3, [r3, #0]
+ 8001500:	2b00      	cmp	r3, #0
+ 8001502:	d106      	bne.n	8001512 <TIM4_IRQHandler+0x36>
+			{
+				LED_NUM_1_CLEAR();
+ 8001504:	4b5d      	ldr	r3, [pc, #372]	; (800167c <TIM4_IRQHandler+0x1a0>)
+ 8001506:	68db      	ldr	r3, [r3, #12]
+ 8001508:	4a5c      	ldr	r2, [pc, #368]	; (800167c <TIM4_IRQHandler+0x1a0>)
+ 800150a:	f023 0328 	bic.w	r3, r3, #40	; 0x28
+ 800150e:	60d3      	str	r3, [r2, #12]
+ 8001510:	e027      	b.n	8001562 <TIM4_IRQHandler+0x86>
+			}
+			else if(alarmClockSetNum == 1)
+ 8001512:	4b59      	ldr	r3, [pc, #356]	; (8001678 <TIM4_IRQHandler+0x19c>)
+ 8001514:	781b      	ldrb	r3, [r3, #0]
+ 8001516:	2b01      	cmp	r3, #1
+ 8001518:	d10c      	bne.n	8001534 <TIM4_IRQHandler+0x58>
+			{
+				LED_NUM_2_CLEAR();
+ 800151a:	4b59      	ldr	r3, [pc, #356]	; (8001680 <TIM4_IRQHandler+0x1a4>)
+ 800151c:	68db      	ldr	r3, [r3, #12]
+ 800151e:	4a58      	ldr	r2, [pc, #352]	; (8001680 <TIM4_IRQHandler+0x1a4>)
+ 8001520:	f423 53f8 	bic.w	r3, r3, #7936	; 0x1f00
+ 8001524:	60d3      	str	r3, [r2, #12]
+ 8001526:	4b55      	ldr	r3, [pc, #340]	; (800167c <TIM4_IRQHandler+0x1a0>)
+ 8001528:	68db      	ldr	r3, [r3, #12]
+ 800152a:	4a54      	ldr	r2, [pc, #336]	; (800167c <TIM4_IRQHandler+0x1a0>)
+ 800152c:	f423 4340 	bic.w	r3, r3, #49152	; 0xc000
+ 8001530:	60d3      	str	r3, [r2, #12]
+ 8001532:	e016      	b.n	8001562 <TIM4_IRQHandler+0x86>
+			}
+			else if(alarmClockSetNum == 2)
+ 8001534:	4b50      	ldr	r3, [pc, #320]	; (8001678 <TIM4_IRQHandler+0x19c>)
+ 8001536:	781b      	ldrb	r3, [r3, #0]
+ 8001538:	2b02      	cmp	r3, #2
+ 800153a:	d10c      	bne.n	8001556 <TIM4_IRQHandler+0x7a>
+			{
+				LED_NUM_3_CLEAR();
+ 800153c:	4b51      	ldr	r3, [pc, #324]	; (8001684 <TIM4_IRQHandler+0x1a8>)
+ 800153e:	68db      	ldr	r3, [r3, #12]
+ 8001540:	4a50      	ldr	r2, [pc, #320]	; (8001684 <TIM4_IRQHandler+0x1a8>)
+ 8001542:	f423 4360 	bic.w	r3, r3, #57344	; 0xe000
+ 8001546:	60d3      	str	r3, [r2, #12]
+ 8001548:	4b4c      	ldr	r3, [pc, #304]	; (800167c <TIM4_IRQHandler+0x1a0>)
+ 800154a:	68db      	ldr	r3, [r3, #12]
+ 800154c:	4a4b      	ldr	r2, [pc, #300]	; (800167c <TIM4_IRQHandler+0x1a0>)
+ 800154e:	f423 6370 	bic.w	r3, r3, #3840	; 0xf00
+ 8001552:	60d3      	str	r3, [r2, #12]
+ 8001554:	e005      	b.n	8001562 <TIM4_IRQHandler+0x86>
+			}
+			else if(alarmClockSetNum == 3)
+ 8001556:	4b48      	ldr	r3, [pc, #288]	; (8001678 <TIM4_IRQHandler+0x19c>)
+ 8001558:	781b      	ldrb	r3, [r3, #0]
+ 800155a:	2b03      	cmp	r3, #3
+ 800155c:	d101      	bne.n	8001562 <TIM4_IRQHandler+0x86>
+			{
+				LED_NUM_4_CLEAR();
+ 800155e:	f7ff fad3 	bl	8000b08 <LED_NUM_4_CLEAR>
+			}
 
-		//Now turn the led to off
-		blinked = LED_OFF;
- 8001380:	4b2d      	ldr	r3, [pc, #180]	; (8001438 <TIM4_IRQHandler+0x12c>)
- 8001382:	2200      	movs	r2, #0
- 8001384:	701a      	strb	r2, [r3, #0]
- 8001386:	e04f      	b.n	8001428 <TIM4_IRQHandler+0x11c>
-	}
-	else
-	{
+			//Now turn the led to off
+			blinked = LED_OFF;
+ 8001562:	4b44      	ldr	r3, [pc, #272]	; (8001674 <TIM4_IRQHandler+0x198>)
+ 8001564:	2200      	movs	r2, #0
+ 8001566:	701a      	strb	r2, [r3, #0]
+ 8001568:	e07a      	b.n	8001660 <TIM4_IRQHandler+0x184>
+		else
+		{
+			//Re dispaly the alarm time or the set time
+			uint8_t hoursTen, hoursOne, minsTen,minsOne;
 
-		if(alarmClockSetNum == 0)
- 8001388:	4b2c      	ldr	r3, [pc, #176]	; (800143c <TIM4_IRQHandler+0x130>)
- 800138a:	781b      	ldrb	r3, [r3, #0]
- 800138c:	2b00      	cmp	r3, #0
- 800138e:	d10c      	bne.n	80013aa <TIM4_IRQHandler+0x9e>
-		{
-			uint8_t hoursTen = current_time.hours / 10;
- 8001390:	4b2e      	ldr	r3, [pc, #184]	; (800144c <TIM4_IRQHandler+0x140>)
- 8001392:	789b      	ldrb	r3, [r3, #2]
- 8001394:	4a2e      	ldr	r2, [pc, #184]	; (8001450 <TIM4_IRQHandler+0x144>)
- 8001396:	fba2 2303 	umull	r2, r3, r2, r3
- 800139a:	08db      	lsrs	r3, r3, #3
- 800139c:	713b      	strb	r3, [r7, #4]
-			(*NUM_1_SET[hoursTen])();
- 800139e:	793b      	ldrb	r3, [r7, #4]
- 80013a0:	4a2c      	ldr	r2, [pc, #176]	; (8001454 <TIM4_IRQHandler+0x148>)
- 80013a2:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
- 80013a6:	4798      	blx	r3
- 80013a8:	e03b      	b.n	8001422 <TIM4_IRQHandler+0x116>
-		}
-		else if(alarmClockSetNum == 1)
- 80013aa:	4b24      	ldr	r3, [pc, #144]	; (800143c <TIM4_IRQHandler+0x130>)
- 80013ac:	781b      	ldrb	r3, [r3, #0]
- 80013ae:	2b01      	cmp	r3, #1
- 80013b0:	d111      	bne.n	80013d6 <TIM4_IRQHandler+0xca>
-		{
-			uint8_t hoursOne = current_time.hours % 10;
- 80013b2:	4b26      	ldr	r3, [pc, #152]	; (800144c <TIM4_IRQHandler+0x140>)
- 80013b4:	789a      	ldrb	r2, [r3, #2]
- 80013b6:	4b26      	ldr	r3, [pc, #152]	; (8001450 <TIM4_IRQHandler+0x144>)
- 80013b8:	fba3 1302 	umull	r1, r3, r3, r2
- 80013bc:	08d9      	lsrs	r1, r3, #3
- 80013be:	460b      	mov	r3, r1
- 80013c0:	009b      	lsls	r3, r3, #2
- 80013c2:	440b      	add	r3, r1
- 80013c4:	005b      	lsls	r3, r3, #1
- 80013c6:	1ad3      	subs	r3, r2, r3
- 80013c8:	717b      	strb	r3, [r7, #5]
-			(*NUM_2_SET[hoursOne])();
- 80013ca:	797b      	ldrb	r3, [r7, #5]
- 80013cc:	4a22      	ldr	r2, [pc, #136]	; (8001458 <TIM4_IRQHandler+0x14c>)
- 80013ce:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
- 80013d2:	4798      	blx	r3
- 80013d4:	e025      	b.n	8001422 <TIM4_IRQHandler+0x116>
-		}
-		else if(alarmClockSetNum == 2)
- 80013d6:	4b19      	ldr	r3, [pc, #100]	; (800143c <TIM4_IRQHandler+0x130>)
- 80013d8:	781b      	ldrb	r3, [r3, #0]
- 80013da:	2b02      	cmp	r3, #2
- 80013dc:	d10c      	bne.n	80013f8 <TIM4_IRQHandler+0xec>
-		{
-			uint8_t minsTen = current_time.minutes / 10;
- 80013de:	4b1b      	ldr	r3, [pc, #108]	; (800144c <TIM4_IRQHandler+0x140>)
- 80013e0:	785b      	ldrb	r3, [r3, #1]
- 80013e2:	4a1b      	ldr	r2, [pc, #108]	; (8001450 <TIM4_IRQHandler+0x144>)
- 80013e4:	fba2 2303 	umull	r2, r3, r2, r3
- 80013e8:	08db      	lsrs	r3, r3, #3
- 80013ea:	71bb      	strb	r3, [r7, #6]
-			(*NUM_3_SET[minsTen])();
- 80013ec:	79bb      	ldrb	r3, [r7, #6]
- 80013ee:	4a1b      	ldr	r2, [pc, #108]	; (800145c <TIM4_IRQHandler+0x150>)
- 80013f0:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
- 80013f4:	4798      	blx	r3
- 80013f6:	e014      	b.n	8001422 <TIM4_IRQHandler+0x116>
-		}
-		else if(alarmClockSetNum == 3)
- 80013f8:	4b10      	ldr	r3, [pc, #64]	; (800143c <TIM4_IRQHandler+0x130>)
- 80013fa:	781b      	ldrb	r3, [r3, #0]
- 80013fc:	2b03      	cmp	r3, #3
- 80013fe:	d110      	bne.n	8001422 <TIM4_IRQHandler+0x116>
-		{
-			uint8_t minsOne = current_time.minutes % 10;
- 8001400:	4b12      	ldr	r3, [pc, #72]	; (800144c <TIM4_IRQHandler+0x140>)
- 8001402:	785a      	ldrb	r2, [r3, #1]
- 8001404:	4b12      	ldr	r3, [pc, #72]	; (8001450 <TIM4_IRQHandler+0x144>)
- 8001406:	fba3 1302 	umull	r1, r3, r3, r2
- 800140a:	08d9      	lsrs	r1, r3, #3
- 800140c:	460b      	mov	r3, r1
- 800140e:	009b      	lsls	r3, r3, #2
- 8001410:	440b      	add	r3, r1
- 8001412:	005b      	lsls	r3, r3, #1
- 8001414:	1ad3      	subs	r3, r2, r3
- 8001416:	71fb      	strb	r3, [r7, #7]
-			(*NUM_4_SET[minsOne])();
- 8001418:	79fb      	ldrb	r3, [r7, #7]
- 800141a:	4a11      	ldr	r2, [pc, #68]	; (8001460 <TIM4_IRQHandler+0x154>)
- 800141c:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
- 8001420:	4798      	blx	r3
-		}
+			if(alarmClockState == ALARM_CLOCK_SET)
+ 800156a:	4b41      	ldr	r3, [pc, #260]	; (8001670 <TIM4_IRQHandler+0x194>)
+ 800156c:	781b      	ldrb	r3, [r3, #0]
+ 800156e:	2b02      	cmp	r3, #2
+ 8001570:	d126      	bne.n	80015c0 <TIM4_IRQHandler+0xe4>
+			{
+				hoursTen = current_time.hours / 10;
+ 8001572:	4b45      	ldr	r3, [pc, #276]	; (8001688 <TIM4_IRQHandler+0x1ac>)
+ 8001574:	789b      	ldrb	r3, [r3, #2]
+ 8001576:	4a45      	ldr	r2, [pc, #276]	; (800168c <TIM4_IRQHandler+0x1b0>)
+ 8001578:	fba2 2303 	umull	r2, r3, r2, r3
+ 800157c:	08db      	lsrs	r3, r3, #3
+ 800157e:	71fb      	strb	r3, [r7, #7]
+				hoursOne = current_time.hours % 10;
+ 8001580:	4b41      	ldr	r3, [pc, #260]	; (8001688 <TIM4_IRQHandler+0x1ac>)
+ 8001582:	789a      	ldrb	r2, [r3, #2]
+ 8001584:	4b41      	ldr	r3, [pc, #260]	; (800168c <TIM4_IRQHandler+0x1b0>)
+ 8001586:	fba3 1302 	umull	r1, r3, r3, r2
+ 800158a:	08d9      	lsrs	r1, r3, #3
+ 800158c:	460b      	mov	r3, r1
+ 800158e:	009b      	lsls	r3, r3, #2
+ 8001590:	440b      	add	r3, r1
+ 8001592:	005b      	lsls	r3, r3, #1
+ 8001594:	1ad3      	subs	r3, r2, r3
+ 8001596:	71bb      	strb	r3, [r7, #6]
+				minsTen = current_time.minutes / 10;
+ 8001598:	4b3b      	ldr	r3, [pc, #236]	; (8001688 <TIM4_IRQHandler+0x1ac>)
+ 800159a:	785b      	ldrb	r3, [r3, #1]
+ 800159c:	4a3b      	ldr	r2, [pc, #236]	; (800168c <TIM4_IRQHandler+0x1b0>)
+ 800159e:	fba2 2303 	umull	r2, r3, r2, r3
+ 80015a2:	08db      	lsrs	r3, r3, #3
+ 80015a4:	717b      	strb	r3, [r7, #5]
+				minsOne = current_time.minutes % 10;
+ 80015a6:	4b38      	ldr	r3, [pc, #224]	; (8001688 <TIM4_IRQHandler+0x1ac>)
+ 80015a8:	785a      	ldrb	r2, [r3, #1]
+ 80015aa:	4b38      	ldr	r3, [pc, #224]	; (800168c <TIM4_IRQHandler+0x1b0>)
+ 80015ac:	fba3 1302 	umull	r1, r3, r3, r2
+ 80015b0:	08d9      	lsrs	r1, r3, #3
+ 80015b2:	460b      	mov	r3, r1
+ 80015b4:	009b      	lsls	r3, r3, #2
+ 80015b6:	440b      	add	r3, r1
+ 80015b8:	005b      	lsls	r3, r3, #1
+ 80015ba:	1ad3      	subs	r3, r2, r3
+ 80015bc:	713b      	strb	r3, [r7, #4]
+ 80015be:	e025      	b.n	800160c <TIM4_IRQHandler+0x130>
+			}
+			else
+			{
+				hoursTen = alarm_time.hours / 10;
+ 80015c0:	4b33      	ldr	r3, [pc, #204]	; (8001690 <TIM4_IRQHandler+0x1b4>)
+ 80015c2:	789b      	ldrb	r3, [r3, #2]
+ 80015c4:	4a31      	ldr	r2, [pc, #196]	; (800168c <TIM4_IRQHandler+0x1b0>)
+ 80015c6:	fba2 2303 	umull	r2, r3, r2, r3
+ 80015ca:	08db      	lsrs	r3, r3, #3
+ 80015cc:	71fb      	strb	r3, [r7, #7]
+				hoursOne = alarm_time.hours % 10;
+ 80015ce:	4b30      	ldr	r3, [pc, #192]	; (8001690 <TIM4_IRQHandler+0x1b4>)
+ 80015d0:	789a      	ldrb	r2, [r3, #2]
+ 80015d2:	4b2e      	ldr	r3, [pc, #184]	; (800168c <TIM4_IRQHandler+0x1b0>)
+ 80015d4:	fba3 1302 	umull	r1, r3, r3, r2
+ 80015d8:	08d9      	lsrs	r1, r3, #3
+ 80015da:	460b      	mov	r3, r1
+ 80015dc:	009b      	lsls	r3, r3, #2
+ 80015de:	440b      	add	r3, r1
+ 80015e0:	005b      	lsls	r3, r3, #1
+ 80015e2:	1ad3      	subs	r3, r2, r3
+ 80015e4:	71bb      	strb	r3, [r7, #6]
+				minsTen = alarm_time.minutes / 10;
+ 80015e6:	4b2a      	ldr	r3, [pc, #168]	; (8001690 <TIM4_IRQHandler+0x1b4>)
+ 80015e8:	785b      	ldrb	r3, [r3, #1]
+ 80015ea:	4a28      	ldr	r2, [pc, #160]	; (800168c <TIM4_IRQHandler+0x1b0>)
+ 80015ec:	fba2 2303 	umull	r2, r3, r2, r3
+ 80015f0:	08db      	lsrs	r3, r3, #3
+ 80015f2:	717b      	strb	r3, [r7, #5]
+				minsOne = alarm_time.minutes % 10;
+ 80015f4:	4b26      	ldr	r3, [pc, #152]	; (8001690 <TIM4_IRQHandler+0x1b4>)
+ 80015f6:	785a      	ldrb	r2, [r3, #1]
+ 80015f8:	4b24      	ldr	r3, [pc, #144]	; (800168c <TIM4_IRQHandler+0x1b0>)
+ 80015fa:	fba3 1302 	umull	r1, r3, r3, r2
+ 80015fe:	08d9      	lsrs	r1, r3, #3
+ 8001600:	460b      	mov	r3, r1
+ 8001602:	009b      	lsls	r3, r3, #2
+ 8001604:	440b      	add	r3, r1
+ 8001606:	005b      	lsls	r3, r3, #1
+ 8001608:	1ad3      	subs	r3, r2, r3
+ 800160a:	713b      	strb	r3, [r7, #4]
+			}
 
-		//Turn the LED ON
-		blinked = LED_ON;
- 8001422:	4b05      	ldr	r3, [pc, #20]	; (8001438 <TIM4_IRQHandler+0x12c>)
- 8001424:	2201      	movs	r2, #1
- 8001426:	701a      	strb	r2, [r3, #0]
 
+			if(alarmClockSetNum == 0)
+ 800160c:	4b1a      	ldr	r3, [pc, #104]	; (8001678 <TIM4_IRQHandler+0x19c>)
+ 800160e:	781b      	ldrb	r3, [r3, #0]
+ 8001610:	2b00      	cmp	r3, #0
+ 8001612:	d105      	bne.n	8001620 <TIM4_IRQHandler+0x144>
+			{
+
+				(*NUM_1_SET[hoursTen])();
+ 8001614:	79fb      	ldrb	r3, [r7, #7]
+ 8001616:	4a1f      	ldr	r2, [pc, #124]	; (8001694 <TIM4_IRQHandler+0x1b8>)
+ 8001618:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 800161c:	4798      	blx	r3
+ 800161e:	e01c      	b.n	800165a <TIM4_IRQHandler+0x17e>
+			}
+			else if(alarmClockSetNum == 1)
+ 8001620:	4b15      	ldr	r3, [pc, #84]	; (8001678 <TIM4_IRQHandler+0x19c>)
+ 8001622:	781b      	ldrb	r3, [r3, #0]
+ 8001624:	2b01      	cmp	r3, #1
+ 8001626:	d105      	bne.n	8001634 <TIM4_IRQHandler+0x158>
+			{
+
+				(*NUM_2_SET[hoursOne])();
+ 8001628:	79bb      	ldrb	r3, [r7, #6]
+ 800162a:	4a1b      	ldr	r2, [pc, #108]	; (8001698 <TIM4_IRQHandler+0x1bc>)
+ 800162c:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 8001630:	4798      	blx	r3
+ 8001632:	e012      	b.n	800165a <TIM4_IRQHandler+0x17e>
+			}
+			else if(alarmClockSetNum == 2)
+ 8001634:	4b10      	ldr	r3, [pc, #64]	; (8001678 <TIM4_IRQHandler+0x19c>)
+ 8001636:	781b      	ldrb	r3, [r3, #0]
+ 8001638:	2b02      	cmp	r3, #2
+ 800163a:	d105      	bne.n	8001648 <TIM4_IRQHandler+0x16c>
+			{
+
+				(*NUM_3_SET[minsTen])();
+ 800163c:	797b      	ldrb	r3, [r7, #5]
+ 800163e:	4a17      	ldr	r2, [pc, #92]	; (800169c <TIM4_IRQHandler+0x1c0>)
+ 8001640:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 8001644:	4798      	blx	r3
+ 8001646:	e008      	b.n	800165a <TIM4_IRQHandler+0x17e>
+			}
+			else if(alarmClockSetNum == 3)
+ 8001648:	4b0b      	ldr	r3, [pc, #44]	; (8001678 <TIM4_IRQHandler+0x19c>)
+ 800164a:	781b      	ldrb	r3, [r3, #0]
+ 800164c:	2b03      	cmp	r3, #3
+ 800164e:	d104      	bne.n	800165a <TIM4_IRQHandler+0x17e>
+			{
+
+				(*NUM_4_SET[minsOne])();
+ 8001650:	793b      	ldrb	r3, [r7, #4]
+ 8001652:	4a13      	ldr	r2, [pc, #76]	; (80016a0 <TIM4_IRQHandler+0x1c4>)
+ 8001654:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 8001658:	4798      	blx	r3
+			}
+
+			//Turn the LED ON
+			blinked = LED_ON;
+ 800165a:	4b06      	ldr	r3, [pc, #24]	; (8001674 <TIM4_IRQHandler+0x198>)
+ 800165c:	2201      	movs	r2, #1
+ 800165e:	701a      	strb	r2, [r3, #0]
+
+		}
 	}
 
 	//Clear the SR
 	TIM4->SR = 0;
- 8001428:	4b0e      	ldr	r3, [pc, #56]	; (8001464 <TIM4_IRQHandler+0x158>)
- 800142a:	2200      	movs	r2, #0
- 800142c:	611a      	str	r2, [r3, #16]
+ 8001660:	4b10      	ldr	r3, [pc, #64]	; (80016a4 <TIM4_IRQHandler+0x1c8>)
+ 8001662:	2200      	movs	r2, #0
+ 8001664:	611a      	str	r2, [r3, #16]
 }
- 800142e:	bf00      	nop
- 8001430:	3708      	adds	r7, #8
- 8001432:	46bd      	mov	sp, r7
- 8001434:	bd80      	pop	{r7, pc}
- 8001436:	bf00      	nop
- 8001438:	20000000 	.word	0x20000000
- 800143c:	200000a1 	.word	0x200000a1
- 8001440:	40010c00 	.word	0x40010c00
- 8001444:	40010800 	.word	0x40010800
- 8001448:	40011000 	.word	0x40011000
- 800144c:	200000a4 	.word	0x200000a4
- 8001450:	cccccccd 	.word	0xcccccccd
- 8001454:	20000004 	.word	0x20000004
- 8001458:	2000000c 	.word	0x2000000c
- 800145c:	20000034 	.word	0x20000034
- 8001460:	2000005c 	.word	0x2000005c
- 8001464:	40000800 	.word	0x40000800
+ 8001666:	bf00      	nop
+ 8001668:	3708      	adds	r7, #8
+ 800166a:	46bd      	mov	sp, r7
+ 800166c:	bd80      	pop	{r7, pc}
+ 800166e:	bf00      	nop
+ 8001670:	200000a0 	.word	0x200000a0
+ 8001674:	20000000 	.word	0x20000000
+ 8001678:	200000a1 	.word	0x200000a1
+ 800167c:	40010c00 	.word	0x40010c00
+ 8001680:	40010800 	.word	0x40010800
+ 8001684:	40011000 	.word	0x40011000
+ 8001688:	200000a4 	.word	0x200000a4
+ 800168c:	cccccccd 	.word	0xcccccccd
+ 8001690:	200000a8 	.word	0x200000a8
+ 8001694:	20000004 	.word	0x20000004
+ 8001698:	2000000c 	.word	0x2000000c
+ 800169c:	20000034 	.word	0x20000034
+ 80016a0:	2000005c 	.word	0x2000005c
+ 80016a4:	40000800 	.word	0x40000800
 
-08001468 <binary_to_bcd>:
+080016a8 <binary_to_bcd>:
  */
 
 #include "rtci2c.h"
 
 uint8_t binary_to_bcd(uint8_t value)
 {
- 8001468:	b480      	push	{r7}
- 800146a:	b085      	sub	sp, #20
- 800146c:	af00      	add	r7, sp, #0
- 800146e:	4603      	mov	r3, r0
- 8001470:	71fb      	strb	r3, [r7, #7]
+ 80016a8:	b480      	push	{r7}
+ 80016aa:	b085      	sub	sp, #20
+ 80016ac:	af00      	add	r7, sp, #0
+ 80016ae:	4603      	mov	r3, r0
+ 80016b0:	71fb      	strb	r3, [r7, #7]
 	//Ones is bit 0:3, tens is bit 4:6
 	uint8_t tens, ones,bcd;
 	//If only 1s bcd value is the same as binary
 	bcd = value;
- 8001472:	79fb      	ldrb	r3, [r7, #7]
- 8001474:	73fb      	strb	r3, [r7, #15]
+ 80016b2:	79fb      	ldrb	r3, [r7, #7]
+ 80016b4:	73fb      	strb	r3, [r7, #15]
 	if(value >= 10)
- 8001476:	79fb      	ldrb	r3, [r7, #7]
- 8001478:	2b09      	cmp	r3, #9
- 800147a:	d918      	bls.n	80014ae <binary_to_bcd+0x46>
+ 80016b6:	79fb      	ldrb	r3, [r7, #7]
+ 80016b8:	2b09      	cmp	r3, #9
+ 80016ba:	d918      	bls.n	80016ee <binary_to_bcd+0x46>
 	{
 		tens = value/10;
- 800147c:	79fb      	ldrb	r3, [r7, #7]
- 800147e:	4a0f      	ldr	r2, [pc, #60]	; (80014bc <binary_to_bcd+0x54>)
- 8001480:	fba2 2303 	umull	r2, r3, r2, r3
- 8001484:	08db      	lsrs	r3, r3, #3
- 8001486:	73bb      	strb	r3, [r7, #14]
+ 80016bc:	79fb      	ldrb	r3, [r7, #7]
+ 80016be:	4a0f      	ldr	r2, [pc, #60]	; (80016fc <binary_to_bcd+0x54>)
+ 80016c0:	fba2 2303 	umull	r2, r3, r2, r3
+ 80016c4:	08db      	lsrs	r3, r3, #3
+ 80016c6:	73bb      	strb	r3, [r7, #14]
 		ones = value %10;
- 8001488:	79fa      	ldrb	r2, [r7, #7]
- 800148a:	4b0c      	ldr	r3, [pc, #48]	; (80014bc <binary_to_bcd+0x54>)
- 800148c:	fba3 1302 	umull	r1, r3, r3, r2
- 8001490:	08d9      	lsrs	r1, r3, #3
- 8001492:	460b      	mov	r3, r1
- 8001494:	009b      	lsls	r3, r3, #2
- 8001496:	440b      	add	r3, r1
- 8001498:	005b      	lsls	r3, r3, #1
- 800149a:	1ad3      	subs	r3, r2, r3
- 800149c:	737b      	strb	r3, [r7, #13]
+ 80016c8:	79fa      	ldrb	r2, [r7, #7]
+ 80016ca:	4b0c      	ldr	r3, [pc, #48]	; (80016fc <binary_to_bcd+0x54>)
+ 80016cc:	fba3 1302 	umull	r1, r3, r3, r2
+ 80016d0:	08d9      	lsrs	r1, r3, #3
+ 80016d2:	460b      	mov	r3, r1
+ 80016d4:	009b      	lsls	r3, r3, #2
+ 80016d6:	440b      	add	r3, r1
+ 80016d8:	005b      	lsls	r3, r3, #1
+ 80016da:	1ad3      	subs	r3, r2, r3
+ 80016dc:	737b      	strb	r3, [r7, #13]
 		bcd = (uint8_t)((tens<<4)|ones );
- 800149e:	7bbb      	ldrb	r3, [r7, #14]
- 80014a0:	011b      	lsls	r3, r3, #4
- 80014a2:	b25a      	sxtb	r2, r3
- 80014a4:	f997 300d 	ldrsb.w	r3, [r7, #13]
- 80014a8:	4313      	orrs	r3, r2
- 80014aa:	b25b      	sxtb	r3, r3
- 80014ac:	73fb      	strb	r3, [r7, #15]
+ 80016de:	7bbb      	ldrb	r3, [r7, #14]
+ 80016e0:	011b      	lsls	r3, r3, #4
+ 80016e2:	b25a      	sxtb	r2, r3
+ 80016e4:	f997 300d 	ldrsb.w	r3, [r7, #13]
+ 80016e8:	4313      	orrs	r3, r2
+ 80016ea:	b25b      	sxtb	r3, r3
+ 80016ec:	73fb      	strb	r3, [r7, #15]
 	}
 	return bcd;
- 80014ae:	7bfb      	ldrb	r3, [r7, #15]
+ 80016ee:	7bfb      	ldrb	r3, [r7, #15]
 }
- 80014b0:	4618      	mov	r0, r3
- 80014b2:	3714      	adds	r7, #20
- 80014b4:	46bd      	mov	sp, r7
- 80014b6:	bc80      	pop	{r7}
- 80014b8:	4770      	bx	lr
- 80014ba:	bf00      	nop
- 80014bc:	cccccccd 	.word	0xcccccccd
+ 80016f0:	4618      	mov	r0, r3
+ 80016f2:	3714      	adds	r7, #20
+ 80016f4:	46bd      	mov	sp, r7
+ 80016f6:	bc80      	pop	{r7}
+ 80016f8:	4770      	bx	lr
+ 80016fa:	bf00      	nop
+ 80016fc:	cccccccd 	.word	0xcccccccd
 
-080014c0 <bcd_to_binary>:
+08001700 <bcd_to_binary>:
 
 uint8_t bcd_to_binary(uint8_t value)
 {
- 80014c0:	b480      	push	{r7}
- 80014c2:	b085      	sub	sp, #20
- 80014c4:	af00      	add	r7, sp, #0
- 80014c6:	4603      	mov	r3, r0
- 80014c8:	71fb      	strb	r3, [r7, #7]
+ 8001700:	b480      	push	{r7}
+ 8001702:	b085      	sub	sp, #20
+ 8001704:	af00      	add	r7, sp, #0
+ 8001706:	4603      	mov	r3, r0
+ 8001708:	71fb      	strb	r3, [r7, #7]
 	//Ones is bit 0:3, tens is bit 4:6
 	//This function gets the amount of tens and ones
 	uint8_t tens, ones,binary;
 	tens = (value >>4);
- 80014ca:	79fb      	ldrb	r3, [r7, #7]
- 80014cc:	091b      	lsrs	r3, r3, #4
- 80014ce:	73fb      	strb	r3, [r7, #15]
+ 800170a:	79fb      	ldrb	r3, [r7, #7]
+ 800170c:	091b      	lsrs	r3, r3, #4
+ 800170e:	73fb      	strb	r3, [r7, #15]
 	ones = (value & 0x0F);
- 80014d0:	79fb      	ldrb	r3, [r7, #7]
- 80014d2:	f003 030f 	and.w	r3, r3, #15
- 80014d6:	73bb      	strb	r3, [r7, #14]
+ 8001710:	79fb      	ldrb	r3, [r7, #7]
+ 8001712:	f003 030f 	and.w	r3, r3, #15
+ 8001716:	73bb      	strb	r3, [r7, #14]
 	binary = tens*10 + ones;
- 80014d8:	7bfb      	ldrb	r3, [r7, #15]
- 80014da:	461a      	mov	r2, r3
- 80014dc:	0092      	lsls	r2, r2, #2
- 80014de:	4413      	add	r3, r2
- 80014e0:	005b      	lsls	r3, r3, #1
- 80014e2:	b2da      	uxtb	r2, r3
- 80014e4:	7bbb      	ldrb	r3, [r7, #14]
- 80014e6:	4413      	add	r3, r2
- 80014e8:	737b      	strb	r3, [r7, #13]
+ 8001718:	7bfb      	ldrb	r3, [r7, #15]
+ 800171a:	461a      	mov	r2, r3
+ 800171c:	0092      	lsls	r2, r2, #2
+ 800171e:	4413      	add	r3, r2
+ 8001720:	005b      	lsls	r3, r3, #1
+ 8001722:	b2da      	uxtb	r2, r3
+ 8001724:	7bbb      	ldrb	r3, [r7, #14]
+ 8001726:	4413      	add	r3, r2
+ 8001728:	737b      	strb	r3, [r7, #13]
 
 	return (uint8_t)binary;
- 80014ea:	7b7b      	ldrb	r3, [r7, #13]
+ 800172a:	7b7b      	ldrb	r3, [r7, #13]
 }
- 80014ec:	4618      	mov	r0, r3
- 80014ee:	3714      	adds	r7, #20
- 80014f0:	46bd      	mov	sp, r7
- 80014f2:	bc80      	pop	{r7}
- 80014f4:	4770      	bx	lr
+ 800172c:	4618      	mov	r0, r3
+ 800172e:	3714      	adds	r7, #20
+ 8001730:	46bd      	mov	sp, r7
+ 8001732:	bc80      	pop	{r7}
+ 8001734:	4770      	bx	lr
 	...
 
-080014f8 <I2C_SendData>:
+08001738 <I2C_SendData>:
 
 
 
 void  I2C_SendData(uint8_t *pTXBuffer, uint32_t Len, uint8_t Sr)
 {
- 80014f8:	b480      	push	{r7}
- 80014fa:	b087      	sub	sp, #28
- 80014fc:	af00      	add	r7, sp, #0
- 80014fe:	60f8      	str	r0, [r7, #12]
- 8001500:	60b9      	str	r1, [r7, #8]
- 8001502:	4613      	mov	r3, r2
- 8001504:	71fb      	strb	r3, [r7, #7]
+ 8001738:	b480      	push	{r7}
+ 800173a:	b087      	sub	sp, #28
+ 800173c:	af00      	add	r7, sp, #0
+ 800173e:	60f8      	str	r0, [r7, #12]
+ 8001740:	60b9      	str	r1, [r7, #8]
+ 8001742:	4613      	mov	r3, r2
+ 8001744:	71fb      	strb	r3, [r7, #7]
 
 	//Generate START Condition
 	I2C1->CR1 |= (1<< 8);
- 8001506:	4b25      	ldr	r3, [pc, #148]	; (800159c <I2C_SendData+0xa4>)
- 8001508:	681b      	ldr	r3, [r3, #0]
- 800150a:	4a24      	ldr	r2, [pc, #144]	; (800159c <I2C_SendData+0xa4>)
- 800150c:	f443 7380 	orr.w	r3, r3, #256	; 0x100
- 8001510:	6013      	str	r3, [r2, #0]
+ 8001746:	4b25      	ldr	r3, [pc, #148]	; (80017dc <I2C_SendData+0xa4>)
+ 8001748:	681b      	ldr	r3, [r3, #0]
+ 800174a:	4a24      	ldr	r2, [pc, #144]	; (80017dc <I2C_SendData+0xa4>)
+ 800174c:	f443 7380 	orr.w	r3, r3, #256	; 0x100
+ 8001750:	6013      	str	r3, [r2, #0]
 
 	//Poll the SB flag in SR1. Hang program until its set
 	while(!(I2C1->SR1 & 1));
- 8001512:	bf00      	nop
- 8001514:	4b21      	ldr	r3, [pc, #132]	; (800159c <I2C_SendData+0xa4>)
- 8001516:	695b      	ldr	r3, [r3, #20]
- 8001518:	f003 0301 	and.w	r3, r3, #1
- 800151c:	2b00      	cmp	r3, #0
- 800151e:	d0f9      	beq.n	8001514 <I2C_SendData+0x1c>
+ 8001752:	bf00      	nop
+ 8001754:	4b21      	ldr	r3, [pc, #132]	; (80017dc <I2C_SendData+0xa4>)
+ 8001756:	695b      	ldr	r3, [r3, #20]
+ 8001758:	f003 0301 	and.w	r3, r3, #1
+ 800175c:	2b00      	cmp	r3, #0
+ 800175e:	d0f9      	beq.n	8001754 <I2C_SendData+0x1c>
 
 	//Write the slave address to the DR
 	//First bit must be cleared
 	I2C1->DR = DS1307_DEVICE_ADDR << 1;
- 8001520:	4b1e      	ldr	r3, [pc, #120]	; (800159c <I2C_SendData+0xa4>)
- 8001522:	22d0      	movs	r2, #208	; 0xd0
- 8001524:	611a      	str	r2, [r3, #16]
+ 8001760:	4b1e      	ldr	r3, [pc, #120]	; (80017dc <I2C_SendData+0xa4>)
+ 8001762:	22d0      	movs	r2, #208	; 0xd0
+ 8001764:	611a      	str	r2, [r3, #16]
 
 	//Poll the ADDR flag in SR1. Hang program until its set
 	while(!(I2C1->SR1& (1<< 1)));
- 8001526:	bf00      	nop
- 8001528:	4b1c      	ldr	r3, [pc, #112]	; (800159c <I2C_SendData+0xa4>)
- 800152a:	695b      	ldr	r3, [r3, #20]
- 800152c:	f003 0302 	and.w	r3, r3, #2
- 8001530:	2b00      	cmp	r3, #0
- 8001532:	d0f9      	beq.n	8001528 <I2C_SendData+0x30>
+ 8001766:	bf00      	nop
+ 8001768:	4b1c      	ldr	r3, [pc, #112]	; (80017dc <I2C_SendData+0xa4>)
+ 800176a:	695b      	ldr	r3, [r3, #20]
+ 800176c:	f003 0302 	and.w	r3, r3, #2
+ 8001770:	2b00      	cmp	r3, #0
+ 8001772:	d0f9      	beq.n	8001768 <I2C_SendData+0x30>
 
 	//ADDR flag cleared by reading SR1 then SR2
 	uint32_t dummyread;
 	dummyread = I2C1->SR1;
- 8001534:	4b19      	ldr	r3, [pc, #100]	; (800159c <I2C_SendData+0xa4>)
- 8001536:	695b      	ldr	r3, [r3, #20]
- 8001538:	617b      	str	r3, [r7, #20]
+ 8001774:	4b19      	ldr	r3, [pc, #100]	; (80017dc <I2C_SendData+0xa4>)
+ 8001776:	695b      	ldr	r3, [r3, #20]
+ 8001778:	617b      	str	r3, [r7, #20]
 	dummyread = I2C1->SR2;
- 800153a:	4b18      	ldr	r3, [pc, #96]	; (800159c <I2C_SendData+0xa4>)
- 800153c:	699b      	ldr	r3, [r3, #24]
- 800153e:	617b      	str	r3, [r7, #20]
+ 800177a:	4b18      	ldr	r3, [pc, #96]	; (80017dc <I2C_SendData+0xa4>)
+ 800177c:	699b      	ldr	r3, [r3, #24]
+ 800177e:	617b      	str	r3, [r7, #20]
 	(void)dummyread;
 
 	//Send all bytes of data
 	while(Len > 0)
- 8001540:	e010      	b.n	8001564 <I2C_SendData+0x6c>
+ 8001780:	e010      	b.n	80017a4 <I2C_SendData+0x6c>
 	{
 		//Hang the program until TXE SR1 is set
 		while(!(I2C1->SR1& (1<< 7)));
- 8001542:	bf00      	nop
- 8001544:	4b15      	ldr	r3, [pc, #84]	; (800159c <I2C_SendData+0xa4>)
- 8001546:	695b      	ldr	r3, [r3, #20]
- 8001548:	f003 0380 	and.w	r3, r3, #128	; 0x80
- 800154c:	2b00      	cmp	r3, #0
- 800154e:	d0f9      	beq.n	8001544 <I2C_SendData+0x4c>
+ 8001782:	bf00      	nop
+ 8001784:	4b15      	ldr	r3, [pc, #84]	; (80017dc <I2C_SendData+0xa4>)
+ 8001786:	695b      	ldr	r3, [r3, #20]
+ 8001788:	f003 0380 	and.w	r3, r3, #128	; 0x80
+ 800178c:	2b00      	cmp	r3, #0
+ 800178e:	d0f9      	beq.n	8001784 <I2C_SendData+0x4c>
 
 		//1. load the data in to DR
 		I2C1->DR = *(pTXBuffer);
- 8001550:	68fb      	ldr	r3, [r7, #12]
- 8001552:	781a      	ldrb	r2, [r3, #0]
- 8001554:	4b11      	ldr	r3, [pc, #68]	; (800159c <I2C_SendData+0xa4>)
- 8001556:	611a      	str	r2, [r3, #16]
+ 8001790:	68fb      	ldr	r3, [r7, #12]
+ 8001792:	781a      	ldrb	r2, [r3, #0]
+ 8001794:	4b11      	ldr	r3, [pc, #68]	; (80017dc <I2C_SendData+0xa4>)
+ 8001796:	611a      	str	r2, [r3, #16]
 
 		//2. decrement the TxLen
 		Len--;
- 8001558:	68bb      	ldr	r3, [r7, #8]
- 800155a:	3b01      	subs	r3, #1
- 800155c:	60bb      	str	r3, [r7, #8]
+ 8001798:	68bb      	ldr	r3, [r7, #8]
+ 800179a:	3b01      	subs	r3, #1
+ 800179c:	60bb      	str	r3, [r7, #8]
 
 		//3. Increment the buffer address
 		pTXBuffer++;
- 800155e:	68fb      	ldr	r3, [r7, #12]
- 8001560:	3301      	adds	r3, #1
- 8001562:	60fb      	str	r3, [r7, #12]
+ 800179e:	68fb      	ldr	r3, [r7, #12]
+ 80017a0:	3301      	adds	r3, #1
+ 80017a2:	60fb      	str	r3, [r7, #12]
 	while(Len > 0)
- 8001564:	68bb      	ldr	r3, [r7, #8]
- 8001566:	2b00      	cmp	r3, #0
- 8001568:	d1eb      	bne.n	8001542 <I2C_SendData+0x4a>
+ 80017a4:	68bb      	ldr	r3, [r7, #8]
+ 80017a6:	2b00      	cmp	r3, #0
+ 80017a8:	d1eb      	bne.n	8001782 <I2C_SendData+0x4a>
 	}
 
 
 	//Wait for TXE and BTF to be set as they signal end of data transfer
 	while(!(I2C1->SR1& (1<< 7)));
- 800156a:	bf00      	nop
- 800156c:	4b0b      	ldr	r3, [pc, #44]	; (800159c <I2C_SendData+0xa4>)
- 800156e:	695b      	ldr	r3, [r3, #20]
- 8001570:	f003 0380 	and.w	r3, r3, #128	; 0x80
- 8001574:	2b00      	cmp	r3, #0
- 8001576:	d0f9      	beq.n	800156c <I2C_SendData+0x74>
+ 80017aa:	bf00      	nop
+ 80017ac:	4b0b      	ldr	r3, [pc, #44]	; (80017dc <I2C_SendData+0xa4>)
+ 80017ae:	695b      	ldr	r3, [r3, #20]
+ 80017b0:	f003 0380 	and.w	r3, r3, #128	; 0x80
+ 80017b4:	2b00      	cmp	r3, #0
+ 80017b6:	d0f9      	beq.n	80017ac <I2C_SendData+0x74>
 	while(!(I2C1->SR1& (1<< 2)));
- 8001578:	bf00      	nop
- 800157a:	4b08      	ldr	r3, [pc, #32]	; (800159c <I2C_SendData+0xa4>)
- 800157c:	695b      	ldr	r3, [r3, #20]
- 800157e:	f003 0304 	and.w	r3, r3, #4
- 8001582:	2b00      	cmp	r3, #0
- 8001584:	d0f9      	beq.n	800157a <I2C_SendData+0x82>
+ 80017b8:	bf00      	nop
+ 80017ba:	4b08      	ldr	r3, [pc, #32]	; (80017dc <I2C_SendData+0xa4>)
+ 80017bc:	695b      	ldr	r3, [r3, #20]
+ 80017be:	f003 0304 	and.w	r3, r3, #4
+ 80017c2:	2b00      	cmp	r3, #0
+ 80017c4:	d0f9      	beq.n	80017ba <I2C_SendData+0x82>
 
 
 	//Generate the stop condition
 	I2C1->CR1 |= (1<< 9);
- 8001586:	4b05      	ldr	r3, [pc, #20]	; (800159c <I2C_SendData+0xa4>)
- 8001588:	681b      	ldr	r3, [r3, #0]
- 800158a:	4a04      	ldr	r2, [pc, #16]	; (800159c <I2C_SendData+0xa4>)
- 800158c:	f443 7300 	orr.w	r3, r3, #512	; 0x200
- 8001590:	6013      	str	r3, [r2, #0]
+ 80017c6:	4b05      	ldr	r3, [pc, #20]	; (80017dc <I2C_SendData+0xa4>)
+ 80017c8:	681b      	ldr	r3, [r3, #0]
+ 80017ca:	4a04      	ldr	r2, [pc, #16]	; (80017dc <I2C_SendData+0xa4>)
+ 80017cc:	f443 7300 	orr.w	r3, r3, #512	; 0x200
+ 80017d0:	6013      	str	r3, [r2, #0]
 
 }
- 8001592:	bf00      	nop
- 8001594:	371c      	adds	r7, #28
- 8001596:	46bd      	mov	sp, r7
- 8001598:	bc80      	pop	{r7}
- 800159a:	4770      	bx	lr
- 800159c:	40005400 	.word	0x40005400
+ 80017d2:	bf00      	nop
+ 80017d4:	371c      	adds	r7, #28
+ 80017d6:	46bd      	mov	sp, r7
+ 80017d8:	bc80      	pop	{r7}
+ 80017da:	4770      	bx	lr
+ 80017dc:	40005400 	.word	0x40005400
 
-080015a0 <I2C_RecieveData>:
+080017e0 <I2C_RecieveData>:
 
 
 void I2C_RecieveData(uint8_t *pRXBuffer)
 {
- 80015a0:	b480      	push	{r7}
- 80015a2:	b085      	sub	sp, #20
- 80015a4:	af00      	add	r7, sp, #0
- 80015a6:	6078      	str	r0, [r7, #4]
+ 80017e0:	b480      	push	{r7}
+ 80017e2:	b085      	sub	sp, #20
+ 80017e4:	af00      	add	r7, sp, #0
+ 80017e6:	6078      	str	r0, [r7, #4]
 
 	//Generate START Condition
 	I2C1->CR1 |= (1<< 8);
- 80015a8:	4b30      	ldr	r3, [pc, #192]	; (800166c <I2C_RecieveData+0xcc>)
- 80015aa:	681b      	ldr	r3, [r3, #0]
- 80015ac:	4a2f      	ldr	r2, [pc, #188]	; (800166c <I2C_RecieveData+0xcc>)
- 80015ae:	f443 7380 	orr.w	r3, r3, #256	; 0x100
- 80015b2:	6013      	str	r3, [r2, #0]
+ 80017e8:	4b30      	ldr	r3, [pc, #192]	; (80018ac <I2C_RecieveData+0xcc>)
+ 80017ea:	681b      	ldr	r3, [r3, #0]
+ 80017ec:	4a2f      	ldr	r2, [pc, #188]	; (80018ac <I2C_RecieveData+0xcc>)
+ 80017ee:	f443 7380 	orr.w	r3, r3, #256	; 0x100
+ 80017f2:	6013      	str	r3, [r2, #0]
 
 	//Enable ACKING
 	I2C1->CR1 |= (1<< 10);
- 80015b4:	4b2d      	ldr	r3, [pc, #180]	; (800166c <I2C_RecieveData+0xcc>)
- 80015b6:	681b      	ldr	r3, [r3, #0]
- 80015b8:	4a2c      	ldr	r2, [pc, #176]	; (800166c <I2C_RecieveData+0xcc>)
- 80015ba:	f443 6380 	orr.w	r3, r3, #1024	; 0x400
- 80015be:	6013      	str	r3, [r2, #0]
+ 80017f4:	4b2d      	ldr	r3, [pc, #180]	; (80018ac <I2C_RecieveData+0xcc>)
+ 80017f6:	681b      	ldr	r3, [r3, #0]
+ 80017f8:	4a2c      	ldr	r2, [pc, #176]	; (80018ac <I2C_RecieveData+0xcc>)
+ 80017fa:	f443 6380 	orr.w	r3, r3, #1024	; 0x400
+ 80017fe:	6013      	str	r3, [r2, #0]
 
 	//Poll the SB flag in SR1. Hang program until its set
 	while(!(I2C1->SR1 & 1));
- 80015c0:	bf00      	nop
- 80015c2:	4b2a      	ldr	r3, [pc, #168]	; (800166c <I2C_RecieveData+0xcc>)
- 80015c4:	695b      	ldr	r3, [r3, #20]
- 80015c6:	f003 0301 	and.w	r3, r3, #1
- 80015ca:	2b00      	cmp	r3, #0
- 80015cc:	d0f9      	beq.n	80015c2 <I2C_RecieveData+0x22>
+ 8001800:	bf00      	nop
+ 8001802:	4b2a      	ldr	r3, [pc, #168]	; (80018ac <I2C_RecieveData+0xcc>)
+ 8001804:	695b      	ldr	r3, [r3, #20]
+ 8001806:	f003 0301 	and.w	r3, r3, #1
+ 800180a:	2b00      	cmp	r3, #0
+ 800180c:	d0f9      	beq.n	8001802 <I2C_RecieveData+0x22>
 
 	//Write the slave address to the DR last bit set 1 as write
 	I2C1->DR = (DS1307_DEVICE_ADDR << 1) |(1);
- 80015ce:	4b27      	ldr	r3, [pc, #156]	; (800166c <I2C_RecieveData+0xcc>)
- 80015d0:	22d1      	movs	r2, #209	; 0xd1
- 80015d2:	611a      	str	r2, [r3, #16]
+ 800180e:	4b27      	ldr	r3, [pc, #156]	; (80018ac <I2C_RecieveData+0xcc>)
+ 8001810:	22d1      	movs	r2, #209	; 0xd1
+ 8001812:	611a      	str	r2, [r3, #16]
 	//ONLY THREE BYTES ARE EITHER RECIEVED AT A TIME AS THAT IS ALL THAT IS REQUIRED TO GET THE RTC STATE
 	//THEREFORE CODE IS SET UP AS PER I2C MANUAL TO RECIEVE THESE 3 BYTES
 	//pg 5 - https://www.st.com/resource/en/application_note/cd00209826-stm32f10xxx-i-c-optimized-examples-stmicroelectronics.pdf
 
 	//Poll the ADDR flag in SR1. Hang program until its set
 	while(!(I2C1->SR1& (1<< 1)));
- 80015d4:	bf00      	nop
- 80015d6:	4b25      	ldr	r3, [pc, #148]	; (800166c <I2C_RecieveData+0xcc>)
- 80015d8:	695b      	ldr	r3, [r3, #20]
- 80015da:	f003 0302 	and.w	r3, r3, #2
- 80015de:	2b00      	cmp	r3, #0
- 80015e0:	d0f9      	beq.n	80015d6 <I2C_RecieveData+0x36>
+ 8001814:	bf00      	nop
+ 8001816:	4b25      	ldr	r3, [pc, #148]	; (80018ac <I2C_RecieveData+0xcc>)
+ 8001818:	695b      	ldr	r3, [r3, #20]
+ 800181a:	f003 0302 	and.w	r3, r3, #2
+ 800181e:	2b00      	cmp	r3, #0
+ 8001820:	d0f9      	beq.n	8001816 <I2C_RecieveData+0x36>
 
 	//ADDR flag cleared by reading SR1 then SR2
 	uint32_t dummyread;
 	dummyread = I2C1->SR1;
- 80015e2:	4b22      	ldr	r3, [pc, #136]	; (800166c <I2C_RecieveData+0xcc>)
- 80015e4:	695b      	ldr	r3, [r3, #20]
- 80015e6:	60fb      	str	r3, [r7, #12]
+ 8001822:	4b22      	ldr	r3, [pc, #136]	; (80018ac <I2C_RecieveData+0xcc>)
+ 8001824:	695b      	ldr	r3, [r3, #20]
+ 8001826:	60fb      	str	r3, [r7, #12]
 	dummyread = I2C1->SR2;
- 80015e8:	4b20      	ldr	r3, [pc, #128]	; (800166c <I2C_RecieveData+0xcc>)
- 80015ea:	699b      	ldr	r3, [r3, #24]
- 80015ec:	60fb      	str	r3, [r7, #12]
+ 8001828:	4b20      	ldr	r3, [pc, #128]	; (80018ac <I2C_RecieveData+0xcc>)
+ 800182a:	699b      	ldr	r3, [r3, #24]
+ 800182c:	60fb      	str	r3, [r7, #12]
 	(void)dummyread;
 
 	//Wait until RXNE is set signifing data is received
 	while(!(I2C1->SR1& (1<< 6)));
- 80015ee:	bf00      	nop
- 80015f0:	4b1e      	ldr	r3, [pc, #120]	; (800166c <I2C_RecieveData+0xcc>)
- 80015f2:	695b      	ldr	r3, [r3, #20]
- 80015f4:	f003 0340 	and.w	r3, r3, #64	; 0x40
- 80015f8:	2b00      	cmp	r3, #0
- 80015fa:	d0f9      	beq.n	80015f0 <I2C_RecieveData+0x50>
+ 800182e:	bf00      	nop
+ 8001830:	4b1e      	ldr	r3, [pc, #120]	; (80018ac <I2C_RecieveData+0xcc>)
+ 8001832:	695b      	ldr	r3, [r3, #20]
+ 8001834:	f003 0340 	and.w	r3, r3, #64	; 0x40
+ 8001838:	2b00      	cmp	r3, #0
+ 800183a:	d0f9      	beq.n	8001830 <I2C_RecieveData+0x50>
 
 	//Wait until btf flag is set signfying two bytes of data have been recieved as both the shift and data register are full
 	while(!(I2C1->SR1& (1<< 2)));
- 80015fc:	bf00      	nop
- 80015fe:	4b1b      	ldr	r3, [pc, #108]	; (800166c <I2C_RecieveData+0xcc>)
- 8001600:	695b      	ldr	r3, [r3, #20]
- 8001602:	f003 0304 	and.w	r3, r3, #4
- 8001606:	2b00      	cmp	r3, #0
- 8001608:	d0f9      	beq.n	80015fe <I2C_RecieveData+0x5e>
+ 800183c:	bf00      	nop
+ 800183e:	4b1b      	ldr	r3, [pc, #108]	; (80018ac <I2C_RecieveData+0xcc>)
+ 8001840:	695b      	ldr	r3, [r3, #20]
+ 8001842:	f003 0304 	and.w	r3, r3, #4
+ 8001846:	2b00      	cmp	r3, #0
+ 8001848:	d0f9      	beq.n	800183e <I2C_RecieveData+0x5e>
 
 	//Disable acking so that when the next byte of data is received (final byte) it recieves a nack
 	I2C1->CR1 &= ~(1<< 10);
- 800160a:	4b18      	ldr	r3, [pc, #96]	; (800166c <I2C_RecieveData+0xcc>)
- 800160c:	681b      	ldr	r3, [r3, #0]
- 800160e:	4a17      	ldr	r2, [pc, #92]	; (800166c <I2C_RecieveData+0xcc>)
- 8001610:	f423 6380 	bic.w	r3, r3, #1024	; 0x400
- 8001614:	6013      	str	r3, [r2, #0]
+ 800184a:	4b18      	ldr	r3, [pc, #96]	; (80018ac <I2C_RecieveData+0xcc>)
+ 800184c:	681b      	ldr	r3, [r3, #0]
+ 800184e:	4a17      	ldr	r2, [pc, #92]	; (80018ac <I2C_RecieveData+0xcc>)
+ 8001850:	f423 6380 	bic.w	r3, r3, #1024	; 0x400
+ 8001854:	6013      	str	r3, [r2, #0]
 
 	//Read the first byte of data
 	*pRXBuffer = I2C1->DR;
- 8001616:	4b15      	ldr	r3, [pc, #84]	; (800166c <I2C_RecieveData+0xcc>)
- 8001618:	691b      	ldr	r3, [r3, #16]
- 800161a:	b2da      	uxtb	r2, r3
- 800161c:	687b      	ldr	r3, [r7, #4]
- 800161e:	701a      	strb	r2, [r3, #0]
+ 8001856:	4b15      	ldr	r3, [pc, #84]	; (80018ac <I2C_RecieveData+0xcc>)
+ 8001858:	691b      	ldr	r3, [r3, #16]
+ 800185a:	b2da      	uxtb	r2, r3
+ 800185c:	687b      	ldr	r3, [r7, #4]
+ 800185e:	701a      	strb	r2, [r3, #0]
 	pRXBuffer++;
- 8001620:	687b      	ldr	r3, [r7, #4]
- 8001622:	3301      	adds	r3, #1
- 8001624:	607b      	str	r3, [r7, #4]
+ 8001860:	687b      	ldr	r3, [r7, #4]
+ 8001862:	3301      	adds	r3, #1
+ 8001864:	607b      	str	r3, [r7, #4]
 
 	//Final byte is now recieved and NACK pulse send ending data transfer
 
 	//Generate the stop condition as no more data should be sent
 	I2C1->CR1 |= (1<< 9);
- 8001626:	4b11      	ldr	r3, [pc, #68]	; (800166c <I2C_RecieveData+0xcc>)
- 8001628:	681b      	ldr	r3, [r3, #0]
- 800162a:	4a10      	ldr	r2, [pc, #64]	; (800166c <I2C_RecieveData+0xcc>)
- 800162c:	f443 7300 	orr.w	r3, r3, #512	; 0x200
- 8001630:	6013      	str	r3, [r2, #0]
+ 8001866:	4b11      	ldr	r3, [pc, #68]	; (80018ac <I2C_RecieveData+0xcc>)
+ 8001868:	681b      	ldr	r3, [r3, #0]
+ 800186a:	4a10      	ldr	r2, [pc, #64]	; (80018ac <I2C_RecieveData+0xcc>)
+ 800186c:	f443 7300 	orr.w	r3, r3, #512	; 0x200
+ 8001870:	6013      	str	r3, [r2, #0]
 
 	//Read the second byte of data
 	*pRXBuffer = I2C1->DR;
- 8001632:	4b0e      	ldr	r3, [pc, #56]	; (800166c <I2C_RecieveData+0xcc>)
- 8001634:	691b      	ldr	r3, [r3, #16]
- 8001636:	b2da      	uxtb	r2, r3
- 8001638:	687b      	ldr	r3, [r7, #4]
- 800163a:	701a      	strb	r2, [r3, #0]
+ 8001872:	4b0e      	ldr	r3, [pc, #56]	; (80018ac <I2C_RecieveData+0xcc>)
+ 8001874:	691b      	ldr	r3, [r3, #16]
+ 8001876:	b2da      	uxtb	r2, r3
+ 8001878:	687b      	ldr	r3, [r7, #4]
+ 800187a:	701a      	strb	r2, [r3, #0]
 	pRXBuffer++;
- 800163c:	687b      	ldr	r3, [r7, #4]
- 800163e:	3301      	adds	r3, #1
- 8001640:	607b      	str	r3, [r7, #4]
+ 800187c:	687b      	ldr	r3, [r7, #4]
+ 800187e:	3301      	adds	r3, #1
+ 8001880:	607b      	str	r3, [r7, #4]
 
 	//Wait until RXNE is set signifing last byte of data has defiently arrived
 	while(!(I2C1->SR1& (1<< 6)));
- 8001642:	bf00      	nop
- 8001644:	4b09      	ldr	r3, [pc, #36]	; (800166c <I2C_RecieveData+0xcc>)
- 8001646:	695b      	ldr	r3, [r3, #20]
- 8001648:	f003 0340 	and.w	r3, r3, #64	; 0x40
- 800164c:	2b00      	cmp	r3, #0
- 800164e:	d0f9      	beq.n	8001644 <I2C_RecieveData+0xa4>
+ 8001882:	bf00      	nop
+ 8001884:	4b09      	ldr	r3, [pc, #36]	; (80018ac <I2C_RecieveData+0xcc>)
+ 8001886:	695b      	ldr	r3, [r3, #20]
+ 8001888:	f003 0340 	and.w	r3, r3, #64	; 0x40
+ 800188c:	2b00      	cmp	r3, #0
+ 800188e:	d0f9      	beq.n	8001884 <I2C_RecieveData+0xa4>
 
 	//Read the data
 	*pRXBuffer = I2C1->DR;
- 8001650:	4b06      	ldr	r3, [pc, #24]	; (800166c <I2C_RecieveData+0xcc>)
- 8001652:	691b      	ldr	r3, [r3, #16]
- 8001654:	b2da      	uxtb	r2, r3
- 8001656:	687b      	ldr	r3, [r7, #4]
- 8001658:	701a      	strb	r2, [r3, #0]
+ 8001890:	4b06      	ldr	r3, [pc, #24]	; (80018ac <I2C_RecieveData+0xcc>)
+ 8001892:	691b      	ldr	r3, [r3, #16]
+ 8001894:	b2da      	uxtb	r2, r3
+ 8001896:	687b      	ldr	r3, [r7, #4]
+ 8001898:	701a      	strb	r2, [r3, #0]
 	pRXBuffer++;
- 800165a:	687b      	ldr	r3, [r7, #4]
- 800165c:	3301      	adds	r3, #1
- 800165e:	607b      	str	r3, [r7, #4]
+ 800189a:	687b      	ldr	r3, [r7, #4]
+ 800189c:	3301      	adds	r3, #1
+ 800189e:	607b      	str	r3, [r7, #4]
 
 }
- 8001660:	bf00      	nop
- 8001662:	3714      	adds	r7, #20
- 8001664:	46bd      	mov	sp, r7
- 8001666:	bc80      	pop	{r7}
- 8001668:	4770      	bx	lr
- 800166a:	bf00      	nop
- 800166c:	40005400 	.word	0x40005400
+ 80018a0:	bf00      	nop
+ 80018a2:	3714      	adds	r7, #20
+ 80018a4:	46bd      	mov	sp, r7
+ 80018a6:	bc80      	pop	{r7}
+ 80018a8:	4770      	bx	lr
+ 80018aa:	bf00      	nop
+ 80018ac:	40005400 	.word	0x40005400
 
-08001670 <ds1307_write>:
+080018b0 <ds1307_write>:
 
 void ds1307_write(uint8_t value,uint8_t reg_addr)
 {
- 8001670:	b580      	push	{r7, lr}
- 8001672:	b084      	sub	sp, #16
- 8001674:	af00      	add	r7, sp, #0
- 8001676:	4603      	mov	r3, r0
- 8001678:	460a      	mov	r2, r1
- 800167a:	71fb      	strb	r3, [r7, #7]
- 800167c:	4613      	mov	r3, r2
- 800167e:	71bb      	strb	r3, [r7, #6]
+ 80018b0:	b580      	push	{r7, lr}
+ 80018b2:	b084      	sub	sp, #16
+ 80018b4:	af00      	add	r7, sp, #0
+ 80018b6:	4603      	mov	r3, r0
+ 80018b8:	460a      	mov	r2, r1
+ 80018ba:	71fb      	strb	r3, [r7, #7]
+ 80018bc:	4613      	mov	r3, r2
+ 80018be:	71bb      	strb	r3, [r7, #6]
 	//Sends two bytes of data to enable the clock
 	uint8_t tx[2];
 	tx[0] = reg_addr;
- 8001680:	79bb      	ldrb	r3, [r7, #6]
- 8001682:	733b      	strb	r3, [r7, #12]
+ 80018c0:	79bb      	ldrb	r3, [r7, #6]
+ 80018c2:	733b      	strb	r3, [r7, #12]
 	tx[1] = value;
- 8001684:	79fb      	ldrb	r3, [r7, #7]
- 8001686:	737b      	strb	r3, [r7, #13]
+ 80018c4:	79fb      	ldrb	r3, [r7, #7]
+ 80018c6:	737b      	strb	r3, [r7, #13]
 	I2C_SendData(tx, 2,0);
- 8001688:	f107 030c 	add.w	r3, r7, #12
- 800168c:	2200      	movs	r2, #0
- 800168e:	2102      	movs	r1, #2
- 8001690:	4618      	mov	r0, r3
- 8001692:	f7ff ff31 	bl	80014f8 <I2C_SendData>
+ 80018c8:	f107 030c 	add.w	r3, r7, #12
+ 80018cc:	2200      	movs	r2, #0
+ 80018ce:	2102      	movs	r1, #2
+ 80018d0:	4618      	mov	r0, r3
+ 80018d2:	f7ff ff31 	bl	8001738 <I2C_SendData>
 }
- 8001696:	bf00      	nop
- 8001698:	3710      	adds	r7, #16
- 800169a:	46bd      	mov	sp, r7
- 800169c:	bd80      	pop	{r7, pc}
+ 80018d6:	bf00      	nop
+ 80018d8:	3710      	adds	r7, #16
+ 80018da:	46bd      	mov	sp, r7
+ 80018dc:	bd80      	pop	{r7, pc}
 
-0800169e <ds1307_read>:
+080018de <ds1307_read>:
 
 void ds1307_read(uint8_t reg_addr,uint8_t *data)
 {
- 800169e:	b580      	push	{r7, lr}
- 80016a0:	b082      	sub	sp, #8
- 80016a2:	af00      	add	r7, sp, #0
- 80016a4:	4603      	mov	r3, r0
- 80016a6:	6039      	str	r1, [r7, #0]
- 80016a8:	71fb      	strb	r3, [r7, #7]
+ 80018de:	b580      	push	{r7, lr}
+ 80018e0:	b082      	sub	sp, #8
+ 80018e2:	af00      	add	r7, sp, #0
+ 80018e4:	4603      	mov	r3, r0
+ 80018e6:	6039      	str	r1, [r7, #0]
+ 80018e8:	71fb      	strb	r3, [r7, #7]
 	//Send address then receive data
 	I2C_SendData(&reg_addr, 1,1);
- 80016aa:	1dfb      	adds	r3, r7, #7
- 80016ac:	2201      	movs	r2, #1
- 80016ae:	2101      	movs	r1, #1
- 80016b0:	4618      	mov	r0, r3
- 80016b2:	f7ff ff21 	bl	80014f8 <I2C_SendData>
+ 80018ea:	1dfb      	adds	r3, r7, #7
+ 80018ec:	2201      	movs	r2, #1
+ 80018ee:	2101      	movs	r1, #1
+ 80018f0:	4618      	mov	r0, r3
+ 80018f2:	f7ff ff21 	bl	8001738 <I2C_SendData>
 	I2C_RecieveData(data);
- 80016b6:	6838      	ldr	r0, [r7, #0]
- 80016b8:	f7ff ff72 	bl	80015a0 <I2C_RecieveData>
+ 80018f6:	6838      	ldr	r0, [r7, #0]
+ 80018f8:	f7ff ff72 	bl	80017e0 <I2C_RecieveData>
 
 
 }
- 80016bc:	bf00      	nop
- 80016be:	3708      	adds	r7, #8
- 80016c0:	46bd      	mov	sp, r7
- 80016c2:	bd80      	pop	{r7, pc}
+ 80018fc:	bf00      	nop
+ 80018fe:	3708      	adds	r7, #8
+ 8001900:	46bd      	mov	sp, r7
+ 8001902:	bd80      	pop	{r7, pc}
 
-080016c4 <ds1307_set_current_time>:
+08001904 <ds1307_set_current_time>:
 
 
 void ds1307_set_current_time(RTC_time_t *rtc_time)
 {
- 80016c4:	b580      	push	{r7, lr}
- 80016c6:	b084      	sub	sp, #16
- 80016c8:	af00      	add	r7, sp, #0
- 80016ca:	6078      	str	r0, [r7, #4]
+ 8001904:	b580      	push	{r7, lr}
+ 8001906:	b084      	sub	sp, #16
+ 8001908:	af00      	add	r7, sp, #0
+ 800190a:	6078      	str	r0, [r7, #4]
 	uint8_t hrs;
 
 
 	//send minutes
 	ds1307_write(binary_to_bcd(rtc_time->minutes),DS1307_ADDR_MIN);
- 80016cc:	687b      	ldr	r3, [r7, #4]
- 80016ce:	785b      	ldrb	r3, [r3, #1]
- 80016d0:	4618      	mov	r0, r3
- 80016d2:	f7ff fec9 	bl	8001468 <binary_to_bcd>
- 80016d6:	4603      	mov	r3, r0
- 80016d8:	2101      	movs	r1, #1
- 80016da:	4618      	mov	r0, r3
- 80016dc:	f7ff ffc8 	bl	8001670 <ds1307_write>
+ 800190c:	687b      	ldr	r3, [r7, #4]
+ 800190e:	785b      	ldrb	r3, [r3, #1]
+ 8001910:	4618      	mov	r0, r3
+ 8001912:	f7ff fec9 	bl	80016a8 <binary_to_bcd>
+ 8001916:	4603      	mov	r3, r0
+ 8001918:	2101      	movs	r1, #1
+ 800191a:	4618      	mov	r0, r3
+ 800191c:	f7ff ffc8 	bl	80018b0 <ds1307_write>
 
 	//set hours
 	hrs = binary_to_bcd(rtc_time->hours);
- 80016e0:	687b      	ldr	r3, [r7, #4]
- 80016e2:	789b      	ldrb	r3, [r3, #2]
- 80016e4:	4618      	mov	r0, r3
- 80016e6:	f7ff febf 	bl	8001468 <binary_to_bcd>
- 80016ea:	4603      	mov	r3, r0
- 80016ec:	73fb      	strb	r3, [r7, #15]
+ 8001920:	687b      	ldr	r3, [r7, #4]
+ 8001922:	789b      	ldrb	r3, [r3, #2]
+ 8001924:	4618      	mov	r0, r3
+ 8001926:	f7ff febf 	bl	80016a8 <binary_to_bcd>
+ 800192a:	4603      	mov	r3, r0
+ 800192c:	73fb      	strb	r3, [r7, #15]
 	//Ensure bit 7 is cleared to not turn of clock
 	if(rtc_time->time_format == TIME_FORMAT_24HRS)
- 80016ee:	687b      	ldr	r3, [r7, #4]
- 80016f0:	78db      	ldrb	r3, [r3, #3]
- 80016f2:	2b02      	cmp	r3, #2
- 80016f4:	d104      	bne.n	8001700 <ds1307_set_current_time+0x3c>
+ 800192e:	687b      	ldr	r3, [r7, #4]
+ 8001930:	78db      	ldrb	r3, [r3, #3]
+ 8001932:	2b02      	cmp	r3, #2
+ 8001934:	d104      	bne.n	8001940 <ds1307_set_current_time+0x3c>
 	{
 		hrs &= ~(1 << 6);
- 80016f6:	7bfb      	ldrb	r3, [r7, #15]
- 80016f8:	f023 0340 	bic.w	r3, r3, #64	; 0x40
- 80016fc:	73fb      	strb	r3, [r7, #15]
- 80016fe:	e011      	b.n	8001724 <ds1307_set_current_time+0x60>
+ 8001936:	7bfb      	ldrb	r3, [r7, #15]
+ 8001938:	f023 0340 	bic.w	r3, r3, #64	; 0x40
+ 800193c:	73fb      	strb	r3, [r7, #15]
+ 800193e:	e011      	b.n	8001964 <ds1307_set_current_time+0x60>
 	}
 	else
 	{
 		hrs |= (1 << 6);
- 8001700:	7bfb      	ldrb	r3, [r7, #15]
- 8001702:	f043 0340 	orr.w	r3, r3, #64	; 0x40
- 8001706:	73fb      	strb	r3, [r7, #15]
+ 8001940:	7bfb      	ldrb	r3, [r7, #15]
+ 8001942:	f043 0340 	orr.w	r3, r3, #64	; 0x40
+ 8001946:	73fb      	strb	r3, [r7, #15]
 		hrs =(rtc_time->time_format ==TIME_FORMAT_12HRS_PM ) ? hrs | (1<<5) : hrs & ~(1<<5);
- 8001708:	687b      	ldr	r3, [r7, #4]
- 800170a:	78db      	ldrb	r3, [r3, #3]
- 800170c:	2b01      	cmp	r3, #1
- 800170e:	d104      	bne.n	800171a <ds1307_set_current_time+0x56>
- 8001710:	7bfb      	ldrb	r3, [r7, #15]
- 8001712:	f043 0320 	orr.w	r3, r3, #32
- 8001716:	b2db      	uxtb	r3, r3
- 8001718:	e003      	b.n	8001722 <ds1307_set_current_time+0x5e>
- 800171a:	7bfb      	ldrb	r3, [r7, #15]
- 800171c:	f023 0320 	bic.w	r3, r3, #32
- 8001720:	b2db      	uxtb	r3, r3
- 8001722:	73fb      	strb	r3, [r7, #15]
+ 8001948:	687b      	ldr	r3, [r7, #4]
+ 800194a:	78db      	ldrb	r3, [r3, #3]
+ 800194c:	2b01      	cmp	r3, #1
+ 800194e:	d104      	bne.n	800195a <ds1307_set_current_time+0x56>
+ 8001950:	7bfb      	ldrb	r3, [r7, #15]
+ 8001952:	f043 0320 	orr.w	r3, r3, #32
+ 8001956:	b2db      	uxtb	r3, r3
+ 8001958:	e003      	b.n	8001962 <ds1307_set_current_time+0x5e>
+ 800195a:	7bfb      	ldrb	r3, [r7, #15]
+ 800195c:	f023 0320 	bic.w	r3, r3, #32
+ 8001960:	b2db      	uxtb	r3, r3
+ 8001962:	73fb      	strb	r3, [r7, #15]
 	}
 	ds1307_write(hrs,DS1307_ADDR_HRS);
- 8001724:	7bfb      	ldrb	r3, [r7, #15]
- 8001726:	2102      	movs	r1, #2
- 8001728:	4618      	mov	r0, r3
- 800172a:	f7ff ffa1 	bl	8001670 <ds1307_write>
+ 8001964:	7bfb      	ldrb	r3, [r7, #15]
+ 8001966:	2102      	movs	r1, #2
+ 8001968:	4618      	mov	r0, r3
+ 800196a:	f7ff ffa1 	bl	80018b0 <ds1307_write>
 }
- 800172e:	bf00      	nop
- 8001730:	3710      	adds	r7, #16
- 8001732:	46bd      	mov	sp, r7
- 8001734:	bd80      	pop	{r7, pc}
+ 800196e:	bf00      	nop
+ 8001970:	3710      	adds	r7, #16
+ 8001972:	46bd      	mov	sp, r7
+ 8001974:	bd80      	pop	{r7, pc}
 
-08001736 <ds1307_get_current_time>:
+08001976 <ds1307_get_current_time>:
 void ds1307_get_current_time(RTC_time_t *rtc_time)
 {
- 8001736:	b580      	push	{r7, lr}
- 8001738:	b084      	sub	sp, #16
- 800173a:	af00      	add	r7, sp, #0
- 800173c:	6078      	str	r0, [r7, #4]
+ 8001976:	b580      	push	{r7, lr}
+ 8001978:	b084      	sub	sp, #16
+ 800197a:	af00      	add	r7, sp, #0
+ 800197c:	6078      	str	r0, [r7, #4]
 	uint8_t time_data [3];
 	ds1307_read(DS1307_ADDR_SEC, time_data);
- 800173e:	f107 0308 	add.w	r3, r7, #8
- 8001742:	4619      	mov	r1, r3
- 8001744:	2000      	movs	r0, #0
- 8001746:	f7ff ffaa 	bl	800169e <ds1307_read>
+ 800197e:	f107 0308 	add.w	r3, r7, #8
+ 8001982:	4619      	mov	r1, r3
+ 8001984:	2000      	movs	r0, #0
+ 8001986:	f7ff ffaa 	bl	80018de <ds1307_read>
 	uint8_t seconds,hrs;
 	seconds = time_data[0];
- 800174a:	7a3b      	ldrb	r3, [r7, #8]
- 800174c:	73bb      	strb	r3, [r7, #14]
+ 800198a:	7a3b      	ldrb	r3, [r7, #8]
+ 800198c:	73bb      	strb	r3, [r7, #14]
 	seconds &= ~(1 << 7);
- 800174e:	7bbb      	ldrb	r3, [r7, #14]
- 8001750:	f003 037f 	and.w	r3, r3, #127	; 0x7f
- 8001754:	73bb      	strb	r3, [r7, #14]
+ 800198e:	7bbb      	ldrb	r3, [r7, #14]
+ 8001990:	f003 037f 	and.w	r3, r3, #127	; 0x7f
+ 8001994:	73bb      	strb	r3, [r7, #14]
 	rtc_time->seconds = bcd_to_binary(seconds);
- 8001756:	7bbb      	ldrb	r3, [r7, #14]
- 8001758:	4618      	mov	r0, r3
- 800175a:	f7ff feb1 	bl	80014c0 <bcd_to_binary>
- 800175e:	4603      	mov	r3, r0
- 8001760:	461a      	mov	r2, r3
- 8001762:	687b      	ldr	r3, [r7, #4]
- 8001764:	701a      	strb	r2, [r3, #0]
+ 8001996:	7bbb      	ldrb	r3, [r7, #14]
+ 8001998:	4618      	mov	r0, r3
+ 800199a:	f7ff feb1 	bl	8001700 <bcd_to_binary>
+ 800199e:	4603      	mov	r3, r0
+ 80019a0:	461a      	mov	r2, r3
+ 80019a2:	687b      	ldr	r3, [r7, #4]
+ 80019a4:	701a      	strb	r2, [r3, #0]
 
 
 	rtc_time->minutes = bcd_to_binary(time_data[1]);
- 8001766:	7a7b      	ldrb	r3, [r7, #9]
- 8001768:	4618      	mov	r0, r3
- 800176a:	f7ff fea9 	bl	80014c0 <bcd_to_binary>
- 800176e:	4603      	mov	r3, r0
- 8001770:	461a      	mov	r2, r3
- 8001772:	687b      	ldr	r3, [r7, #4]
- 8001774:	705a      	strb	r2, [r3, #1]
+ 80019a6:	7a7b      	ldrb	r3, [r7, #9]
+ 80019a8:	4618      	mov	r0, r3
+ 80019aa:	f7ff fea9 	bl	8001700 <bcd_to_binary>
+ 80019ae:	4603      	mov	r3, r0
+ 80019b0:	461a      	mov	r2, r3
+ 80019b2:	687b      	ldr	r3, [r7, #4]
+ 80019b4:	705a      	strb	r2, [r3, #1]
 
 	hrs = time_data[2];
- 8001776:	7abb      	ldrb	r3, [r7, #10]
- 8001778:	73fb      	strb	r3, [r7, #15]
+ 80019b6:	7abb      	ldrb	r3, [r7, #10]
+ 80019b8:	73fb      	strb	r3, [r7, #15]
 	if(hrs & (1<<6))
- 800177a:	7bfb      	ldrb	r3, [r7, #15]
- 800177c:	f003 0340 	and.w	r3, r3, #64	; 0x40
- 8001780:	2b00      	cmp	r3, #0
- 8001782:	d00f      	beq.n	80017a4 <ds1307_get_current_time+0x6e>
+ 80019ba:	7bfb      	ldrb	r3, [r7, #15]
+ 80019bc:	f003 0340 	and.w	r3, r3, #64	; 0x40
+ 80019c0:	2b00      	cmp	r3, #0
+ 80019c2:	d00f      	beq.n	80019e4 <ds1307_get_current_time+0x6e>
 	{
 		//12hr format
 		//ever gives 12hr am (0) or 12hr pm (1)
 		rtc_time->time_format = !((hrs & (1<< 5)) == 0) ;
- 8001784:	7bfb      	ldrb	r3, [r7, #15]
- 8001786:	f003 0320 	and.w	r3, r3, #32
- 800178a:	2b00      	cmp	r3, #0
- 800178c:	bf14      	ite	ne
- 800178e:	2301      	movne	r3, #1
- 8001790:	2300      	moveq	r3, #0
- 8001792:	b2db      	uxtb	r3, r3
- 8001794:	461a      	mov	r2, r3
- 8001796:	687b      	ldr	r3, [r7, #4]
- 8001798:	70da      	strb	r2, [r3, #3]
+ 80019c4:	7bfb      	ldrb	r3, [r7, #15]
+ 80019c6:	f003 0320 	and.w	r3, r3, #32
+ 80019ca:	2b00      	cmp	r3, #0
+ 80019cc:	bf14      	ite	ne
+ 80019ce:	2301      	movne	r3, #1
+ 80019d0:	2300      	moveq	r3, #0
+ 80019d2:	b2db      	uxtb	r3, r3
+ 80019d4:	461a      	mov	r2, r3
+ 80019d6:	687b      	ldr	r3, [r7, #4]
+ 80019d8:	70da      	strb	r2, [r3, #3]
 		//clear 6th and 5th position
 		hrs &= ~(0x3 << 5);
- 800179a:	7bfb      	ldrb	r3, [r7, #15]
- 800179c:	f023 0360 	bic.w	r3, r3, #96	; 0x60
- 80017a0:	73fb      	strb	r3, [r7, #15]
- 80017a2:	e002      	b.n	80017aa <ds1307_get_current_time+0x74>
+ 80019da:	7bfb      	ldrb	r3, [r7, #15]
+ 80019dc:	f023 0360 	bic.w	r3, r3, #96	; 0x60
+ 80019e0:	73fb      	strb	r3, [r7, #15]
+ 80019e2:	e002      	b.n	80019ea <ds1307_get_current_time+0x74>
 	}
 	else
 	{
 		//24hrs format
 		rtc_time->time_format = TIME_FORMAT_24HRS;
- 80017a4:	687b      	ldr	r3, [r7, #4]
- 80017a6:	2202      	movs	r2, #2
- 80017a8:	70da      	strb	r2, [r3, #3]
+ 80019e4:	687b      	ldr	r3, [r7, #4]
+ 80019e6:	2202      	movs	r2, #2
+ 80019e8:	70da      	strb	r2, [r3, #3]
 	}
 
 	rtc_time->hours = bcd_to_binary(hrs);
- 80017aa:	7bfb      	ldrb	r3, [r7, #15]
- 80017ac:	4618      	mov	r0, r3
- 80017ae:	f7ff fe87 	bl	80014c0 <bcd_to_binary>
- 80017b2:	4603      	mov	r3, r0
- 80017b4:	461a      	mov	r2, r3
- 80017b6:	687b      	ldr	r3, [r7, #4]
- 80017b8:	709a      	strb	r2, [r3, #2]
+ 80019ea:	7bfb      	ldrb	r3, [r7, #15]
+ 80019ec:	4618      	mov	r0, r3
+ 80019ee:	f7ff fe87 	bl	8001700 <bcd_to_binary>
+ 80019f2:	4603      	mov	r3, r0
+ 80019f4:	461a      	mov	r2, r3
+ 80019f6:	687b      	ldr	r3, [r7, #4]
+ 80019f8:	709a      	strb	r2, [r3, #2]
 }
- 80017ba:	bf00      	nop
- 80017bc:	3710      	adds	r7, #16
- 80017be:	46bd      	mov	sp, r7
- 80017c0:	bd80      	pop	{r7, pc}
+ 80019fa:	bf00      	nop
+ 80019fc:	3710      	adds	r7, #16
+ 80019fe:	46bd      	mov	sp, r7
+ 8001a00:	bd80      	pop	{r7, pc}
 	...
 
-080017c4 <updateClockTime>:
+08001a04 <updateClockTime>:
 
 
 void updateClockTime(RTC_time_t *rtc_time, uint8_t alarmClockSetNum)
 {
- 80017c4:	b480      	push	{r7}
- 80017c6:	b085      	sub	sp, #20
- 80017c8:	af00      	add	r7, sp, #0
- 80017ca:	6078      	str	r0, [r7, #4]
- 80017cc:	460b      	mov	r3, r1
- 80017ce:	70fb      	strb	r3, [r7, #3]
+ 8001a04:	b480      	push	{r7}
+ 8001a06:	b085      	sub	sp, #20
+ 8001a08:	af00      	add	r7, sp, #0
+ 8001a0a:	6078      	str	r0, [r7, #4]
+ 8001a0c:	460b      	mov	r3, r1
+ 8001a0e:	70fb      	strb	r3, [r7, #3]
 	uint8_t tens, ones;
 	//Tens hours
 	if(alarmClockSetNum == 0)
- 80017d0:	78fb      	ldrb	r3, [r7, #3]
- 80017d2:	2b00      	cmp	r3, #0
- 80017d4:	d127      	bne.n	8001826 <updateClockTime+0x62>
+ 8001a10:	78fb      	ldrb	r3, [r7, #3]
+ 8001a12:	2b00      	cmp	r3, #0
+ 8001a14:	d127      	bne.n	8001a66 <updateClockTime+0x62>
 	{
 		rtc_time->hours += 10;
- 80017d6:	687b      	ldr	r3, [r7, #4]
- 80017d8:	789b      	ldrb	r3, [r3, #2]
- 80017da:	330a      	adds	r3, #10
- 80017dc:	b2da      	uxtb	r2, r3
- 80017de:	687b      	ldr	r3, [r7, #4]
- 80017e0:	709a      	strb	r2, [r3, #2]
+ 8001a16:	687b      	ldr	r3, [r7, #4]
+ 8001a18:	789b      	ldrb	r3, [r3, #2]
+ 8001a1a:	330a      	adds	r3, #10
+ 8001a1c:	b2da      	uxtb	r2, r3
+ 8001a1e:	687b      	ldr	r3, [r7, #4]
+ 8001a20:	709a      	strb	r2, [r3, #2]
 		if(rtc_time->hours > 12)
- 80017e2:	687b      	ldr	r3, [r7, #4]
- 80017e4:	789b      	ldrb	r3, [r3, #2]
- 80017e6:	2b0c      	cmp	r3, #12
- 80017e8:	d90e      	bls.n	8001808 <updateClockTime+0x44>
+ 8001a22:	687b      	ldr	r3, [r7, #4]
+ 8001a24:	789b      	ldrb	r3, [r3, #2]
+ 8001a26:	2b0c      	cmp	r3, #12
+ 8001a28:	d90e      	bls.n	8001a48 <updateClockTime+0x44>
 		{
 			rtc_time->hours %= 10;
- 80017ea:	687b      	ldr	r3, [r7, #4]
- 80017ec:	789a      	ldrb	r2, [r3, #2]
- 80017ee:	4b69      	ldr	r3, [pc, #420]	; (8001994 <updateClockTime+0x1d0>)
- 80017f0:	fba3 1302 	umull	r1, r3, r3, r2
- 80017f4:	08d9      	lsrs	r1, r3, #3
- 80017f6:	460b      	mov	r3, r1
- 80017f8:	009b      	lsls	r3, r3, #2
- 80017fa:	440b      	add	r3, r1
- 80017fc:	005b      	lsls	r3, r3, #1
- 80017fe:	1ad3      	subs	r3, r2, r3
- 8001800:	b2da      	uxtb	r2, r3
- 8001802:	687b      	ldr	r3, [r7, #4]
- 8001804:	709a      	strb	r2, [r3, #2]
+ 8001a2a:	687b      	ldr	r3, [r7, #4]
+ 8001a2c:	789a      	ldrb	r2, [r3, #2]
+ 8001a2e:	4b69      	ldr	r3, [pc, #420]	; (8001bd4 <updateClockTime+0x1d0>)
+ 8001a30:	fba3 1302 	umull	r1, r3, r3, r2
+ 8001a34:	08d9      	lsrs	r1, r3, #3
+ 8001a36:	460b      	mov	r3, r1
+ 8001a38:	009b      	lsls	r3, r3, #2
+ 8001a3a:	440b      	add	r3, r1
+ 8001a3c:	005b      	lsls	r3, r3, #1
+ 8001a3e:	1ad3      	subs	r3, r2, r3
+ 8001a40:	b2da      	uxtb	r2, r3
+ 8001a42:	687b      	ldr	r3, [r7, #4]
+ 8001a44:	709a      	strb	r2, [r3, #2]
 		{
 			rtc_time->time_format = TIME_FORMAT_12HRS_PM;
 		}
 	}
 
 }
- 8001806:	e0c0      	b.n	800198a <updateClockTime+0x1c6>
+ 8001a46:	e0c0      	b.n	8001bca <updateClockTime+0x1c6>
 			rtc_time->hours %= 20;
- 8001808:	687b      	ldr	r3, [r7, #4]
- 800180a:	789a      	ldrb	r2, [r3, #2]
- 800180c:	4b61      	ldr	r3, [pc, #388]	; (8001994 <updateClockTime+0x1d0>)
- 800180e:	fba3 1302 	umull	r1, r3, r3, r2
- 8001812:	0919      	lsrs	r1, r3, #4
- 8001814:	460b      	mov	r3, r1
- 8001816:	009b      	lsls	r3, r3, #2
- 8001818:	440b      	add	r3, r1
- 800181a:	009b      	lsls	r3, r3, #2
- 800181c:	1ad3      	subs	r3, r2, r3
- 800181e:	b2da      	uxtb	r2, r3
- 8001820:	687b      	ldr	r3, [r7, #4]
- 8001822:	709a      	strb	r2, [r3, #2]
+ 8001a48:	687b      	ldr	r3, [r7, #4]
+ 8001a4a:	789a      	ldrb	r2, [r3, #2]
+ 8001a4c:	4b61      	ldr	r3, [pc, #388]	; (8001bd4 <updateClockTime+0x1d0>)
+ 8001a4e:	fba3 1302 	umull	r1, r3, r3, r2
+ 8001a52:	0919      	lsrs	r1, r3, #4
+ 8001a54:	460b      	mov	r3, r1
+ 8001a56:	009b      	lsls	r3, r3, #2
+ 8001a58:	440b      	add	r3, r1
+ 8001a5a:	009b      	lsls	r3, r3, #2
+ 8001a5c:	1ad3      	subs	r3, r2, r3
+ 8001a5e:	b2da      	uxtb	r2, r3
+ 8001a60:	687b      	ldr	r3, [r7, #4]
+ 8001a62:	709a      	strb	r2, [r3, #2]
 }
- 8001824:	e0b1      	b.n	800198a <updateClockTime+0x1c6>
+ 8001a64:	e0b1      	b.n	8001bca <updateClockTime+0x1c6>
 	else if(alarmClockSetNum == 1)
- 8001826:	78fb      	ldrb	r3, [r7, #3]
- 8001828:	2b01      	cmp	r3, #1
- 800182a:	d146      	bne.n	80018ba <updateClockTime+0xf6>
+ 8001a66:	78fb      	ldrb	r3, [r7, #3]
+ 8001a68:	2b01      	cmp	r3, #1
+ 8001a6a:	d146      	bne.n	8001afa <updateClockTime+0xf6>
 		tens = rtc_time->hours / 10;
- 800182c:	687b      	ldr	r3, [r7, #4]
- 800182e:	789b      	ldrb	r3, [r3, #2]
- 8001830:	4a58      	ldr	r2, [pc, #352]	; (8001994 <updateClockTime+0x1d0>)
- 8001832:	fba2 2303 	umull	r2, r3, r2, r3
- 8001836:	08db      	lsrs	r3, r3, #3
- 8001838:	73bb      	strb	r3, [r7, #14]
+ 8001a6c:	687b      	ldr	r3, [r7, #4]
+ 8001a6e:	789b      	ldrb	r3, [r3, #2]
+ 8001a70:	4a58      	ldr	r2, [pc, #352]	; (8001bd4 <updateClockTime+0x1d0>)
+ 8001a72:	fba2 2303 	umull	r2, r3, r2, r3
+ 8001a76:	08db      	lsrs	r3, r3, #3
+ 8001a78:	73bb      	strb	r3, [r7, #14]
 		ones = (rtc_time->hours) %10;
- 800183a:	687b      	ldr	r3, [r7, #4]
- 800183c:	789a      	ldrb	r2, [r3, #2]
- 800183e:	4b55      	ldr	r3, [pc, #340]	; (8001994 <updateClockTime+0x1d0>)
- 8001840:	fba3 1302 	umull	r1, r3, r3, r2
- 8001844:	08d9      	lsrs	r1, r3, #3
- 8001846:	460b      	mov	r3, r1
- 8001848:	009b      	lsls	r3, r3, #2
- 800184a:	440b      	add	r3, r1
- 800184c:	005b      	lsls	r3, r3, #1
- 800184e:	1ad3      	subs	r3, r2, r3
- 8001850:	73fb      	strb	r3, [r7, #15]
+ 8001a7a:	687b      	ldr	r3, [r7, #4]
+ 8001a7c:	789a      	ldrb	r2, [r3, #2]
+ 8001a7e:	4b55      	ldr	r3, [pc, #340]	; (8001bd4 <updateClockTime+0x1d0>)
+ 8001a80:	fba3 1302 	umull	r1, r3, r3, r2
+ 8001a84:	08d9      	lsrs	r1, r3, #3
+ 8001a86:	460b      	mov	r3, r1
+ 8001a88:	009b      	lsls	r3, r3, #2
+ 8001a8a:	440b      	add	r3, r1
+ 8001a8c:	005b      	lsls	r3, r3, #1
+ 8001a8e:	1ad3      	subs	r3, r2, r3
+ 8001a90:	73fb      	strb	r3, [r7, #15]
 		if(tens == 1)
- 8001852:	7bbb      	ldrb	r3, [r7, #14]
- 8001854:	2b01      	cmp	r3, #1
- 8001856:	d10d      	bne.n	8001874 <updateClockTime+0xb0>
+ 8001a92:	7bbb      	ldrb	r3, [r7, #14]
+ 8001a94:	2b01      	cmp	r3, #1
+ 8001a96:	d10d      	bne.n	8001ab4 <updateClockTime+0xb0>
 			ones = ((ones+1)% 3);
- 8001858:	7bfb      	ldrb	r3, [r7, #15]
- 800185a:	1c5a      	adds	r2, r3, #1
- 800185c:	4b4e      	ldr	r3, [pc, #312]	; (8001998 <updateClockTime+0x1d4>)
- 800185e:	fb83 3102 	smull	r3, r1, r3, r2
- 8001862:	17d3      	asrs	r3, r2, #31
- 8001864:	1ac9      	subs	r1, r1, r3
- 8001866:	460b      	mov	r3, r1
- 8001868:	005b      	lsls	r3, r3, #1
- 800186a:	440b      	add	r3, r1
- 800186c:	1ad1      	subs	r1, r2, r3
- 800186e:	460b      	mov	r3, r1
- 8001870:	73fb      	strb	r3, [r7, #15]
- 8001872:	e016      	b.n	80018a2 <updateClockTime+0xde>
+ 8001a98:	7bfb      	ldrb	r3, [r7, #15]
+ 8001a9a:	1c5a      	adds	r2, r3, #1
+ 8001a9c:	4b4e      	ldr	r3, [pc, #312]	; (8001bd8 <updateClockTime+0x1d4>)
+ 8001a9e:	fb83 3102 	smull	r3, r1, r3, r2
+ 8001aa2:	17d3      	asrs	r3, r2, #31
+ 8001aa4:	1ac9      	subs	r1, r1, r3
+ 8001aa6:	460b      	mov	r3, r1
+ 8001aa8:	005b      	lsls	r3, r3, #1
+ 8001aaa:	440b      	add	r3, r1
+ 8001aac:	1ad1      	subs	r1, r2, r3
+ 8001aae:	460b      	mov	r3, r1
+ 8001ab0:	73fb      	strb	r3, [r7, #15]
+ 8001ab2:	e016      	b.n	8001ae2 <updateClockTime+0xde>
 		else if (tens == 0)
- 8001874:	7bbb      	ldrb	r3, [r7, #14]
- 8001876:	2b00      	cmp	r3, #0
- 8001878:	d113      	bne.n	80018a2 <updateClockTime+0xde>
+ 8001ab4:	7bbb      	ldrb	r3, [r7, #14]
+ 8001ab6:	2b00      	cmp	r3, #0
+ 8001ab8:	d113      	bne.n	8001ae2 <updateClockTime+0xde>
 			ones = ((ones+1)% 10);
- 800187a:	7bfb      	ldrb	r3, [r7, #15]
- 800187c:	1c5a      	adds	r2, r3, #1
- 800187e:	4b47      	ldr	r3, [pc, #284]	; (800199c <updateClockTime+0x1d8>)
- 8001880:	fb83 1302 	smull	r1, r3, r3, r2
- 8001884:	1099      	asrs	r1, r3, #2
- 8001886:	17d3      	asrs	r3, r2, #31
- 8001888:	1ac9      	subs	r1, r1, r3
- 800188a:	460b      	mov	r3, r1
- 800188c:	009b      	lsls	r3, r3, #2
- 800188e:	440b      	add	r3, r1
- 8001890:	005b      	lsls	r3, r3, #1
- 8001892:	1ad1      	subs	r1, r2, r3
- 8001894:	460b      	mov	r3, r1
- 8001896:	73fb      	strb	r3, [r7, #15]
+ 8001aba:	7bfb      	ldrb	r3, [r7, #15]
+ 8001abc:	1c5a      	adds	r2, r3, #1
+ 8001abe:	4b47      	ldr	r3, [pc, #284]	; (8001bdc <updateClockTime+0x1d8>)
+ 8001ac0:	fb83 1302 	smull	r1, r3, r3, r2
+ 8001ac4:	1099      	asrs	r1, r3, #2
+ 8001ac6:	17d3      	asrs	r3, r2, #31
+ 8001ac8:	1ac9      	subs	r1, r1, r3
+ 8001aca:	460b      	mov	r3, r1
+ 8001acc:	009b      	lsls	r3, r3, #2
+ 8001ace:	440b      	add	r3, r1
+ 8001ad0:	005b      	lsls	r3, r3, #1
+ 8001ad2:	1ad1      	subs	r1, r2, r3
+ 8001ad4:	460b      	mov	r3, r1
+ 8001ad6:	73fb      	strb	r3, [r7, #15]
 			if(ones == 0) ones = 1;
- 8001898:	7bfb      	ldrb	r3, [r7, #15]
- 800189a:	2b00      	cmp	r3, #0
- 800189c:	d101      	bne.n	80018a2 <updateClockTime+0xde>
- 800189e:	2301      	movs	r3, #1
- 80018a0:	73fb      	strb	r3, [r7, #15]
+ 8001ad8:	7bfb      	ldrb	r3, [r7, #15]
+ 8001ada:	2b00      	cmp	r3, #0
+ 8001adc:	d101      	bne.n	8001ae2 <updateClockTime+0xde>
+ 8001ade:	2301      	movs	r3, #1
+ 8001ae0:	73fb      	strb	r3, [r7, #15]
 		rtc_time->hours = (tens*10 + ones);
- 80018a2:	7bbb      	ldrb	r3, [r7, #14]
- 80018a4:	461a      	mov	r2, r3
- 80018a6:	0092      	lsls	r2, r2, #2
- 80018a8:	4413      	add	r3, r2
- 80018aa:	005b      	lsls	r3, r3, #1
- 80018ac:	b2da      	uxtb	r2, r3
- 80018ae:	7bfb      	ldrb	r3, [r7, #15]
- 80018b0:	4413      	add	r3, r2
- 80018b2:	b2da      	uxtb	r2, r3
- 80018b4:	687b      	ldr	r3, [r7, #4]
- 80018b6:	709a      	strb	r2, [r3, #2]
+ 8001ae2:	7bbb      	ldrb	r3, [r7, #14]
+ 8001ae4:	461a      	mov	r2, r3
+ 8001ae6:	0092      	lsls	r2, r2, #2
+ 8001ae8:	4413      	add	r3, r2
+ 8001aea:	005b      	lsls	r3, r3, #1
+ 8001aec:	b2da      	uxtb	r2, r3
+ 8001aee:	7bfb      	ldrb	r3, [r7, #15]
+ 8001af0:	4413      	add	r3, r2
+ 8001af2:	b2da      	uxtb	r2, r3
+ 8001af4:	687b      	ldr	r3, [r7, #4]
+ 8001af6:	709a      	strb	r2, [r3, #2]
 }
- 80018b8:	e067      	b.n	800198a <updateClockTime+0x1c6>
+ 8001af8:	e067      	b.n	8001bca <updateClockTime+0x1c6>
 	else if(alarmClockSetNum == 2)
- 80018ba:	78fb      	ldrb	r3, [r7, #3]
- 80018bc:	2b02      	cmp	r3, #2
- 80018be:	d12c      	bne.n	800191a <updateClockTime+0x156>
+ 8001afa:	78fb      	ldrb	r3, [r7, #3]
+ 8001afc:	2b02      	cmp	r3, #2
+ 8001afe:	d12c      	bne.n	8001b5a <updateClockTime+0x156>
 		tens = rtc_time->minutes / 10;
- 80018c0:	687b      	ldr	r3, [r7, #4]
- 80018c2:	785b      	ldrb	r3, [r3, #1]
- 80018c4:	4a33      	ldr	r2, [pc, #204]	; (8001994 <updateClockTime+0x1d0>)
- 80018c6:	fba2 2303 	umull	r2, r3, r2, r3
- 80018ca:	08db      	lsrs	r3, r3, #3
- 80018cc:	73bb      	strb	r3, [r7, #14]
+ 8001b00:	687b      	ldr	r3, [r7, #4]
+ 8001b02:	785b      	ldrb	r3, [r3, #1]
+ 8001b04:	4a33      	ldr	r2, [pc, #204]	; (8001bd4 <updateClockTime+0x1d0>)
+ 8001b06:	fba2 2303 	umull	r2, r3, r2, r3
+ 8001b0a:	08db      	lsrs	r3, r3, #3
+ 8001b0c:	73bb      	strb	r3, [r7, #14]
 		ones = rtc_time->minutes % 10;
- 80018ce:	687b      	ldr	r3, [r7, #4]
- 80018d0:	785a      	ldrb	r2, [r3, #1]
- 80018d2:	4b30      	ldr	r3, [pc, #192]	; (8001994 <updateClockTime+0x1d0>)
- 80018d4:	fba3 1302 	umull	r1, r3, r3, r2
- 80018d8:	08d9      	lsrs	r1, r3, #3
- 80018da:	460b      	mov	r3, r1
- 80018dc:	009b      	lsls	r3, r3, #2
- 80018de:	440b      	add	r3, r1
- 80018e0:	005b      	lsls	r3, r3, #1
- 80018e2:	1ad3      	subs	r3, r2, r3
- 80018e4:	73fb      	strb	r3, [r7, #15]
+ 8001b0e:	687b      	ldr	r3, [r7, #4]
+ 8001b10:	785a      	ldrb	r2, [r3, #1]
+ 8001b12:	4b30      	ldr	r3, [pc, #192]	; (8001bd4 <updateClockTime+0x1d0>)
+ 8001b14:	fba3 1302 	umull	r1, r3, r3, r2
+ 8001b18:	08d9      	lsrs	r1, r3, #3
+ 8001b1a:	460b      	mov	r3, r1
+ 8001b1c:	009b      	lsls	r3, r3, #2
+ 8001b1e:	440b      	add	r3, r1
+ 8001b20:	005b      	lsls	r3, r3, #1
+ 8001b22:	1ad3      	subs	r3, r2, r3
+ 8001b24:	73fb      	strb	r3, [r7, #15]
 		tens += 1;
- 80018e6:	7bbb      	ldrb	r3, [r7, #14]
- 80018e8:	3301      	adds	r3, #1
- 80018ea:	73bb      	strb	r3, [r7, #14]
+ 8001b26:	7bbb      	ldrb	r3, [r7, #14]
+ 8001b28:	3301      	adds	r3, #1
+ 8001b2a:	73bb      	strb	r3, [r7, #14]
 		tens %= 6;
- 80018ec:	7bba      	ldrb	r2, [r7, #14]
- 80018ee:	4b2c      	ldr	r3, [pc, #176]	; (80019a0 <updateClockTime+0x1dc>)
- 80018f0:	fba3 1302 	umull	r1, r3, r3, r2
- 80018f4:	0899      	lsrs	r1, r3, #2
- 80018f6:	460b      	mov	r3, r1
- 80018f8:	005b      	lsls	r3, r3, #1
- 80018fa:	440b      	add	r3, r1
- 80018fc:	005b      	lsls	r3, r3, #1
- 80018fe:	1ad3      	subs	r3, r2, r3
- 8001900:	73bb      	strb	r3, [r7, #14]
+ 8001b2c:	7bba      	ldrb	r2, [r7, #14]
+ 8001b2e:	4b2c      	ldr	r3, [pc, #176]	; (8001be0 <updateClockTime+0x1dc>)
+ 8001b30:	fba3 1302 	umull	r1, r3, r3, r2
+ 8001b34:	0899      	lsrs	r1, r3, #2
+ 8001b36:	460b      	mov	r3, r1
+ 8001b38:	005b      	lsls	r3, r3, #1
+ 8001b3a:	440b      	add	r3, r1
+ 8001b3c:	005b      	lsls	r3, r3, #1
+ 8001b3e:	1ad3      	subs	r3, r2, r3
+ 8001b40:	73bb      	strb	r3, [r7, #14]
 		rtc_time->minutes = (tens*10 + ones);
- 8001902:	7bbb      	ldrb	r3, [r7, #14]
- 8001904:	461a      	mov	r2, r3
- 8001906:	0092      	lsls	r2, r2, #2
- 8001908:	4413      	add	r3, r2
- 800190a:	005b      	lsls	r3, r3, #1
- 800190c:	b2da      	uxtb	r2, r3
- 800190e:	7bfb      	ldrb	r3, [r7, #15]
- 8001910:	4413      	add	r3, r2
- 8001912:	b2da      	uxtb	r2, r3
- 8001914:	687b      	ldr	r3, [r7, #4]
- 8001916:	705a      	strb	r2, [r3, #1]
+ 8001b42:	7bbb      	ldrb	r3, [r7, #14]
+ 8001b44:	461a      	mov	r2, r3
+ 8001b46:	0092      	lsls	r2, r2, #2
+ 8001b48:	4413      	add	r3, r2
+ 8001b4a:	005b      	lsls	r3, r3, #1
+ 8001b4c:	b2da      	uxtb	r2, r3
+ 8001b4e:	7bfb      	ldrb	r3, [r7, #15]
+ 8001b50:	4413      	add	r3, r2
+ 8001b52:	b2da      	uxtb	r2, r3
+ 8001b54:	687b      	ldr	r3, [r7, #4]
+ 8001b56:	705a      	strb	r2, [r3, #1]
 }
- 8001918:	e037      	b.n	800198a <updateClockTime+0x1c6>
+ 8001b58:	e037      	b.n	8001bca <updateClockTime+0x1c6>
 	else if(alarmClockSetNum == 3)
- 800191a:	78fb      	ldrb	r3, [r7, #3]
- 800191c:	2b03      	cmp	r3, #3
- 800191e:	d122      	bne.n	8001966 <updateClockTime+0x1a2>
+ 8001b5a:	78fb      	ldrb	r3, [r7, #3]
+ 8001b5c:	2b03      	cmp	r3, #3
+ 8001b5e:	d122      	bne.n	8001ba6 <updateClockTime+0x1a2>
 		tens = rtc_time->minutes / 10;
- 8001920:	687b      	ldr	r3, [r7, #4]
- 8001922:	785b      	ldrb	r3, [r3, #1]
- 8001924:	4a1b      	ldr	r2, [pc, #108]	; (8001994 <updateClockTime+0x1d0>)
- 8001926:	fba2 2303 	umull	r2, r3, r2, r3
- 800192a:	08db      	lsrs	r3, r3, #3
- 800192c:	73bb      	strb	r3, [r7, #14]
+ 8001b60:	687b      	ldr	r3, [r7, #4]
+ 8001b62:	785b      	ldrb	r3, [r3, #1]
+ 8001b64:	4a1b      	ldr	r2, [pc, #108]	; (8001bd4 <updateClockTime+0x1d0>)
+ 8001b66:	fba2 2303 	umull	r2, r3, r2, r3
+ 8001b6a:	08db      	lsrs	r3, r3, #3
+ 8001b6c:	73bb      	strb	r3, [r7, #14]
 		ones = (rtc_time->minutes +1) % 10;
- 800192e:	687b      	ldr	r3, [r7, #4]
- 8001930:	785b      	ldrb	r3, [r3, #1]
- 8001932:	1c5a      	adds	r2, r3, #1
- 8001934:	4b19      	ldr	r3, [pc, #100]	; (800199c <updateClockTime+0x1d8>)
- 8001936:	fb83 1302 	smull	r1, r3, r3, r2
- 800193a:	1099      	asrs	r1, r3, #2
- 800193c:	17d3      	asrs	r3, r2, #31
- 800193e:	1ac9      	subs	r1, r1, r3
- 8001940:	460b      	mov	r3, r1
- 8001942:	009b      	lsls	r3, r3, #2
- 8001944:	440b      	add	r3, r1
- 8001946:	005b      	lsls	r3, r3, #1
- 8001948:	1ad1      	subs	r1, r2, r3
- 800194a:	460b      	mov	r3, r1
- 800194c:	73fb      	strb	r3, [r7, #15]
+ 8001b6e:	687b      	ldr	r3, [r7, #4]
+ 8001b70:	785b      	ldrb	r3, [r3, #1]
+ 8001b72:	1c5a      	adds	r2, r3, #1
+ 8001b74:	4b19      	ldr	r3, [pc, #100]	; (8001bdc <updateClockTime+0x1d8>)
+ 8001b76:	fb83 1302 	smull	r1, r3, r3, r2
+ 8001b7a:	1099      	asrs	r1, r3, #2
+ 8001b7c:	17d3      	asrs	r3, r2, #31
+ 8001b7e:	1ac9      	subs	r1, r1, r3
+ 8001b80:	460b      	mov	r3, r1
+ 8001b82:	009b      	lsls	r3, r3, #2
+ 8001b84:	440b      	add	r3, r1
+ 8001b86:	005b      	lsls	r3, r3, #1
+ 8001b88:	1ad1      	subs	r1, r2, r3
+ 8001b8a:	460b      	mov	r3, r1
+ 8001b8c:	73fb      	strb	r3, [r7, #15]
 		rtc_time->minutes = (tens*10 + ones);
- 800194e:	7bbb      	ldrb	r3, [r7, #14]
- 8001950:	461a      	mov	r2, r3
- 8001952:	0092      	lsls	r2, r2, #2
- 8001954:	4413      	add	r3, r2
- 8001956:	005b      	lsls	r3, r3, #1
- 8001958:	b2da      	uxtb	r2, r3
- 800195a:	7bfb      	ldrb	r3, [r7, #15]
- 800195c:	4413      	add	r3, r2
- 800195e:	b2da      	uxtb	r2, r3
- 8001960:	687b      	ldr	r3, [r7, #4]
- 8001962:	705a      	strb	r2, [r3, #1]
+ 8001b8e:	7bbb      	ldrb	r3, [r7, #14]
+ 8001b90:	461a      	mov	r2, r3
+ 8001b92:	0092      	lsls	r2, r2, #2
+ 8001b94:	4413      	add	r3, r2
+ 8001b96:	005b      	lsls	r3, r3, #1
+ 8001b98:	b2da      	uxtb	r2, r3
+ 8001b9a:	7bfb      	ldrb	r3, [r7, #15]
+ 8001b9c:	4413      	add	r3, r2
+ 8001b9e:	b2da      	uxtb	r2, r3
+ 8001ba0:	687b      	ldr	r3, [r7, #4]
+ 8001ba2:	705a      	strb	r2, [r3, #1]
 }
- 8001964:	e011      	b.n	800198a <updateClockTime+0x1c6>
+ 8001ba4:	e011      	b.n	8001bca <updateClockTime+0x1c6>
 	else if(alarmClockSetNum == 4)
- 8001966:	78fb      	ldrb	r3, [r7, #3]
- 8001968:	2b04      	cmp	r3, #4
- 800196a:	d10e      	bne.n	800198a <updateClockTime+0x1c6>
+ 8001ba6:	78fb      	ldrb	r3, [r7, #3]
+ 8001ba8:	2b04      	cmp	r3, #4
+ 8001baa:	d10e      	bne.n	8001bca <updateClockTime+0x1c6>
 		if(rtc_time->time_format == TIME_FORMAT_12HRS_PM)
- 800196c:	687b      	ldr	r3, [r7, #4]
- 800196e:	78db      	ldrb	r3, [r3, #3]
- 8001970:	2b01      	cmp	r3, #1
- 8001972:	d103      	bne.n	800197c <updateClockTime+0x1b8>
+ 8001bac:	687b      	ldr	r3, [r7, #4]
+ 8001bae:	78db      	ldrb	r3, [r3, #3]
+ 8001bb0:	2b01      	cmp	r3, #1
+ 8001bb2:	d103      	bne.n	8001bbc <updateClockTime+0x1b8>
 			rtc_time->time_format = TIME_FORMAT_12HRS_AM;
- 8001974:	687b      	ldr	r3, [r7, #4]
- 8001976:	2200      	movs	r2, #0
- 8001978:	70da      	strb	r2, [r3, #3]
+ 8001bb4:	687b      	ldr	r3, [r7, #4]
+ 8001bb6:	2200      	movs	r2, #0
+ 8001bb8:	70da      	strb	r2, [r3, #3]
 }
- 800197a:	e006      	b.n	800198a <updateClockTime+0x1c6>
+ 8001bba:	e006      	b.n	8001bca <updateClockTime+0x1c6>
 		else if(rtc_time->time_format == TIME_FORMAT_12HRS_AM)
- 800197c:	687b      	ldr	r3, [r7, #4]
- 800197e:	78db      	ldrb	r3, [r3, #3]
- 8001980:	2b00      	cmp	r3, #0
- 8001982:	d102      	bne.n	800198a <updateClockTime+0x1c6>
+ 8001bbc:	687b      	ldr	r3, [r7, #4]
+ 8001bbe:	78db      	ldrb	r3, [r3, #3]
+ 8001bc0:	2b00      	cmp	r3, #0
+ 8001bc2:	d102      	bne.n	8001bca <updateClockTime+0x1c6>
 			rtc_time->time_format = TIME_FORMAT_12HRS_PM;
- 8001984:	687b      	ldr	r3, [r7, #4]
- 8001986:	2201      	movs	r2, #1
- 8001988:	70da      	strb	r2, [r3, #3]
+ 8001bc4:	687b      	ldr	r3, [r7, #4]
+ 8001bc6:	2201      	movs	r2, #1
+ 8001bc8:	70da      	strb	r2, [r3, #3]
 }
- 800198a:	bf00      	nop
- 800198c:	3714      	adds	r7, #20
- 800198e:	46bd      	mov	sp, r7
- 8001990:	bc80      	pop	{r7}
- 8001992:	4770      	bx	lr
- 8001994:	cccccccd 	.word	0xcccccccd
- 8001998:	55555556 	.word	0x55555556
- 800199c:	66666667 	.word	0x66666667
- 80019a0:	aaaaaaab 	.word	0xaaaaaaab
+ 8001bca:	bf00      	nop
+ 8001bcc:	3714      	adds	r7, #20
+ 8001bce:	46bd      	mov	sp, r7
+ 8001bd0:	bc80      	pop	{r7}
+ 8001bd2:	4770      	bx	lr
+ 8001bd4:	cccccccd 	.word	0xcccccccd
+ 8001bd8:	55555556 	.word	0x55555556
+ 8001bdc:	66666667 	.word	0x66666667
+ 8001be0:	aaaaaaab 	.word	0xaaaaaaab
 
-080019a4 <I2C_initalize>:
+08001be4 <I2C_initalize>:
 
 void I2C_initalize(void)
 {
- 80019a4:	b480      	push	{r7}
- 80019a6:	af00      	add	r7, sp, #0
+ 8001be4:	b480      	push	{r7}
+ 8001be6:	af00      	add	r7, sp, #0
 	//Configure the gpio pins B6 and B7 for I2C -> both need to be AF and open drain value of 1101
 	GPIOB->CRL &= ~(0xF << 24);
- 80019a8:	4b1e      	ldr	r3, [pc, #120]	; (8001a24 <I2C_initalize+0x80>)
- 80019aa:	681b      	ldr	r3, [r3, #0]
- 80019ac:	4a1d      	ldr	r2, [pc, #116]	; (8001a24 <I2C_initalize+0x80>)
- 80019ae:	f023 6370 	bic.w	r3, r3, #251658240	; 0xf000000
- 80019b2:	6013      	str	r3, [r2, #0]
+ 8001be8:	4b1e      	ldr	r3, [pc, #120]	; (8001c64 <I2C_initalize+0x80>)
+ 8001bea:	681b      	ldr	r3, [r3, #0]
+ 8001bec:	4a1d      	ldr	r2, [pc, #116]	; (8001c64 <I2C_initalize+0x80>)
+ 8001bee:	f023 6370 	bic.w	r3, r3, #251658240	; 0xf000000
+ 8001bf2:	6013      	str	r3, [r2, #0]
 	GPIOB->CRL |= (0xD << 24);
- 80019b4:	4b1b      	ldr	r3, [pc, #108]	; (8001a24 <I2C_initalize+0x80>)
- 80019b6:	681b      	ldr	r3, [r3, #0]
- 80019b8:	4a1a      	ldr	r2, [pc, #104]	; (8001a24 <I2C_initalize+0x80>)
- 80019ba:	f043 6350 	orr.w	r3, r3, #218103808	; 0xd000000
- 80019be:	6013      	str	r3, [r2, #0]
+ 8001bf4:	4b1b      	ldr	r3, [pc, #108]	; (8001c64 <I2C_initalize+0x80>)
+ 8001bf6:	681b      	ldr	r3, [r3, #0]
+ 8001bf8:	4a1a      	ldr	r2, [pc, #104]	; (8001c64 <I2C_initalize+0x80>)
+ 8001bfa:	f043 6350 	orr.w	r3, r3, #218103808	; 0xd000000
+ 8001bfe:	6013      	str	r3, [r2, #0]
 	GPIOB->CRL &= ~(0xF << 28);
- 80019c0:	4b18      	ldr	r3, [pc, #96]	; (8001a24 <I2C_initalize+0x80>)
- 80019c2:	681b      	ldr	r3, [r3, #0]
- 80019c4:	4a17      	ldr	r2, [pc, #92]	; (8001a24 <I2C_initalize+0x80>)
- 80019c6:	f023 4370 	bic.w	r3, r3, #4026531840	; 0xf0000000
- 80019ca:	6013      	str	r3, [r2, #0]
+ 8001c00:	4b18      	ldr	r3, [pc, #96]	; (8001c64 <I2C_initalize+0x80>)
+ 8001c02:	681b      	ldr	r3, [r3, #0]
+ 8001c04:	4a17      	ldr	r2, [pc, #92]	; (8001c64 <I2C_initalize+0x80>)
+ 8001c06:	f023 4370 	bic.w	r3, r3, #4026531840	; 0xf0000000
+ 8001c0a:	6013      	str	r3, [r2, #0]
 	GPIOB->CRL |= (0xD << 28);
- 80019cc:	4b15      	ldr	r3, [pc, #84]	; (8001a24 <I2C_initalize+0x80>)
- 80019ce:	681b      	ldr	r3, [r3, #0]
- 80019d0:	4a14      	ldr	r2, [pc, #80]	; (8001a24 <I2C_initalize+0x80>)
- 80019d2:	f043 4350 	orr.w	r3, r3, #3489660928	; 0xd0000000
- 80019d6:	6013      	str	r3, [r2, #0]
+ 8001c0c:	4b15      	ldr	r3, [pc, #84]	; (8001c64 <I2C_initalize+0x80>)
+ 8001c0e:	681b      	ldr	r3, [r3, #0]
+ 8001c10:	4a14      	ldr	r2, [pc, #80]	; (8001c64 <I2C_initalize+0x80>)
+ 8001c12:	f043 4350 	orr.w	r3, r3, #3489660928	; 0xd0000000
+ 8001c16:	6013      	str	r3, [r2, #0]
 
 	//Set the frequency of clock provided to cr2
 	I2C1->CR2 |= ((HSI_SPEED/1000000));
- 80019d8:	4b13      	ldr	r3, [pc, #76]	; (8001a28 <I2C_initalize+0x84>)
- 80019da:	685b      	ldr	r3, [r3, #4]
- 80019dc:	4a12      	ldr	r2, [pc, #72]	; (8001a28 <I2C_initalize+0x84>)
- 80019de:	f043 0308 	orr.w	r3, r3, #8
- 80019e2:	6053      	str	r3, [r2, #4]
+ 8001c18:	4b13      	ldr	r3, [pc, #76]	; (8001c68 <I2C_initalize+0x84>)
+ 8001c1a:	685b      	ldr	r3, [r3, #4]
+ 8001c1c:	4a12      	ldr	r2, [pc, #72]	; (8001c68 <I2C_initalize+0x84>)
+ 8001c1e:	f043 0308 	orr.w	r3, r3, #8
+ 8001c22:	6053      	str	r3, [r2, #4]
 
 
 	//Configure the device address will maybe do
 	I2C1->OAR1 |= (0x61 << 1);
- 80019e4:	4b10      	ldr	r3, [pc, #64]	; (8001a28 <I2C_initalize+0x84>)
- 80019e6:	689b      	ldr	r3, [r3, #8]
- 80019e8:	4a0f      	ldr	r2, [pc, #60]	; (8001a28 <I2C_initalize+0x84>)
- 80019ea:	f043 03c2 	orr.w	r3, r3, #194	; 0xc2
- 80019ee:	6093      	str	r3, [r2, #8]
+ 8001c24:	4b10      	ldr	r3, [pc, #64]	; (8001c68 <I2C_initalize+0x84>)
+ 8001c26:	689b      	ldr	r3, [r3, #8]
+ 8001c28:	4a0f      	ldr	r2, [pc, #60]	; (8001c68 <I2C_initalize+0x84>)
+ 8001c2a:	f043 03c2 	orr.w	r3, r3, #194	; 0xc2
+ 8001c2e:	6093      	str	r3, [r2, #8]
 
 	//The 14th bit of the OAR1 register must always be mainted by software as 1
 	I2C1->OAR1 |= (1<<14);
- 80019f0:	4b0d      	ldr	r3, [pc, #52]	; (8001a28 <I2C_initalize+0x84>)
- 80019f2:	689b      	ldr	r3, [r3, #8]
- 80019f4:	4a0c      	ldr	r2, [pc, #48]	; (8001a28 <I2C_initalize+0x84>)
- 80019f6:	f443 4380 	orr.w	r3, r3, #16384	; 0x4000
- 80019fa:	6093      	str	r3, [r2, #8]
+ 8001c30:	4b0d      	ldr	r3, [pc, #52]	; (8001c68 <I2C_initalize+0x84>)
+ 8001c32:	689b      	ldr	r3, [r3, #8]
+ 8001c34:	4a0c      	ldr	r2, [pc, #48]	; (8001c68 <I2C_initalize+0x84>)
+ 8001c36:	f443 4380 	orr.w	r3, r3, #16384	; 0x4000
+ 8001c3a:	6093      	str	r3, [r2, #8]
 
 	//Set the CCR
 	I2C1->CCR |= ((HSI_SPEED / (2*I2C_SCL_SPEED_SM)));
- 80019fc:	4b0a      	ldr	r3, [pc, #40]	; (8001a28 <I2C_initalize+0x84>)
- 80019fe:	69db      	ldr	r3, [r3, #28]
- 8001a00:	4a09      	ldr	r2, [pc, #36]	; (8001a28 <I2C_initalize+0x84>)
- 8001a02:	f043 0328 	orr.w	r3, r3, #40	; 0x28
- 8001a06:	61d3      	str	r3, [r2, #28]
+ 8001c3c:	4b0a      	ldr	r3, [pc, #40]	; (8001c68 <I2C_initalize+0x84>)
+ 8001c3e:	69db      	ldr	r3, [r3, #28]
+ 8001c40:	4a09      	ldr	r2, [pc, #36]	; (8001c68 <I2C_initalize+0x84>)
+ 8001c42:	f043 0328 	orr.w	r3, r3, #40	; 0x28
+ 8001c46:	61d3      	str	r3, [r2, #28]
 
 	//Set the trise value
 	I2C1->TRISE =(((HSI_SPEED / 1000000) + 1) & 0x3F);
- 8001a08:	4b07      	ldr	r3, [pc, #28]	; (8001a28 <I2C_initalize+0x84>)
- 8001a0a:	2209      	movs	r2, #9
- 8001a0c:	621a      	str	r2, [r3, #32]
+ 8001c48:	4b07      	ldr	r3, [pc, #28]	; (8001c68 <I2C_initalize+0x84>)
+ 8001c4a:	2209      	movs	r2, #9
+ 8001c4c:	621a      	str	r2, [r3, #32]
 
 	//Enable the I2C
 	I2C1->CR1 |= 1;
- 8001a0e:	4b06      	ldr	r3, [pc, #24]	; (8001a28 <I2C_initalize+0x84>)
- 8001a10:	681b      	ldr	r3, [r3, #0]
- 8001a12:	4a05      	ldr	r2, [pc, #20]	; (8001a28 <I2C_initalize+0x84>)
- 8001a14:	f043 0301 	orr.w	r3, r3, #1
- 8001a18:	6013      	str	r3, [r2, #0]
+ 8001c4e:	4b06      	ldr	r3, [pc, #24]	; (8001c68 <I2C_initalize+0x84>)
+ 8001c50:	681b      	ldr	r3, [r3, #0]
+ 8001c52:	4a05      	ldr	r2, [pc, #20]	; (8001c68 <I2C_initalize+0x84>)
+ 8001c54:	f043 0301 	orr.w	r3, r3, #1
+ 8001c58:	6013      	str	r3, [r2, #0]
 }
- 8001a1a:	bf00      	nop
- 8001a1c:	46bd      	mov	sp, r7
- 8001a1e:	bc80      	pop	{r7}
- 8001a20:	4770      	bx	lr
- 8001a22:	bf00      	nop
- 8001a24:	40010c00 	.word	0x40010c00
- 8001a28:	40005400 	.word	0x40005400
+ 8001c5a:	bf00      	nop
+ 8001c5c:	46bd      	mov	sp, r7
+ 8001c5e:	bc80      	pop	{r7}
+ 8001c60:	4770      	bx	lr
+ 8001c62:	bf00      	nop
+ 8001c64:	40010c00 	.word	0x40010c00
+ 8001c68:	40005400 	.word	0x40005400
 
-08001a2c <Reset_Handler>:
+08001c6c <Reset_Handler>:
 */
 
   .section .text.Reset_Handler
   .weak Reset_Handler
   .type Reset_Handler, %function
 Reset_Handler:  ldr   r0, =_estack
- 8001a2c:	480d      	ldr	r0, [pc, #52]	; (8001a64 <LoopForever+0x2>)
+ 8001c6c:	480d      	ldr	r0, [pc, #52]	; (8001ca4 <LoopForever+0x2>)
   mov   sp, r0          /* set stack pointer */
- 8001a2e:	4685      	mov	sp, r0
+ 8001c6e:	4685      	mov	sp, r0
 /* Call the clock system initialization function.*/
   bl  SystemInit
- 8001a30:	f3af 8000 	nop.w
+ 8001c70:	f3af 8000 	nop.w
 
 /* Copy the data segment initializers from flash to SRAM */
   ldr r0, =_sdata
- 8001a34:	480c      	ldr	r0, [pc, #48]	; (8001a68 <LoopForever+0x6>)
+ 8001c74:	480c      	ldr	r0, [pc, #48]	; (8001ca8 <LoopForever+0x6>)
   ldr r1, =_edata
- 8001a36:	490d      	ldr	r1, [pc, #52]	; (8001a6c <LoopForever+0xa>)
+ 8001c76:	490d      	ldr	r1, [pc, #52]	; (8001cac <LoopForever+0xa>)
   ldr r2, =_sidata
- 8001a38:	4a0d      	ldr	r2, [pc, #52]	; (8001a70 <LoopForever+0xe>)
+ 8001c78:	4a0d      	ldr	r2, [pc, #52]	; (8001cb0 <LoopForever+0xe>)
   movs r3, #0
- 8001a3a:	2300      	movs	r3, #0
+ 8001c7a:	2300      	movs	r3, #0
   b LoopCopyDataInit
- 8001a3c:	e002      	b.n	8001a44 <LoopCopyDataInit>
+ 8001c7c:	e002      	b.n	8001c84 <LoopCopyDataInit>
 
-08001a3e <CopyDataInit>:
+08001c7e <CopyDataInit>:
 
 CopyDataInit:
   ldr r4, [r2, r3]
- 8001a3e:	58d4      	ldr	r4, [r2, r3]
+ 8001c7e:	58d4      	ldr	r4, [r2, r3]
   str r4, [r0, r3]
- 8001a40:	50c4      	str	r4, [r0, r3]
+ 8001c80:	50c4      	str	r4, [r0, r3]
   adds r3, r3, #4
- 8001a42:	3304      	adds	r3, #4
+ 8001c82:	3304      	adds	r3, #4
 
-08001a44 <LoopCopyDataInit>:
+08001c84 <LoopCopyDataInit>:
 
 LoopCopyDataInit:
   adds r4, r0, r3
- 8001a44:	18c4      	adds	r4, r0, r3
+ 8001c84:	18c4      	adds	r4, r0, r3
   cmp r4, r1
- 8001a46:	428c      	cmp	r4, r1
+ 8001c86:	428c      	cmp	r4, r1
   bcc CopyDataInit
- 8001a48:	d3f9      	bcc.n	8001a3e <CopyDataInit>
+ 8001c88:	d3f9      	bcc.n	8001c7e <CopyDataInit>
 
 /* Zero fill the bss segment. */
   ldr r2, =_sbss
- 8001a4a:	4a0a      	ldr	r2, [pc, #40]	; (8001a74 <LoopForever+0x12>)
+ 8001c8a:	4a0a      	ldr	r2, [pc, #40]	; (8001cb4 <LoopForever+0x12>)
   ldr r4, =_ebss
- 8001a4c:	4c0a      	ldr	r4, [pc, #40]	; (8001a78 <LoopForever+0x16>)
+ 8001c8c:	4c0a      	ldr	r4, [pc, #40]	; (8001cb8 <LoopForever+0x16>)
   movs r3, #0
- 8001a4e:	2300      	movs	r3, #0
+ 8001c8e:	2300      	movs	r3, #0
   b LoopFillZerobss
- 8001a50:	e001      	b.n	8001a56 <LoopFillZerobss>
+ 8001c90:	e001      	b.n	8001c96 <LoopFillZerobss>
 
-08001a52 <FillZerobss>:
+08001c92 <FillZerobss>:
 
 FillZerobss:
   str  r3, [r2]
- 8001a52:	6013      	str	r3, [r2, #0]
+ 8001c92:	6013      	str	r3, [r2, #0]
   adds r2, r2, #4
- 8001a54:	3204      	adds	r2, #4
+ 8001c94:	3204      	adds	r2, #4
 
-08001a56 <LoopFillZerobss>:
+08001c96 <LoopFillZerobss>:
 
 LoopFillZerobss:
   cmp r2, r4
- 8001a56:	42a2      	cmp	r2, r4
+ 8001c96:	42a2      	cmp	r2, r4
   bcc FillZerobss
- 8001a58:	d3fb      	bcc.n	8001a52 <FillZerobss>
+ 8001c98:	d3fb      	bcc.n	8001c92 <FillZerobss>
 
 /* Call static constructors */
   bl __libc_init_array
- 8001a5a:	f000 f811 	bl	8001a80 <__libc_init_array>
+ 8001c9a:	f000 f811 	bl	8001cc0 <__libc_init_array>
 /* Call the application's entry point.*/
   bl main
- 8001a5e:	f7ff fa45 	bl	8000eec <main>
+ 8001c9e:	f7ff f925 	bl	8000eec <main>
 
-08001a62 <LoopForever>:
+08001ca2 <LoopForever>:
 
 LoopForever:
     b LoopForever
- 8001a62:	e7fe      	b.n	8001a62 <LoopForever>
+ 8001ca2:	e7fe      	b.n	8001ca2 <LoopForever>
 Reset_Handler:  ldr   r0, =_estack
- 8001a64:	20005000 	.word	0x20005000
+ 8001ca4:	20005000 	.word	0x20005000
   ldr r0, =_sdata
- 8001a68:	20000000 	.word	0x20000000
+ 8001ca8:	20000000 	.word	0x20000000
   ldr r1, =_edata
- 8001a6c:	20000084 	.word	0x20000084
+ 8001cac:	20000084 	.word	0x20000084
   ldr r2, =_sidata
- 8001a70:	08001ae8 	.word	0x08001ae8
+ 8001cb0:	08001d28 	.word	0x08001d28
   ldr r2, =_sbss
- 8001a74:	20000084 	.word	0x20000084
+ 8001cb4:	20000084 	.word	0x20000084
   ldr r4, =_ebss
- 8001a78:	200000bc 	.word	0x200000bc
+ 8001cb8:	200000bc 	.word	0x200000bc
 
-08001a7c <ADC1_2_IRQHandler>:
+08001cbc <ADC1_2_IRQHandler>:
  * @retval : None
 */
   .section .text.Default_Handler,"ax",%progbits
 Default_Handler:
 Infinite_Loop:
   b Infinite_Loop
- 8001a7c:	e7fe      	b.n	8001a7c <ADC1_2_IRQHandler>
+ 8001cbc:	e7fe      	b.n	8001cbc <ADC1_2_IRQHandler>
 	...
 
-08001a80 <__libc_init_array>:
- 8001a80:	b570      	push	{r4, r5, r6, lr}
- 8001a82:	2600      	movs	r6, #0
- 8001a84:	4d0c      	ldr	r5, [pc, #48]	; (8001ab8 <__libc_init_array+0x38>)
- 8001a86:	4c0d      	ldr	r4, [pc, #52]	; (8001abc <__libc_init_array+0x3c>)
- 8001a88:	1b64      	subs	r4, r4, r5
- 8001a8a:	10a4      	asrs	r4, r4, #2
- 8001a8c:	42a6      	cmp	r6, r4
- 8001a8e:	d109      	bne.n	8001aa4 <__libc_init_array+0x24>
- 8001a90:	f000 f81a 	bl	8001ac8 <_init>
- 8001a94:	2600      	movs	r6, #0
- 8001a96:	4d0a      	ldr	r5, [pc, #40]	; (8001ac0 <__libc_init_array+0x40>)
- 8001a98:	4c0a      	ldr	r4, [pc, #40]	; (8001ac4 <__libc_init_array+0x44>)
- 8001a9a:	1b64      	subs	r4, r4, r5
- 8001a9c:	10a4      	asrs	r4, r4, #2
- 8001a9e:	42a6      	cmp	r6, r4
- 8001aa0:	d105      	bne.n	8001aae <__libc_init_array+0x2e>
- 8001aa2:	bd70      	pop	{r4, r5, r6, pc}
- 8001aa4:	f855 3b04 	ldr.w	r3, [r5], #4
- 8001aa8:	4798      	blx	r3
- 8001aaa:	3601      	adds	r6, #1
- 8001aac:	e7ee      	b.n	8001a8c <__libc_init_array+0xc>
- 8001aae:	f855 3b04 	ldr.w	r3, [r5], #4
- 8001ab2:	4798      	blx	r3
- 8001ab4:	3601      	adds	r6, #1
- 8001ab6:	e7f2      	b.n	8001a9e <__libc_init_array+0x1e>
- 8001ab8:	08001ae0 	.word	0x08001ae0
- 8001abc:	08001ae0 	.word	0x08001ae0
- 8001ac0:	08001ae0 	.word	0x08001ae0
- 8001ac4:	08001ae4 	.word	0x08001ae4
+08001cc0 <__libc_init_array>:
+ 8001cc0:	b570      	push	{r4, r5, r6, lr}
+ 8001cc2:	2600      	movs	r6, #0
+ 8001cc4:	4d0c      	ldr	r5, [pc, #48]	; (8001cf8 <__libc_init_array+0x38>)
+ 8001cc6:	4c0d      	ldr	r4, [pc, #52]	; (8001cfc <__libc_init_array+0x3c>)
+ 8001cc8:	1b64      	subs	r4, r4, r5
+ 8001cca:	10a4      	asrs	r4, r4, #2
+ 8001ccc:	42a6      	cmp	r6, r4
+ 8001cce:	d109      	bne.n	8001ce4 <__libc_init_array+0x24>
+ 8001cd0:	f000 f81a 	bl	8001d08 <_init>
+ 8001cd4:	2600      	movs	r6, #0
+ 8001cd6:	4d0a      	ldr	r5, [pc, #40]	; (8001d00 <__libc_init_array+0x40>)
+ 8001cd8:	4c0a      	ldr	r4, [pc, #40]	; (8001d04 <__libc_init_array+0x44>)
+ 8001cda:	1b64      	subs	r4, r4, r5
+ 8001cdc:	10a4      	asrs	r4, r4, #2
+ 8001cde:	42a6      	cmp	r6, r4
+ 8001ce0:	d105      	bne.n	8001cee <__libc_init_array+0x2e>
+ 8001ce2:	bd70      	pop	{r4, r5, r6, pc}
+ 8001ce4:	f855 3b04 	ldr.w	r3, [r5], #4
+ 8001ce8:	4798      	blx	r3
+ 8001cea:	3601      	adds	r6, #1
+ 8001cec:	e7ee      	b.n	8001ccc <__libc_init_array+0xc>
+ 8001cee:	f855 3b04 	ldr.w	r3, [r5], #4
+ 8001cf2:	4798      	blx	r3
+ 8001cf4:	3601      	adds	r6, #1
+ 8001cf6:	e7f2      	b.n	8001cde <__libc_init_array+0x1e>
+ 8001cf8:	08001d20 	.word	0x08001d20
+ 8001cfc:	08001d20 	.word	0x08001d20
+ 8001d00:	08001d20 	.word	0x08001d20
+ 8001d04:	08001d24 	.word	0x08001d24
 
-08001ac8 <_init>:
- 8001ac8:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
- 8001aca:	bf00      	nop
- 8001acc:	bcf8      	pop	{r3, r4, r5, r6, r7}
- 8001ace:	bc08      	pop	{r3}
- 8001ad0:	469e      	mov	lr, r3
- 8001ad2:	4770      	bx	lr
+08001d08 <_init>:
+ 8001d08:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 8001d0a:	bf00      	nop
+ 8001d0c:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 8001d0e:	bc08      	pop	{r3}
+ 8001d10:	469e      	mov	lr, r3
+ 8001d12:	4770      	bx	lr
 
-08001ad4 <_fini>:
- 8001ad4:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
- 8001ad6:	bf00      	nop
- 8001ad8:	bcf8      	pop	{r3, r4, r5, r6, r7}
- 8001ada:	bc08      	pop	{r3}
- 8001adc:	469e      	mov	lr, r3
- 8001ade:	4770      	bx	lr
+08001d14 <_fini>:
+ 8001d14:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 8001d16:	bf00      	nop
+ 8001d18:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 8001d1a:	bc08      	pop	{r3}
+ 8001d1c:	469e      	mov	lr, r3
+ 8001d1e:	4770      	bx	lr

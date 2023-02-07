@@ -157,35 +157,6 @@ int main(void)
 			alarmClockState ++;
 			alarmClockState %= 4;
 			alarmClockSetNum = 0;
-
-			if(alarmClockState == ALARM_CLOCK_ALARM || alarmClockState == ALARM_CLOCK_SET_ALARM)
-			{
-				uint8_t hoursTen,hoursOne,minsTen,minsOne;
-				hoursTen = alarm_time.hours / 10;
-				hoursOne = alarm_time.hours % 10;
-				minsTen = alarm_time.minutes / 10;
-				minsOne = alarm_time.minutes % 10;
-
-				//Set the LEDS to display the numbers
-				(*NUM_1_SET[hoursTen])();
-				(*NUM_2_SET[hoursOne])();
-				(*NUM_3_SET[minsTen])();
-				(*NUM_4_SET[minsOne])();
-			}
-			else if(alarmClockState == ALARM_CLOCK_NO_ALARM || alarmClockState == ALARM_CLOCK_SET)
-			{
-				uint8_t hoursTen,hoursOne,minsTen,minsOne;
-				hoursTen = current_time.hours / 10;
-				hoursOne = current_time.hours % 10;
-				minsTen = current_time.minutes / 10;
-				minsOne = current_time.minutes % 10;
-
-				//Set the LEDS to display the numbers
-				(*NUM_1_SET[hoursTen])();
-				(*NUM_2_SET[hoursOne])();
-				(*NUM_3_SET[minsTen])();
-				(*NUM_4_SET[minsOne])();
-			}
 		}
 
 
@@ -205,7 +176,6 @@ int main(void)
 
 
 
-
 			}
 			//Check for short pulse
 			else if((TIM2->CNT - buttonSetLastDebounceTime) > 50)
@@ -219,20 +189,7 @@ int main(void)
 				}
 				if(alarmClockState == ALARM_CLOCK_SET_ALARM)
 				{
-					//Update the dispalyed alarm to reflect this change in time
 					updateClockTime(&alarm_time, alarmClockSetNum);
-					uint8_t hoursTen,hoursOne,minsTen,minsOne;
-					hoursTen = alarm_time.hours / 10;
-					hoursOne = alarm_time.hours % 10;
-					minsTen = alarm_time.minutes / 10;
-					minsOne = alarm_time.minutes % 10;
-
-					//Set the LEDS to display the numbers
-					(*NUM_1_SET[hoursTen])();
-					(*NUM_2_SET[hoursOne])();
-					(*NUM_3_SET[minsTen])();
-					(*NUM_4_SET[minsOne])();
-
 				}
 
 				//Process the button press
@@ -286,23 +243,25 @@ void TIM3_IRQHandler(void)
 		ds1307_get_current_time(&current_time);
 
 
-	}
+		//Update the displayed LEDs
+		//We only need to do this in the case we are viewing the time
+		if(alarmClockState == ALARM_CLOCK_NO_ALARM)
+		{
+			uint8_t hoursTen,hoursOne,minsTen,minsOne;
+			hoursTen = current_time.hours / 10;
+			hoursOne = current_time.hours % 10;
+			minsTen = current_time.minutes / 10;
+			minsOne = current_time.minutes % 10;
 
-	//Update the displayed LEDs
-	//We only need to do this in the case we are viewing the time
-	if(alarmClockState == ALARM_CLOCK_NO_ALARM)
-	{
-		uint8_t hoursTen,hoursOne,minsTen,minsOne;
-		hoursTen = current_time.hours / 10;
-		hoursOne = current_time.hours % 10;
-		minsTen = current_time.minutes / 10;
-		minsOne = current_time.minutes % 10;
+			//Set the LEDS to display the numbers
+			(*NUM_1_SET[hoursTen])();
+			(*NUM_2_SET[hoursOne])();
+			(*NUM_3_SET[minsTen])();
+			(*NUM_4_SET[minsOne])();
+		}
 
-		//Set the LEDS to display the numbers
-		(*NUM_1_SET[hoursTen])();
-		(*NUM_2_SET[hoursOne])();
-		(*NUM_3_SET[minsTen])();
-		(*NUM_4_SET[minsOne])();
+
+
 	}
 
 	//Handle the checking of alarms by comparing all time values between the two clocks
@@ -347,43 +306,25 @@ void TIM4_IRQHandler(void)
 		}
 		else
 		{
-			//Re dispaly the alarm time or the set time
-			uint8_t hoursTen, hoursOne, minsTen,minsOne;
-
-			if(alarmClockState == ALARM_CLOCK_SET)
-			{
-				hoursTen = current_time.hours / 10;
-				hoursOne = current_time.hours % 10;
-				minsTen = current_time.minutes / 10;
-				minsOne = current_time.minutes % 10;
-			}
-			else
-			{
-				hoursTen = alarm_time.hours / 10;
-				hoursOne = alarm_time.hours % 10;
-				minsTen = alarm_time.minutes / 10;
-				minsOne = alarm_time.minutes % 10;
-			}
-
 
 			if(alarmClockSetNum == 0)
 			{
-
+				uint8_t hoursTen = current_time.hours / 10;
 				(*NUM_1_SET[hoursTen])();
 			}
 			else if(alarmClockSetNum == 1)
 			{
-
+				uint8_t hoursOne = current_time.hours % 10;
 				(*NUM_2_SET[hoursOne])();
 			}
 			else if(alarmClockSetNum == 2)
 			{
-
+				uint8_t minsTen = current_time.minutes / 10;
 				(*NUM_3_SET[minsTen])();
 			}
 			else if(alarmClockSetNum == 3)
 			{
-
+				uint8_t minsOne = current_time.minutes % 10;
 				(*NUM_4_SET[minsOne])();
 			}
 
