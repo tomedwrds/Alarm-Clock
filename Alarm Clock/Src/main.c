@@ -87,17 +87,45 @@ int main(void)
 
 	LED_Initalize();
 
+
+	GPIOA->CRL |= (1<< 28);
+	GPIOA->ODR  |= (1<< 7);
 //
-//	LED_NUM_2_SET_0();
-//	LED_NUM_2_SET_1();
-//	LED_NUM_2_SET_2();
-//	LED_NUM_2_SET_3();
-//	LED_NUM_2_SET_4();
-//	LED_NUM_2_SET_5();
-//	LED_NUM_2_SET_6();
-//	LED_NUM_2_SET_7();
-//	LED_NUM_2_SET_8();
-//	LED_NUM_2_SET_9();
+	GPIOB->CRH |= (1<< 20);
+	GPIOB->ODR  |= (1<< 13);
+
+	//LED_NUM_4_SET_1();
+
+
+	//LED_NUM_4_0_ENABLE();
+	LED_NUM_4_1_ENABLE();
+	//LED_NUM_4_2_ENABLE();
+	//LED_NUM_4_3_ENABLE();
+	LED_NUM_4_4_ENABLE();
+	LED_NUM_4_5_ENABLE();
+	LED_NUM_4_6_ENABLE();
+
+
+	//LED_NUM_3_0_ENABLE();
+	LED_NUM_3_1_ENABLE();
+	LED_NUM_3_2_ENABLE();
+	LED_NUM_3_3_ENABLE();
+	LED_NUM_3_4_ENABLE();
+	LED_NUM_3_5_ENABLE();
+	LED_NUM_3_6_ENABLE();
+
+
+	//LED_NUM_2_0_ENABLE();
+	LED_NUM_2_1_ENABLE();
+	LED_NUM_2_2_ENABLE();
+	LED_NUM_2_3_ENABLE();
+	LED_NUM_2_4_ENABLE();
+	LED_NUM_2_5_ENABLE();
+	LED_NUM_2_6_ENABLE();
+
+
+	LED_NUM_1_0_ENABLE();
+
 //
 	TIM4->PSC |= (8000-1);
 	TIM4->ARR = (1000-1);
